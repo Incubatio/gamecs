@@ -501,7 +501,8 @@ Surface = exports.Surface = (args...) ->
 
   ### @ignore ###
   this._context = this._canvas.getContext('2d')
-  this._smooth()
+  # using exports is weird but avoids circular require
+  if exports.display._isSmoothingEnabled() then this._smooth() else this._noSmooth()
   return this
 
 ### @ignore ###
@@ -513,18 +514,13 @@ Surface.prototype._noSmooth = () ->
     and https:#github.com/jbuck/processing-js/commit/65de16a8340c694cee471a2db7634733370b941c
   ###
   this.context.mozImageSmoothingEnabled = false
-  this.canvas.style.setProperty("image-rendering", "optimizeSpeed", "important")
-  this.canvas.style.setProperty("image-rendering", "-moz-crisp-edges", "important")
-  this.canvas.style.setProperty("image-rendering", "-webkit-optimize-contrast", "important")
-  this.canvas.style.setProperty("image-rendering", "optimize-contrast", "important")
-  this.canvas.style.setProperty("-ms-interpolation-mode", "nearest-neighbor", "important")
+  this.context.webkitImageSmoothingEnabled = false
   return
 
 ### @ignore ###
 Surface.prototype._smooth = () ->
-  this.canvas.style.setProperty("image-rendering", "optimizeQuality", "important")
-  this.canvas.style.setProperty("-ms-interpolation-mode", "bicubic", "important")
   this.context.mozImageSmoothingEnabled = true
+  this.context.webkitImageSmoothingEnabled = true
 
 ###
 * Blits another Surface on this Surface. The destination where to blit to

@@ -16,6 +16,15 @@ LOADER_ID = "gjs-loader"
 SURFACE = null
 
 ###
+* Pass this flag to `gamejs.display.setMode(resolution, flags)` to disable
+* pixel smoothing; this is, for example, useful for retro-style, low resolution graphics
+* where you don't want the browser to smooth them when scaling & drawing.
+###
+DISABLE_SMOOTHING = exports.DISABLE_SMOOTHING = 2
+
+_SURFACE_SMOOTHING = true
+
+###
  * @returns {document.Element} the canvas dom element
  ###
 getCanvas = () ->
@@ -47,16 +56,21 @@ exports.init = () ->
 exports._hasFocus = () ->
   return document.activeElement == getCanvas()
 
+### * @ignore ###
+exports._isSmoothingEnabled = () ->
+  return (_SURFACE_SMOOTHING == true)
+
 ###
  * Set the width and height of the Display. Conviniently this will
  * return the actual display Surface - the same as calling [gamejs.display.getSurface()](#getSurface))
  * later on.
  * @param {Array} dimensions [width, height] of the display surface
  ###
-exports.setMode = (dimensions) ->
+exports.setMode = (dimensions, flags) ->
   canvas = getCanvas()
   canvas.width  = dimensions[0]
   canvas.height = dimensions[1]
+  _SURFACE_SMOOTHING = (flags != DISABLE_SMOOTHING)
   return getSurface()
 
 ###
@@ -90,5 +104,5 @@ getSurface = exports.getSurface = () ->
     SURFACE = new Surface([canvas.clientWidth, canvas.clientHeight])
     SURFACE._canvas = canvas
     SURFACE._context = canvas.getContext('2d')
-    SURFACE._smooth()
+    if _SURFACE_SMOOTHING then SURFACE._smooth() else SURFACE._noSmooth()
   return SURFACE
