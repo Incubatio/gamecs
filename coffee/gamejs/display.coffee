@@ -19,15 +19,7 @@ SURFACE = null
  * @returns {document.Element} the canvas dom element
  ###
 getCanvas = () ->
-  jsGameCanvas = null
-  canvasList = Array.prototype.slice.call(document.getElementsByTagName("canvas"))
-  canvasList.every((canvas) ->
-    if (canvas.getAttribute("id") == CANVAS_ID)
-      jsGameCanvas = canvas
-      return false
-    return true
-  )
-  return jsGameCanvas
+  return document.getElementById(CANVAS_ID)
 
 ###
  * Create the master Canvas plane.
@@ -40,11 +32,20 @@ exports.init = () ->
     jsGameCanvas = document.createElement("canvas")
     jsGameCanvas.setAttribute("id", CANVAS_ID)
     document.body.appendChild(jsGameCanvas)
+
+  # to be focusable, tabindex must be set
+  jsGameCanvas.setAttribute("tabindex", 1)
+  jsGameCanvas.focus()
+
   ### remove loader if any ###
   $loader = document.getElementById('gjs-loader')
   $loader.style.display = "none" if ($loader)
    
   return
+
+### * @ignore ###
+exports._hasFocus = () ->
+  return document.activeElement == getCanvas()
 
 ###
  * Set the width and height of the Display. Conviniently this will
