@@ -122,8 +122,17 @@ QUEUE = []
  * Get all events from the event queue
  * @returns {Array}
  ###
-exports.get = () ->
-  return QUEUE.splice(0, QUEUE.length)
+exports.get = (eventTypes) ->
+  if (eventTypes == undefined)
+    return QUEUE.splice(0, QUEUE.length)
+  else
+    eventTypes = [eventTypes] if (! (eventTypes instanceof Array))
+    result = []
+    QUEUE = QUEUE.filter (event) ->
+      return true if (eventTypes.indexOf(event.type) == -1)
+      result.push(event)
+      return false
+    return result
 
 ###
  * Get the newest event of the event queue
@@ -270,8 +279,8 @@ IEFIX does not support addEventListener on document itself
 MOZFIX but in moz & opera events don't reach body if mouse outside window or on menubar
   ###
   canvas = display.getSurface()._canvas
-  canvas.addEventListener('mousedown', onMouseDown, false)
-  canvas.addEventListener('mouseup', onMouseUp, false)
+  document.addEventListener('mousedown', onMouseDown, false)
+  document.addEventListener('mouseup', onMouseUp, false)
   document.addEventListener('keydown', onKeyDown, false)
   document.addEventListener('keyup', onKeyUp, false)
   canvas.addEventListener('mousemove', onMouseMove, false)

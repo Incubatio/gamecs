@@ -98,7 +98,7 @@ exports.angle = (v1, v2) ->
   a1 = Math.atan2(v1[0], v1[1])
   a2 = Math.atan2(v2[0], v2[1])
   rel = a1 - a2
-  return rel - Math.floor((rel + Math.PI) / (2 * Math.PI)) * (2 * Math.PI) - (2 * Math.PI)
+  return (rel - Math.floor((rel + Math.PI) / (2 * Math.PI)) * (2 * Math.PI) - (2 * Math.PI)) % (Math.PI * 2)
 
 ###
  * @returns {Array} vector with max length as specified.

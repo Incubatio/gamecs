@@ -67,6 +67,7 @@ exports._isSmoothingEnabled = () ->
  * @param {Array} dimensions [width, height] of the display surface
  ###
 exports.setMode = (dimensions, flags) ->
+  SURFACE = null
   canvas = getCanvas()
   canvas.width  = dimensions[0]
   canvas.height = dimensions[1]
@@ -104,5 +105,4 @@ getSurface = exports.getSurface = () ->
     SURFACE = new Surface([canvas.clientWidth, canvas.clientHeight])
     SURFACE._canvas = canvas
     SURFACE._context = canvas.getContext('2d')
-    if _SURFACE_SMOOTHING then SURFACE._smooth() else SURFACE._noSmooth()
   return SURFACE
