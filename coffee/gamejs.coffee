@@ -230,7 +230,7 @@ objects.accessors(Rect.prototype,
     set: (args...) ->
       args = normalizeRectArguments.apply(this, args)
       this.left = args.left
-      this.bottom = args.bottom
+      this.bottom = args.top
       return
 
   ###
@@ -244,7 +244,7 @@ objects.accessors(Rect.prototype,
 
     set: (args...) ->
       args = normalizeRectArguments.apply(this, args)
-      this.right = args.right
+      this.right = args.left
       this.top = args.top
       return
 
@@ -259,8 +259,8 @@ objects.accessors(Rect.prototype,
 
     set: (args...) ->
       args = normalizeRectArguments.apply(this, args)
-      this.right = args.right
-      this.bottom = args.bottom
+      this.right = args.left
+      this.bottom = args.top
       return
 
   ###
