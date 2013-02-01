@@ -86,6 +86,13 @@ Sprite.prototype.add = (groups) ->
 
 
 ###
+* Returns an array of all the Groups that contain this Sprite.
+* @returns {Array} an array of groups
+###
+Sprite.prototype.groups = () ->
+  return this._groups.slice(0)
+
+###
  * Draw this sprite onto the given surface. The position is defined by this
  * sprite's rect.
  * @param {gamejs.Surface} surface The surface to draw on
