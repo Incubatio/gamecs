@@ -3,9 +3,22 @@
     "version": "2011.06.13",
     "description": "GameJs, html canvas wrapper",
     "keywords": ["gamedev"],
-    "author": ["Simon Oberhammer <simon@nekapuzer.at>"],
+    "author": [
+      "Simon Oberhammer <simon@nekapuzer.at>",
+      "Morel Nicolas <gamecs@incubatio.org>"
+    ],
     "main": "./lib/gamejs",
     "directories": {
         "lib": "lib/gamejs"
-    }
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/incubatio/gamecs.git"
+    },
+    "dependencies": {
+        "requirejs": "2.1.4"
+    }, 
+    "devDependencies": {
+        "qunitjs": "1.11.0"
+    }  
 }

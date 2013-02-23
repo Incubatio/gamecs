@@ -1,105 +1,107 @@
-###
- * @fileoverview Make synchronous http requests to your game's serverside component.
- *
- * If you configure a ajax base URL you can make http requests to your
- * server using those functions.
+define (require) ->
+  ###*
+  * @fileoverview Make synchronous http requests to your game's serverside component.
+  *
+  * If you configure a ajax base URL you can make http requests to your
+  * server using those functions.
+  *
+  * The most high-level functions are `load()` and `save()` which take
+  * and return a JavaScript object, which they will send to / recieve from
+  * the server-side in JSON format.
+  *
+  * @example
+  *
+  *     <script>
+  *     // Same Origin policy applies! You can only make requests
+  *     // to the server from which the html page is served.
+  *      $g = {
+  *         ajaxBaseHref: "http://the-same-server.com/ajax/"
+  *      }
+  *      </script>
+  *      <script src="./public/gamejs-wrapped.js"></script>
+  *      ....
+  *      typeof gamejs.load('userdata/') === 'object'
+  *      typeof gamejs.get('userdata/') === 'string'
+  *      ...
+  *
+  ###
+  class Http
+    ###*
+    * Response object returned by http functions `get` and `post`. This
+    * class is not instantiable.
+    *
+    * @param{String} responseText
+    * @param {String} responseXML
+    * @param {Number} status
+    * @param {String} statusText
+    ###
+    @Response: () ->
+      ###* @param {String} header ###
+      this.getResponseHeader = (header) ->
+      # TODO: check why empty func above ?
+      throw new Error('response class not instantiable')
 
- * The most high-level functions are `load()` and `save()` which take
- * and return a JavaScript object, which they will send to / recieve from
- * the server-side in JSON format.
- *
- * @example
- *
- *     <script>
- *     // Same Origin policy applies! You can only make requests
- *     // to the server from which the html page is served.
- *      $g = {
- *         ajaxBaseHref: "http://the-same-server.com/ajax/"
- *      }
- *      </script>
- *      <script src="./public/gamejs-wrapped.js"></script>
- *      ....
- *      typeof gamejs.load('userdata/') === 'object'
- *      typeof gamejs.get('userdata/') === 'string'
- *      ...
- *
- ###
+    ###*
+    * Make http request to server-side
+    * @param {String} method http method
+    * @param {String} url
+    * @param {String|Object} data
+    * @param {String|Object} type "Accept" header value
+    * @return {Response} response
+    ###
+    @ajax: (method, url, data, type) ->
+      data = data || null
+      response = new XMLHttpRequest()
+      response.open(method, url, false)
 
-###
- * Response object returned by http functions `get` and `post`. This
- * class is not instantiable.
- *
- * @param{String} responseText
- * @param {String} responseXML
- * @param {Number} status
- * @param {String} statusText
- ###
-exports.Response = () ->
-  ### * @param {String} header ###
-  this.getResponseHeader = (header) ->
-  # TODO: check why empty func above ?
-  throw new Error('response class not instantiable')
+      response.setRequestHeader("Accept", type) if (type)
+        
+      if (data instanceof Object)
+        data = JSON.stringify(data)
+        response.setRequestHeader('Content-Type', 'application/json')
+      response.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
+      response.send(data)
+      return response
 
-###
- * Make http request to server-side
- * @param {String} method http method
- * @param {String} url
- * @param {String|Object} data
- * @param {String|Object} type "Accept" header value
- * @return {Response} response
- ###
-ajax = exports.ajax = (method, url, data, type) ->
-  data = data || null
-  response = new XMLHttpRequest()
-  response.open(method, url, false)
+    ###*
+    * Make http GET request to server-side
+    * @param {String} url
+    ###
+    @get: (url) ->
+      return @ajax('GET', url)
 
-  response.setRequestHeader("Accept", type) if (type)
-    
-  if (data instanceof Object)
-    data = JSON.stringify(data)
-    response.setRequestHeader('Content-Type', 'application/json')
-  response.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
-  response.send(data)
-  return response
+    ###
+     * Make http POST request to server-side
+     * @param {String} url
+     * @param {String|Object} data
+     * @param {String|Object} type "Accept" header value
+     * @returns {Response}
+     ###
+    @post: (url, data, type) ->
+      return @ajax('POST', url, data, type)
 
-###
- * Make http GET request to server-side
- * @param {String} url
- ###
-get = exports.get = (url) ->
-  return ajax('GET', url)
+    @stringify: (response) ->
+      ### eval is evil ###
+      return eval('(' + response.responseText + ')')
 
-###
- * Make http POST request to server-side
- * @param {String} url
- * @param {String|Object} data
- * @param {String|Object} type "Accept" header value
- * @returns {Response}
- ###
-post = exports.post = (url, data, type) ->
-  return ajax('POST', url, data, type)
+    @ajaxBaseHref: () ->
+      return (window.$g && window.$g.ajaxBaseHref) || './'
 
-stringify = (response) ->
-  ### eval is evil ###
-  return eval('(' + response.responseText + ')')
+    ###
+     * Load an object from the server-side.
+     * @param {String} url
+     * @return {Object} the object loaded from the server
+     ###
+    @load: (url) ->
+      return @stringify(@get(@ajaxBaseHref() + url))
 
-ajaxBaseHref = () ->
-  return (window.$g && window.$g.ajaxBaseHref) || './'
 
-###
- * Load an object from the server-side.
- * @param {String} url
- * @return {Object} the object loaded from the server
- ###
-exports.load = (url) ->
-  return stringify(get(ajaxBaseHref() + url))
-
-###
- * Send an object to a server-side function.
- * @param {String} url
- * @param {String|Object} data
- * @param {String|Object} type "Accept" header value
- * @returns {Object} the response object
- ###
-exports.save = (url, data, type) ->
-  return stringify(post(ajaxBaseHref() + url, {payload: data}, type))
+    ###
+     * Send an object to a server-side function.
+     * @param {String} url
+     * @param {String|Object} data
+     * @param {String|Object} type "Accept" header value
+     * @returns {Object} the response object
+     ###
+    @save: (url, data, type) ->
+      return @stringify(@post(@ajaxBaseHref() + url, {payload: data}, type))
