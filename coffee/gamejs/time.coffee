@@ -35,8 +35,8 @@ define (require) ->
   * `window` is not accessible in webworker (would lead to TypeError)
   * @@ this cross-browser fuckery has to go away ASAP.
   ###
-  if typeof(window) != 'undefined'
-    reqAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || null
+  #if typeof(window) != 'undefined'
+  reqAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || null
 
   reqAniFrameRecursive = () ->
     perInterval()

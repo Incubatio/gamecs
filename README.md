@@ -1,6 +1,8 @@
 GameJs
 =======
 
+GameCs is a port of GameJs Framework to CoffeeScript.
+
 GameJs is a JavaScript library for writing 2D games or other interactive
 graphic applications for the HTML Canvas <http://gamejs.org>.
 

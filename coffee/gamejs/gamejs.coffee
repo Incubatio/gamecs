@@ -32,21 +32,6 @@ define (require) ->
     return debugLevel
 
 
-  ###
-   * Log a msg to the console if console is enable
-   * @param {String} msg the msg to log
-  ###
-  log = exports.log = (args...) ->
-    if (Worker.inWorker == true)
-      Worker._logMessage(args)
-      return
-
-    ### IEFIX can't call apply on console ###
-    args = Array.prototype.slice.apply(args, [0])
-    args.unshift(Date.now())
-    console.log.apply(console, args) if (window.console != undefined && console.log.apply)
-        
-
   exports.info = (args...) ->
     log.apply(this, args) if debugLevel <= DEBUG_LEVELS.indexOf('info')
 
@@ -71,7 +56,6 @@ define (require) ->
   Sprite  = exports.Sprite  = require('sprite')
   Group   = exports.Group   = require('group')
   Time    = exports.Time    = require('time')
-  Worker  = exports.Worker  = require('worker')
   Base64  = exports.Base64  = require('base64')
   Xml     = exports.Xml     = require('xml')
   Rect    = exports.Rect    = require('rect')
@@ -86,54 +70,48 @@ define (require) ->
   * @param {Function} readyFn the function to be called once gamejs finished loading
   * @name ready
   ###
-  if (Worker.inWorker == true)
-    exports.ready = (readyFn) ->
-      Worker._ready()
-      init()
+  exports.ready = (readyFn) ->
+    getMixerProgress = null
+    getImageProgress = null
+
+    # init time instantly - we need it for preloaders
+    Time.init()
+
+    # 2.
+    _ready = () ->
+      if (!document.body)
+        return window.setTimeout(_ready, 50)
+
+      getImageProgress = Img.preload(RESOURCES)
+
+      try
+        getMixerProgress = Mixer.preload(RESOURCES)
+      catch e
+        #gamejs.debug('Error loading audio files ', e)
+        console.log('Error loading audio files ', e)
+
+      window.setTimeout(_readyResources, 50)
+
+
+    # 3.
+    _readyResources = () ->
+      if (getImageProgress() < 1 || getMixerProgress() < 1)
+        return window.setTimeout(_readyResources, 100)
+      Display.init()
+      Img.init()
+      Mixer.init()
+      Key.init()
       readyFn()
-  else
-    exports.ready = (readyFn) ->
-      getMixerProgress = null
-      getImageProgress = null
 
-      # init time instantly - we need it for preloaders
-      Time.init()
+    # 1.
+    window.setTimeout(_ready, 13)
 
-      # 2.
-      _ready = () ->
-        if (!document.body)
-          return window.setTimeout(_ready, 50)
+    getLoadProgress = () ->
+       if (getImageProgress)
+         return (0.5 * getImageProgress()) + (0.5 * getMixerProgress())
+       return 0.1
 
-        getImageProgress = Img.preload(RESOURCES)
-
-        try
-          getMixerProgress = Mixer.preload(RESOURCES)
-        catch e
-          #gamejs.debug('Error loading audio files ', e)
-          console.log('Error loading audio files ', e)
-
-        window.setTimeout(_readyResources, 50)
-
-
-      # 3.
-      _readyResources = () ->
-        if (getImageProgress() < 1 || getMixerProgress() < 1)
-          return window.setTimeout(_readyResources, 100)
-        Display.init()
-        Img.init()
-        Mixer.init()
-        Key.init()
-        readyFn()
-
-      # 1.
-      window.setTimeout(_ready, 13)
-
-      getLoadProgress = () ->
-         if (getImageProgress)
-           return (0.5 * getImageProgress()) + (0.5 * getMixerProgress())
-         return 0.1
-
-      return getLoadProgress
+    return getLoadProgress
 
   ###
   * Initialize all gamejs modules. This is automatically called

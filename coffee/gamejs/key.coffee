@@ -111,15 +111,6 @@ define (require) ->
     @MOUSE_WHEEL : 6
     @USEREVENT: 2000
 
-    @WORKER: 1000
-    @WORKER_RESULT: 1001
-    ### @ignore ###
-    @WORKER_ERROR: 1002
-    ### @ignore ###
-    @WORKER_ALIVE: 1003
-    ### @ignore ###
-    @WORKER_LOG: 1004
-
     @QUEUE: []
 
     ###*
@@ -150,15 +141,7 @@ define (require) ->
     * @param {gamejs.event.Event} userEvent the event to post to the queue
     ###
     @post: (userEvent) ->
-      if (userEvent.type == @WORKER_RESULT && gamejs.worker.inWorker == true)
-        gamejs.worker._messageMain(userEvent)
-      else if (userEvent.type == @WORKER && gamejs.worker.inWorker == false)
-        if (!userEvent.worker || !userEvent.worker.post)
-          throw new Error('Missing "worker" property on event')
-        userEvent.worker.post(userEvent.data)
-      else
-        Key.QUEUE.push(userEvent)
-      return
+      Key.QUEUE.push(userEvent)
 
     ###*
     * Remove all events from the queue
