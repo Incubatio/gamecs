@@ -2,24 +2,27 @@
 (function() {
 
   self.onmessage = function(event) {
-    var foundPrime, i, n, primes, x, _i, _ref, _results;
+    var doContinue, i, n, primes, sqrtn, x, _i, _results;
     if (event.data.todo === 'nextprimes') {
-      foundPrime = false;
       n = event.data.start;
       primes = [];
       x = 10000;
+      doContinue = false;
       _results = [];
       while (primes.length < 5) {
-        n += 1;
-        for (i = _i = 2, _ref = Math.sqrt(n); 2 <= _ref ? _i <= _ref : _i >= _ref; i = 2 <= _ref ? ++_i : --_i) {
+        n++;
+        doContinue = false;
+        sqrtn = Math.sqrt(n);
+        for (i = _i = 2; 2 <= sqrtn ? _i <= sqrtn : _i >= sqrtn; i = 2 <= sqrtn ? ++_i : --_i) {
           if (n % i === 0) {
-            continue;
+            doContinue = true;
+            break;
           }
         }
-        if (x-- < 0) {
+        if (!doContinue && x-- < 0) {
           primes.push(n);
-          self.postMessage(n);
-          _results.push(x = 10000);
+          x = 10000;
+          _results.push(self.postMessage(n));
         } else {
           _results.push(void 0);
         }
@@ -27,5 +30,28 @@
       return _results;
     }
   };
+
+  /*
+  self.onmessage = (event) ->
+    if (event.data.todo == 'nextprimes')
+      foundPrime = false
+      n = event.data.start
+      primes = []
+      x = 10000
+      search = () ->
+        n++
+        sqrtn = Math.sqrt(n)
+        for i in [2..sqrtn]
+          return if (n % i == 0)
+            
+        if (x-- < 0)
+          primes.push(n)
+          self.postMessage(n)
+          x = 10000
+  
+      while(primes.length < 5)
+        search()
+  */
+
 
 }).call(this);
