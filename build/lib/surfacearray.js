@@ -30,8 +30,8 @@
       *
       * The array must be the same dimensions as the Surface and will completely
       * replace all pixel values.
-      * @param {gamejs.Surface} surface
-      * @param {gamejs.surfacearray.SurfaceArray} surfaceArray
+      * @param {gamecs.Surface} surface
+      * @param {gamecs.surfacearray.SurfaceArray} surfaceArray
       */
 
       SurfaceArray.blitArray = function(surface, surfaceArray) {
@@ -39,9 +39,9 @@
       };
 
       /**
-      * a new gamejs.Surface on every access, representing
+      * a new gamecs.Surface on every access, representing
       * the current state of the SurfaceArray.
-      * @type {gamejs.Surface}
+      * @type {gamecs.Surface}
       */
 
 
@@ -56,7 +56,7 @@
       * If an array is used to construct SurfaceArray, the array must describe
       * the dimensions of the SurfaceArray [width, height].
       *
-      * @param {gamejs.Surface|Array} surfaceOrDimensions
+      * @param {gamecs.Surface|Array} surfaceOrDimensions
       * @see http://dev.w3.org/html5/2dcontext/#pixel-manipulation
       */
 

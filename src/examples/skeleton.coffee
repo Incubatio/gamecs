@@ -1,17 +1,17 @@
-#gamejs = require('gamejs')
+#gamecs = require('gamecs')
 
-# gamejs.preload([])
+# gamecs.preload([])
 
-require ['gamejs'], (gamejs) ->
-  gamejs.ready () ->
+require ['gamecs'], (gamecs) ->
+  gamecs.ready () ->
 
-      display = gamejs.Display.setMode([600, 400])
-      display.blit((new gamejs.Font('30px Sans-serif')).render('Hello World'))
+      display = gamecs.Display.setMode([600, 400])
+      display.blit((new gamecs.Font('30px Sans-serif')).render('Hello World'))
 
       ###*
       function tick(msDuration) {
           # game loop
           return
       }
-      gamejs.time.interval(tick)
+      gamecs.time.interval(tick)
       ###

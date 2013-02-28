@@ -1,10 +1,10 @@
-require ['gamejs', 'surfacearray', 'utils/prng'], (gamejs, SurfaceArray, Alea) ->
+require ['gamecs', 'surfacearray', 'utils/prng'], (gamecs, SurfaceArray, Alea) ->
 
-  gamejs.ready () ->
+  gamecs.ready () ->
     dims = [600, 400]
     # we will modify individual pixels directly, that's
     # easiest with a SurfaceArray
-    display = gamejs.Display.setMode(dims)
+    display = gamecs.Display.setMode(dims)
     displayArray = new SurfaceArray(display)
 
 
@@ -15,7 +15,7 @@ require ['gamejs', 'surfacearray', 'utils/prng'], (gamejs, SurfaceArray, Alea) -
     alea = new Alea(seed)
 
     # asign pixel colors according to the noise
-    simplex = new gamejs.Simplex(alea)
+    simplex = new gamecs.Simplex(alea)
     for i in [0...dims[0]]
       for j in [0...dims[1]]
         val = simplex.get(i/50, j/50) * 255

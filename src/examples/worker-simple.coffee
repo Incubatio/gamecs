@@ -1,11 +1,11 @@
 start = new Date().getTime()
 
-require ['gamejs'], (gamejs) ->
-  display = gamejs.Display.setMode([800, 600])
-  gamejs.Display.setCaption("Example Simple Worker")
+require ['gamecs'], (gamecs) ->
+  display = gamecs.Display.setMode([800, 600])
+  gamecs.Display.setCaption("Example Simple Worker")
 
-  worker = new Worker('/gamecs/build/examples/workers/primes-simple.js')
-  font = new gamejs.Font()
+  worker = new Worker('build/examples/workers/primes-simple.js')
+  font = new gamecs.Font()
   yOffset = 50
   worker.onmessage = (event) ->
     display.blit(font.render('Worker answered: ' + event.data), [10, yOffset])
@@ -14,5 +14,6 @@ require ['gamejs'], (gamejs) ->
     console.log((end - start) + 'ms')
 
   startNumber = parseInt(1230023 + (Math.random() * 10000))
+  startNumber = 1236940
   display.blit(font.render('Asking worker for primes after ' + startNumber), [10,30])
   worker.postMessage({ todo: "nextprimes", start: startNumber })

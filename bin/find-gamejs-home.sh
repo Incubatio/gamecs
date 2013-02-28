@@ -2,7 +2,7 @@
 #
 # find_ringo_home - mostly an emulation of GNU's `readlink -f`
 #
-function find_gamejs_home() {
+function find_gamecs_home() {
     # save original working directory
     ORIG_PWD="$(pwd -P)"
 

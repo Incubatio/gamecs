@@ -5,7 +5,7 @@
  * Use the `findRoute(map, from, to, [timeout])` function to get the linked list
  * leading `from` a point `to` another on the given `map`.
  *
- * The map must implement interface `gamejs.pathfinding.Map`. This
+ * The map must implement interface `gamecs.pathfinding.Map`. This
  * class really holds an example implementation & data for you to study. If you
  * understand what this calls provides, you understand this module.
  *

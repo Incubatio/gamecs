@@ -1,6 +1,6 @@
 importScripts('/gamecs/assets/js/require.js')
-### importScripts('/gamejs/gamejs.min.js') ###
-requirejs.config({baseUrl: '/gamecs/build/lib/gamejs/'})
+importScripts('/gamecs/assets/js/gamecs.min.js')
+requirejs.config({baseUrl: '/gamecs/build/lib/'})
 
 require ['rect'], (Rect) ->
   self.onmessage = (event) ->

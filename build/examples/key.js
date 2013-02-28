@@ -13,25 +13,25 @@
 
 (function() {
 
-  require(['gamejs'], function(gamejs) {
+  require(['gamecs'], function(gamecs) {
     var main;
     main = function() {
       var display, displayRect, instructionFont, sparkles, starImage, tick;
-      display = gamejs.Display.setMode([850, 600]);
-      gamejs.Display.setCaption('example key capture');
-      starImage = gamejs.Img.load('assets/images/sparkle.png');
-      instructionFont = new gamejs.Font('30px monospace');
+      display = gamecs.Display.setMode([850, 600]);
+      gamecs.Display.setCaption('example key capture');
+      starImage = gamecs.Img.load('assets/images/sparkle.png');
+      instructionFont = new gamecs.Font('30px monospace');
       displayRect = display.rect;
       sparkles = [];
       tick = function(msDuration) {
-        gamejs.Key.get().forEach(function(event) {
-          if (event.type === gamejs.Key.KEY_UP) {
-            if (event.key === gamejs.Key.K_UP) {
+        gamecs.Key.get().forEach(function(event) {
+          if (event.type === gamecs.Key.KEY_UP) {
+            if (event.key === gamecs.Key.K_UP) {
               return sparkles.forEach(function(sparkle) {
                 return sparkle.deltaY *= -1;
               });
             }
-          } else if (event.type === gamejs.Key.MOUSE_MOTION) {
+          } else if (event.type === gamecs.Key.MOUSE_MOTION) {
             if (displayRect.collidePoint(event.pos)) {
               return sparkles.push({
                 left: event.pos[0],
@@ -59,10 +59,10 @@
           return display.blit(starImage, [sparkle.left, sparkle.top]);
         });
       };
-      return gamejs.Time.interval(tick);
+      return gamecs.Time.interval(tick);
     };
-    gamejs.preload(['assets/images/sparkle.png']);
-    return gamejs.ready(main);
+    gamecs.preload(['assets/images/sparkle.png']);
+    return gamecs.ready(main);
   });
 
 }).call(this);

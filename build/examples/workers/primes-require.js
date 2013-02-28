@@ -3,12 +3,10 @@
 
   importScripts('/gamecs/assets/js/require.js');
 
-  /* importScripts('/gamejs/gamejs.min.js')
-  */
-
+  importScripts('/gamecs/assets/js/gamecs.min.js');
 
   requirejs.config({
-    baseUrl: '/gamecs/build/lib/gamejs/'
+    baseUrl: '/gamecs/build/lib/'
   });
 
   require(['rect'], function(Rect) {

@@ -4,12 +4,12 @@
 
   start = new Date().getTime();
 
-  require(['gamejs'], function(gamejs) {
+  require(['gamecs'], function(gamecs) {
     var display, font, startNumber, worker, yOffset;
-    display = gamejs.Display.setMode([800, 600]);
-    gamejs.Display.setCaption("Example Simple Worker");
-    worker = new Worker('/gamecs/build/examples/workers/primes-simple.js');
-    font = new gamejs.Font();
+    display = gamecs.Display.setMode([800, 600]);
+    gamecs.Display.setCaption("Example Simple Worker");
+    worker = new Worker('build/examples/workers/primes-simple.js');
+    font = new gamecs.Font();
     yOffset = 50;
     worker.onmessage = function(event) {
       var end;
@@ -19,6 +19,7 @@
       return console.log((end - start) + 'ms');
     };
     startNumber = parseInt(1230023 + (Math.random() * 10000));
+    startNumber = 1236940;
     display.blit(font.render('Asking worker for primes after ' + startNumber), [10, 30]);
     return worker.postMessage({
       todo: "nextprimes",

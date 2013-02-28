@@ -8,28 +8,28 @@
 * move upwards (movement vecor inverted).
 ###
 
-require ['gamejs'], (gamejs) ->
+require ['gamecs'], (gamecs) ->
 
   main = () ->
 
-    display = gamejs.Display.setMode([850, 600])
-    gamejs.Display.setCaption('example key capture')
-    starImage = gamejs.Img.load('assets/images/sparkle.png')
+    display = gamecs.Display.setMode([850, 600])
+    gamecs.Display.setCaption('example key capture')
+    starImage = gamecs.Img.load('assets/images/sparkle.png')
 
-    instructionFont = new gamejs.Font('30px monospace')
+    instructionFont = new gamecs.Font('30px monospace')
     displayRect = display.rect
     sparkles = []
 
     tick = (msDuration) ->
 
       # handle key / mouse events
-      gamejs.Key.get().forEach (event) ->
-        if (event.type == gamejs.Key.KEY_UP)
-          if (event.key == gamejs.Key.K_UP)
+      gamecs.Key.get().forEach (event) ->
+        if (event.type == gamecs.Key.KEY_UP)
+          if (event.key == gamecs.Key.K_UP)
             # reverse Y direction of sparkles
             sparkles.forEach (sparkle) ->
               sparkle.deltaY *= -1
-        else if (event.type == gamejs.Key.MOUSE_MOTION)
+        else if (event.type == gamecs.Key.MOUSE_MOTION)
            # if mouse is over display surface
            if (displayRect.collidePoint(event.pos))
              # add sparkle at mouse position
@@ -60,7 +60,7 @@ require ['gamejs'], (gamejs) ->
         starImage.setAlpha(sparkle.alpha)
         display.blit(starImage, [sparkle.left, sparkle.top])
 
-    gamejs.Time.interval(tick)
+    gamecs.Time.interval(tick)
 
-  gamejs.preload(['assets/images/sparkle.png'])
-  gamejs.ready(main)
+  gamecs.preload(['assets/images/sparkle.png'])
+  gamecs.ready(main)

@@ -20,13 +20,13 @@ define (require) ->
 
     ###*
     * Image to be rendered for this Sprite.
-    * @type gamejs.Surface
+    * @type gamecs.Surface
     ###
     this.image = null
 
     ###*
     * Rect describing the position of this sprite on the display.
-    * @type gamejs.Rect
+    * @type gamecs.Rect
     ###
     this.rect = null
 
@@ -59,7 +59,7 @@ define (require) ->
 
     ###*
     * Remove the sprite from the passed groups
-    * @param {Array|gamejs.sprite.Group} groups One or more `gamejs.Group`
+    * @param {Array|gamecs.sprite.Group} groups One or more `gamecs.Group`
     * instances
     ###
     remove: (groups) ->
@@ -71,7 +71,7 @@ define (require) ->
 
     ###*
     * Add the sprite to the passed groups
-    * @param {Array|gamejs.sprite.Group} groups One or more `gamejs.sprite.Group`
+    * @param {Array|gamecs.sprite.Group} groups One or more `gamecs.sprite.Group`
     * instances
     ###
     add: (groups) ->
@@ -93,7 +93,7 @@ define (require) ->
     ###*
     * Draw this sprite onto the given surface. The position is defined by this
     * sprite's rect.
-    * @param {gamejs.Surface} surface The surface to draw on
+    * @param {gamecs.Surface} surface The surface to draw on
     ###
     draw: (surface) ->
       surface.blit(this.image, this.rect)

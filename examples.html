@@ -22,7 +22,7 @@
         }
     </style>
     <script src="assets/js/require.js"></script>
-    <!--<script src="gamejs.min.js"></script>-->
+    <script src="assets/js/gamecs.min.js"></script>
 </head>
 <body>
     <div id='test'> </div>
@@ -34,7 +34,7 @@
 </body>
 </html>
 <script>
-        requirejs.config({baseUrl: 'build/lib/gamejs/'});
+        requirejs.config({baseUrl: 'build/lib/'});
 
         var args, script, hash, out = '', examples, list, i;
         examples = ['collision-mask', 'draw', 'key', 'minimal', 'noise', 'skeleton', 'sprite', 

@@ -5,12 +5,12 @@ define (require) ->
   *
   * Provides facilities for parsing an xml String.
   * 
-  * You will typically get a `gamejs.xml.Document` instance
+  * You will typically get a `gamecs.xml.Document` instance
   * by loading the data with one of the two static 
   * `Document.fromString(string)` or `Document.fromUrl(url)`.
   *
   * Querying for `elements(name)` or `children()` will return a
-  * new `gamejs.xml.Document` matching your result (or null).
+  * new `gamecs.xml.Document` matching your result (or null).
   *
   * Use `attributes(name)` and `value()` to get the data stored
   * in the XML Document.
@@ -44,7 +44,7 @@ define (require) ->
       ###*
       * Returns the first element in the current document whose tag-name matches
       * the given 'name'.
-      * @returns gamejs.xml.Document
+      * @returns gamecs.xml.Document
       ###
       element: (name) ->
         elem = this._xmlDocument.getElementsByTagName(name)[0]
@@ -53,7 +53,7 @@ define (require) ->
       ###*
       * Returns all elements in the current document whose tag-name matches
       * the given 'name'.
-      * @returns an Array of gamejs.xml.Document
+      * @returns an Array of gamecs.xml.Document
       ###
       elements: (name) ->
         elems = this._xmlDocument.getElementsByTagName(name)
@@ -92,7 +92,7 @@ define (require) ->
 
       ###*
       * Returns all children of this xml document
-      * @returns Array of gamejs.xml.Document
+      * @returns Array of gamecs.xml.Document
       ###
       children: () ->
         return Array.prototype.slice.apply(this._xmlDocument.childNodes, [0]).map((cNode) ->
@@ -100,7 +100,7 @@ define (require) ->
         )
 
       ###*
-      * @returns gamejs.xml.Document
+      * @returns gamecs.xml.Document
       ###
       fromString: (xmlString) ->
         parser = new DOMParser()
@@ -108,7 +108,7 @@ define (require) ->
         return new Document(xmlDoc)
 
       ###*
-      * @returns gamejs.xml.Document
+      * @returns gamecs.xml.Document
       ###
       fromURL: (url) ->
         response = new XMLHttpRequest()

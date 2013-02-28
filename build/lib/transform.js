@@ -70,7 +70,7 @@
         width = dims[0];
         height = dims[1];
         if (width <= 0 || height <= 0) {
-          throw new Error('[gamejs.transform.scale] Invalid arguments for height and width', [width, height]);
+          throw new Error('[gamecs.transform.scale] Invalid arguments for height and width', [width, height]);
         }
         oldDims = surface.getSize();
         ws = width / oldDims[0];
@@ -86,7 +86,7 @@
       /**
       * Flip a Surface either vertically, horizontally or both. This returns
       * a new Surface (i.e: nondestructive).
-      * @param {gamejs.Surface} surface
+      * @param {gamecs.Surface} surface
       * @param {Boolean} flipHorizontal
       * @param {Boolean} flipVertical
       * @returns {Surface} new, flipped surface

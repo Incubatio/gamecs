@@ -12,8 +12,8 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 if [ -z "$GAMEJS_HOME" ]; then
-    source "$SCRIPT_DIR/find-gamejs-home.sh"
-    GAMEJS_HOME="$(find_gamejs_home "$0")"
+    source "$SCRIPT_DIR/find-gamecs-home.sh"
+    GAMEJS_HOME="$(find_gamecs_home "$0")"
 fi
 
 rm -rf ${GAMEJS_HOME}/docs/api/

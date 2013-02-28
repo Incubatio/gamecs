@@ -7,12 +7,12 @@
       *
       * Provides facilities for parsing an xml String.
       * 
-      * You will typically get a `gamejs.xml.Document` instance
+      * You will typically get a `gamecs.xml.Document` instance
       * by loading the data with one of the two static 
       * `Document.fromString(string)` or `Document.fromUrl(url)`.
       *
       * Querying for `elements(name)` or `children()` will return a
-      * new `gamejs.xml.Document` matching your result (or null).
+      * new `gamecs.xml.Document` matching your result (or null).
       *
       * Use `attributes(name)` and `value()` to get the data stored
       * in the XML Document.
@@ -57,7 +57,7 @@
         /**
         * Returns the first element in the current document whose tag-name matches
         * the given 'name'.
-        * @returns gamejs.xml.Document
+        * @returns gamecs.xml.Document
         */
 
 
@@ -70,7 +70,7 @@
         /**
         * Returns all elements in the current document whose tag-name matches
         * the given 'name'.
-        * @returns an Array of gamejs.xml.Document
+        * @returns an Array of gamecs.xml.Document
         */
 
 
@@ -125,7 +125,7 @@
 
         /**
         * Returns all children of this xml document
-        * @returns Array of gamejs.xml.Document
+        * @returns Array of gamecs.xml.Document
         */
 
 
@@ -136,7 +136,7 @@
         };
 
         /**
-        * @returns gamejs.xml.Document
+        * @returns gamecs.xml.Document
         */
 
 
@@ -148,7 +148,7 @@
         };
 
         /**
-        * @returns gamejs.xml.Document
+        * @returns gamecs.xml.Document
         */
 
 

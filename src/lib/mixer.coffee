@@ -2,7 +2,7 @@ define (require) ->
 
   ###*
   * @fileoverview Playing sounds with the html5 audio tag. Audio files must be preloaded
-  * with the usual `gamejs.preload()` function. Ogg, wav and webm supported.
+  * with the usual `gamecs.preload()` function. Ogg, wav and webm supported.
   *
   * Sounds & Images are loaded relative to './'.
   ###
@@ -73,7 +73,7 @@ define (require) ->
         audio.addEventListener('canplay', successHandler, true)
         audio.addEventListener('error', errorHandler, true)
         audio.src = audioUrls[key]
-        audio.gamejsKey = key
+        audio.gamecsKey = key
         audio.load()
 
       @_PRELOADING = true if (countTotal > 0)
@@ -94,7 +94,7 @@ define (require) ->
 
       docLoc = document.location.href
       audios.forEach((audio) ->
-        @CACHE[audio.gamejsKey] = audio
+        @CACHE[audio.gamecsKey] = audio
       )
       return
 
@@ -109,7 +109,7 @@ define (require) ->
         cachedAudio = if (typeof uriOrAudio == 'string') then @CACHE[uriOrAudio] else uriOrAudio
         if (!cachedAudio)
           ### TODO sync audio loading ###
-          throw new Error('Missing "' + uriOrAudio + '", gamejs.preload() all audio files before loading')
+          throw new Error('Missing "' + uriOrAudio + '", gamecs.preload() all audio files before loading')
 
         channels = []
         i = NUM_CHANNELS

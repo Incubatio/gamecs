@@ -3,21 +3,21 @@
 * Draw lines, polygons, circles, etc on the screen.
 * Render text in a certain font to the screen.
 ###
-require ['gamejs', 'draw', 'font'], (gamejs, Draw, Font) ->
+require ['gamecs', 'draw', 'font'], (gamecs, Draw, Font) ->
   main = () ->
     # set resolution & title
-    display = gamejs.Display.setMode([800, 600])
-    gamejs.Display.setCaption("Example Draw")
+    display = gamecs.Display.setMode([800, 600])
+    gamecs.Display.setCaption("Example Draw")
 
     colorOne = '#ff0000'
     colorTwo = 'rgb(255, 50, 60)'
     colorThree = 'rgba(50, 0, 150, 0.8)'
 
-    # All gamejs.draw methods share the same parameter order:
+    # All gamecs.draw methods share the same parameter order:
     #
     #  * surface
     #  * color
-    #  * position related: gamejs.Rect or [x,y] or array of [x, y]
+    #  * position related: gamecs.Rect or [x,y] or array of [x, y]
     #  * [second position if line]
     #  * [radius if circle]
     #  * line width 0 line width = fill the structure
@@ -33,9 +33,9 @@ require ['gamejs', 'draw', 'font'], (gamejs, Draw, Font) ->
     Draw.circle(display, '#ff0000', [250, 250], 50, 0)
 
     # surface, color, rect, width
-    Draw.rect(display, '#aaaaaa', new gamejs.Rect([10, 150], [20, 20]), 2)
-    Draw.rect(display, '#555555', new gamejs.Rect([50, 150], [20, 20]), 0)
-    Draw.rect(display, '#aaaaaa', new gamejs.Rect([90, 150], [20, 20]), 10)
+    Draw.rect(display, '#aaaaaa', new gamecs.Rect([10, 150], [20, 20]), 2)
+    Draw.rect(display, '#555555', new gamecs.Rect([50, 150], [20, 20]), 0)
+    Draw.rect(display, '#aaaaaa', new gamecs.Rect([90, 150], [20, 20]), 10)
 
     # Font object, create with css font definition
     defaultFont = new Font("20px Verdana")
@@ -43,6 +43,6 @@ require ['gamejs', 'draw', 'font'], (gamejs, Draw, Font) ->
     textSurface = defaultFont.render("Example Draw Test 101", "#bbbbbb")
     display.blit(textSurface, [300, 50])
 
-  # gamejs.ready will call your main 
+  # gamecs.ready will call your main 
   # once all components and resources are ready.
-  gamejs.ready(main)
+  gamecs.ready(main)

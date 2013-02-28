@@ -17,7 +17,7 @@
     */
 
     addToCache = function(img) {
-      return CACHE[img.gamejsKey] = img;
+      return CACHE[img.gamecsKey] = img;
     };
     /**
     * @fileoverview Load images as Surfaces.
@@ -40,12 +40,12 @@
       * All images must be preloaded before they can be used.
       * @example
       * 
-      *     gamejs.preload(["./images/ship.png", "./images/sunflower.png"])
+      *     gamecs.preload(["./images/ship.png", "./images/sunflower.png"])
       *     // ...later...
-      *     display.blit(gamejs.image.load('images/ship.png'))
+      *     display.blit(gamecs.image.load('images/ship.png'))
       *
       * @param {String|dom.Image} uriOrImage resource uri for image
-      * @returns {gamejs.Surface} surface with the image on it.
+      * @returns {gamecs.Surface} surface with the image on it.
       */
 
 
@@ -57,7 +57,7 @@
             /* TODO sync image loading
             */
 
-            throw new Error('Missing "' + key + '", gamejs.preload() all images before trying to load them.');
+            throw new Error('Missing "' + key + '", gamecs.preload() all images before trying to load them.');
           }
         } else {
           img = key;
@@ -107,7 +107,7 @@
             _PRELOADING = false;
           }
           if (countLoaded % 10 === 0) {
-            return console.log('gamejs.image: preloaded  ' + countLoaded + ' of ' + countTotal);
+            return console.log('gamecs.image: preloaded  ' + countLoaded + ' of ' + countTotal);
           }
         };
         getProgress = function() {
@@ -134,7 +134,7 @@
           img.addEventListener('load', successHandler, true);
           img.addEventListener('error', errorHandler, true);
           img.src = imgIdents[key];
-          img.gamejsKey = key;
+          img.gamecsKey = key;
           countTotal++;
         }
         if (countTotal > 0) {

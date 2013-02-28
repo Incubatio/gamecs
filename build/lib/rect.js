@@ -9,7 +9,7 @@
     * Creates a Rect. Rects are used to hold rectangular areas. There are a couple
     * of convinient ways to create Rects with different arguments and defaults.
     * 
-    * Any function that requires a `gamejs.Rect` argument also accepts any of the
+    * Any function that requires a `gamecs.Rect` argument also accepts any of the
     * constructor value combinations `Rect` accepts.
     * 
     * Rects are used a lot. They are good for collision detection, specifying
@@ -39,7 +39,7 @@
     * @property {Number} bottom
     * @property {Number} center
     * 
-    * @param {Array|gamejs.Rect} position Array holding left and top coordinates
+    * @param {Array|gamecs.Rect} position Array holding left and top coordinates
     * @param {Array} dimensions Array holding width and height
     */
 
@@ -258,7 +258,7 @@
       * moved by the given amounts. Accepts any rectangle form.
       * as argument.
       * 
-      * @param {Number|gamejs.Rect} x amount to move on x axis
+      * @param {Number|gamecs.Rect} x amount to move on x axis
       * @param {Number} y amount to move on y axis
       */
 
@@ -275,7 +275,7 @@
       * 
       * `moveIp(x,y)` or `moveIp([x,y])`
       * 
-      * @param {Number|gamejs.Rect} x amount to move on x axis
+      * @param {Number|gamecs.Rect} x amount to move on x axis
       * @param {Number} y amount to move on y axis
       */
 
@@ -291,8 +291,8 @@
       /**
       * Return the area in which this Rect and argument Rect overlap.
       *
-      * @param {gamejs.Rect} Rect to clip this one into
-      * @returns {gamejs.Rect} new Rect which is completely inside the argument Rect,
+      * @param {gamecs.Rect} Rect to clip this one into
+      * @returns {gamecs.Rect} new Rect which is completely inside the argument Rect,
       * zero sized Rect if the two rectangles do not overlap
       */
 
@@ -340,8 +340,8 @@
       /**
       * Join two rectangles
       *
-      * @param {gamejs.Rect} union with this rectangle
-      * @returns {gamejs.Rect} rectangle containing area of both rectangles
+      * @param {gamecs.Rect} union with this rectangle
+      * @returns {gamecs.Rect} rectangle containing area of both rectangles
       */
 
 
@@ -359,7 +359,7 @@
            *
            * @param {Number} amount to change in the width
            * @param {Number} amount to change in the height
-           * @returns {gamejs.Rect} inflated rectangle centered on the original rectangle's center
+           * @returns {gamecs.Rect} inflated rectangle centered on the original rectangle's center
       */
 
 
@@ -390,7 +390,7 @@
            * 
            * `collidePoint(x,y)` or `collidePoint([x,y])` or `collidePoint(new Rect(x,y))`
            * 
-           * @param {Array|gamejs.Rect} point the x and y coordinates of the point to test for collision
+           * @param {Array|gamecs.Rect} point the x and y coordinates of the point to test for collision
            * @returns {Boolean} true if the point collides with this Rect
       */
 
@@ -404,7 +404,7 @@
 
       /*
            * Check for collision with a Rect.
-           * @param {gamejs.Rect} rect the Rect to test check for collision
+           * @param {gamecs.Rect} rect the Rect to test check for collision
            * @returns {Boolean} true if the given Rect collides with this Rect
       */
 
@@ -462,7 +462,7 @@
       };
 
       /*
-            @returns {gamejs.Rect} A new copy of this rect
+            @returns {gamecs.Rect} A new copy of this rect
       */
 
 

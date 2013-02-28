@@ -13,7 +13,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  require(['gamejs'], function(gamejs) {
+  require(['gamecs'], function(gamecs) {
     /** The ship Sprite has a randomly rotated image und moves with random speed (upwards).
     */
 
@@ -26,52 +26,52 @@
         var dims;
         Ship.__super__.constructor.call(this);
         this.speed = 20 + (40 * Math.random());
-        this.originalImage = gamejs.Img.load("assets/images/ship.png");
+        this.originalImage = gamecs.Img.load("assets/images/ship.png");
         dims = this.originalImage.getSize();
-        this.originalImage = gamejs.Transform.scale(this.originalImage, [dims[0] * (0.5 + Math.random()), dims[1] * (0.5 + Math.random())]);
+        this.originalImage = gamecs.Transform.scale(this.originalImage, [dims[0] * (0.5 + Math.random()), dims[1] * (0.5 + Math.random())]);
         this.rotation = 50 + parseInt(120 * Math.random());
-        this.image = gamejs.Transform.rotate(this.originalImage, this.rotation);
-        this.rect = new gamejs.Rect(rect);
+        this.image = gamecs.Transform.rotate(this.originalImage, this.rotation);
+        this.rect = new gamecs.Rect(rect);
       }
 
       Ship.prototype.update = function(msDuration) {
         this.rect.moveIp(0, this.speed * (msDuration / 1000));
         if (this.rect.top > 600) {
           this.speed *= -1;
-          return this.image = gamejs.Transform.rotate(this.originalImage, this.rotation + 180);
+          return this.image = gamecs.Transform.rotate(this.originalImage, this.rotation + 180);
         } else if (this.rect.top < 0) {
           this.speed *= -1;
-          return this.image = gamejs.Transform.rotate(this.originalImage, this.rotation);
+          return this.image = gamecs.Transform.rotate(this.originalImage, this.rotation);
         }
       };
 
       return Ship;
 
-    })(gamejs.Sprite);
+    })(gamecs.Sprite);
     main = function() {
       var gShips, i, j, mainSurface, ship, tick, _i, _j;
-      gamejs.Display.setMode([800, 600]);
-      gamejs.Display.setCaption("Example Sprites");
+      gamecs.Display.setMode([800, 600]);
+      gamecs.Display.setCaption("Example Sprites");
       ship = new Ship([100, 100]);
-      gShips = new gamejs.Group();
+      gShips = new gamecs.Group();
       for (j = _i = 0; _i < 4; j = ++_i) {
         for (i = _j = 0; _j < 25; i = ++_j) {
           gShips.add(new Ship([10 + i * 20, j * 20]));
         }
       }
-      mainSurface = gamejs.Display.getSurface();
+      mainSurface = gamecs.Display.getSurface();
       tick = function(msDuration) {
         mainSurface.fill("#FFFFFF");
         gShips.update(msDuration);
         return gShips.draw(mainSurface);
       };
-      return gamejs.Time.interval(tick);
+      return gamecs.Time.interval(tick);
     };
     /** MAIN
     */
 
-    gamejs.preload(['assets/images/ship.png']);
-    return gamejs.ready(main);
+    gamecs.preload(['assets/images/ship.png']);
+    return gamecs.ready(main);
   });
 
 }).call(this);

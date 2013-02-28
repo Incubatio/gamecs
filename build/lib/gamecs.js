@@ -5,7 +5,7 @@
   define(function(require) {
     /*
        * @fileoverview This module holds the essential `Rect` and `Surface` classes as
-       * well as static methods for preloading assets. `gamejs.ready()` is maybe
+       * well as static methods for preloading assets. `gamecs.ready()` is maybe
        * the most important as it kickstarts your app.
     */
 
@@ -22,8 +22,8 @@
        *   - 3 = fatal
        *
        * @example
-       * gamejs.setLogLevel(0) # debug
-       * gamejs.setLogLevel('error') # equal to setLogLevel(2)
+       * gamecs.setLogLevel(0) # debug
+       * gamecs.setLogLevel('error') # equal to setLogLevel(2)
     */
 
     exports.setLogLevel = function(logLevel) {
@@ -82,7 +82,7 @@
     Simplex = exports.Simplex = require('simplex');
     /*
       * ReadyFn is called once all modules and assets are loaded.
-      * @param {Function} readyFn the function to be called once gamejs finished loading
+      * @param {Function} readyFn the function to be called once gamecs finished loading
       * @name ready
     */
 
@@ -123,8 +123,8 @@
       return getLoadProgress;
     };
     /*
-      * Initialize all gamejs modules. This is automatically called
-      * by `gamejs.ready()`.
+      * Initialize all gamecs modules. This is automatically called
+      * by `gamecs.ready()`.
       * @returns {Object} the properties of this objecte are the moduleIds that failed, they value are the exceptions
       * @ignore
     */

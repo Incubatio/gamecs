@@ -1,7 +1,7 @@
 define (require) ->
   ###
    * @fileoverview This module holds the essential `Rect` and `Surface` classes as
-   * well as static methods for preloading assets. `gamejs.ready()` is maybe
+   * well as static methods for preloading assets. `gamecs.ready()` is maybe
    * the most important as it kickstarts your app.
   ###
    
@@ -19,8 +19,8 @@ define (require) ->
    *   - 3 = fatal
    *
    * @example
-   * gamejs.setLogLevel(0) # debug
-   * gamejs.setLogLevel('error') # equal to setLogLevel(2)
+   * gamecs.setLogLevel(0) # debug
+   * gamecs.setLogLevel('error') # equal to setLogLevel(2)
   ###
   exports.setLogLevel = (logLevel) ->
     if (typeof logLevel == 'string' && DEBUG_LEVELS.indexOf(logLevel))
@@ -67,7 +67,7 @@ define (require) ->
 
   ###
   * ReadyFn is called once all modules and assets are loaded.
-  * @param {Function} readyFn the function to be called once gamejs finished loading
+  * @param {Function} readyFn the function to be called once gamecs finished loading
   * @name ready
   ###
   exports.ready = (readyFn) ->
@@ -87,7 +87,7 @@ define (require) ->
       try
         getMixerProgress = Mixer.preload(RESOURCES)
       catch e
-        #gamejs.debug('Error loading audio files ', e)
+        #gamecs.debug('Error loading audio files ', e)
         console.log('Error loading audio files ', e)
 
       window.setTimeout(_readyResources, 50)
@@ -114,8 +114,8 @@ define (require) ->
     return getLoadProgress
 
   ###
-  * Initialize all gamejs modules. This is automatically called
-  * by `gamejs.ready()`.
+  * Initialize all gamecs modules. This is automatically called
+  * by `gamecs.ready()`.
   * @returns {Object} the properties of this objecte are the moduleIds that failed, they value are the exceptions
   * @ignore
   ###

@@ -12,7 +12,7 @@ define (require) ->
     * to see if it is greater than the given threshold. If it is greater then
     * that pixel is set as non-colliding.
     *
-    * @param {gamejs.Surface} surface
+    * @param {gamecs.Surface} surface
     * @param {Number} threshold 0 to 255. defaults to: 255, fully transparent
     ###
     @fromSurface: (surface, threshold) ->
@@ -51,7 +51,7 @@ define (require) ->
       return
 
     ###*
-    * @param {gamejs.mask.Mask} otherMask
+    * @param {gamecs.mask.Mask} otherMask
     * @param {Array} offset [x,y]
     * @returns the overlapping rectangle or null if there is no overlap
     ###
@@ -102,7 +102,7 @@ define (require) ->
       return false
 
     ###*
-    * @param {gamejs.mask.Mask} otherMask
+    * @param {gamecs.mask.Mask} otherMask
     * @param {Array} offset [x,y]
     * @returns the number of overlapping pixels
     ###
@@ -125,7 +125,7 @@ define (require) ->
       return count
 
     ###*
-    * @param {gamejs.mask.Mask} otherMask
+    * @param {gamecs.mask.Mask} otherMask
     * @param {Array} offset [x,y]
     * @returns a mask of the overlapping pixels
     ###

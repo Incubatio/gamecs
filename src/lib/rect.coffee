@@ -4,7 +4,7 @@ define (require) ->
   * Creates a Rect. Rects are used to hold rectangular areas. There are a couple
   * of convinient ways to create Rects with different arguments and defaults.
   * 
-  * Any function that requires a `gamejs.Rect` argument also accepts any of the
+  * Any function that requires a `gamecs.Rect` argument also accepts any of the
   * constructor value combinations `Rect` accepts.
   * 
   * Rects are used a lot. They are good for collision detection, specifying
@@ -34,7 +34,7 @@ define (require) ->
   * @property {Number} bottom
   * @property {Number} center
   * 
-  * @param {Array|gamejs.Rect} position Array holding left and top coordinates
+  * @param {Array|gamecs.Rect} position Array holding left and top coordinates
   * @param {Array} dimensions Array holding width and height
   ###
   isInit = false
@@ -210,7 +210,7 @@ define (require) ->
     * moved by the given amounts. Accepts any rectangle form.
     * as argument.
     * 
-    * @param {Number|gamejs.Rect} x amount to move on x axis
+    * @param {Number|gamecs.Rect} x amount to move on x axis
     * @param {Number} y amount to move on y axis
     ###
     move: (args...) ->
@@ -222,7 +222,7 @@ define (require) ->
     * 
     * `moveIp(x,y)` or `moveIp([x,y])`
     * 
-    * @param {Number|gamejs.Rect} x amount to move on x axis
+    * @param {Number|gamecs.Rect} x amount to move on x axis
     * @param {Number} y amount to move on y axis
     ###
     moveIp: (args...) ->
@@ -233,8 +233,8 @@ define (require) ->
     ###*
     * Return the area in which this Rect and argument Rect overlap.
     *
-    * @param {gamejs.Rect} Rect to clip this one into
-    * @returns {gamejs.Rect} new Rect which is completely inside the argument Rect,
+    * @param {gamecs.Rect} Rect to clip this one into
+    * @returns {gamecs.Rect} new Rect which is completely inside the argument Rect,
     * zero sized Rect if the two rectangles do not overlap
     ###
     clip: (rect) ->
@@ -269,8 +269,8 @@ define (require) ->
     ###*
     * Join two rectangles
     *
-    * @param {gamejs.Rect} union with this rectangle
-    * @returns {gamejs.Rect} rectangle containing area of both rectangles
+    * @param {gamecs.Rect} union with this rectangle
+    * @returns {gamecs.Rect} rectangle containing area of both rectangles
     ###
     union: (rect) ->
        x = Math.min(this.left, rect.left)
@@ -284,7 +284,7 @@ define (require) ->
      *
      * @param {Number} amount to change in the width
      * @param {Number} amount to change in the height
-     * @returns {gamejs.Rect} inflated rectangle centered on the original rectangle's center
+     * @returns {gamecs.Rect} inflated rectangle centered on the original rectangle's center
     ###
     inflate: (x, y) ->
       copy = this.clone()
@@ -313,7 +313,7 @@ define (require) ->
      * 
      * `collidePoint(x,y)` or `collidePoint([x,y])` or `collidePoint(new Rect(x,y))`
      * 
-     * @param {Array|gamejs.Rect} point the x and y coordinates of the point to test for collision
+     * @param {Array|gamecs.Rect} point the x and y coordinates of the point to test for collision
      * @returns {Boolean} true if the point collides with this Rect
     ###
     collidePoint: (args...) ->
@@ -323,7 +323,7 @@ define (require) ->
 
     ###
      * Check for collision with a Rect.
-     * @param {gamejs.Rect} rect the Rect to test check for collision
+     * @param {gamecs.Rect} rect the Rect to test check for collision
      * @returns {Boolean} true if the given Rect collides with this Rect
     ###
     collideRect: (rect) ->
@@ -379,7 +379,7 @@ define (require) ->
       return ["[", this.left, ",", this.top, "]"," [",this.width, ",", this.height, "]"].join("")
 
     ###
-      @returns {gamejs.Rect} A new copy of this rect
+      @returns {gamecs.Rect} A new copy of this rect
     ###
     clone: () ->
       return new Rect(this)

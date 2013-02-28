@@ -4,4 +4,4 @@ cd ..
 #ROOT_DIR=`pwd`
 
 R_PATH=`which r.js`
-node $R_PATH -o baseUrl=./lib/gamejs name=gamejs out=gamejs.min.js
+node $R_PATH -o baseUrl=./build/lib/ name=gamecs out=assets/js/gamecs.min.js

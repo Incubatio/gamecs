@@ -113,7 +113,7 @@ define (require) ->
     * @return {Rect}
     ###
     gid2rect: (gid) ->
-      return new gamejs.Rect(this.gid2pos(gid), [this.tileWidth, this.tileHeight])
+      return new gamecs.Rect(this.gid2pos(gid), [this.tileWidth, this.tileHeight])
 
     ###*
     * @param {integer} x

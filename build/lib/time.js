@@ -9,13 +9,13 @@
        * This is very different from how PyGame works. We can not
        * pause the execution of the script in Browser JavaScript, so what
        * we do you do is write a main function which contains the code
-       * you would put into your main loop and pass that to `gamejs.time.interval()`:
+       * you would put into your main loop and pass that to `gamecs.time.interval()`:
        *
        * @example
        * // call function `tick` as fast as the browser thinks is appropriate
-       *  gamejs.time.interval(tick);
+       *  gamecs.time.interval(tick);
        * // call the function `tick` maximally 20 times per second
-       *  gamejs.time.interval(tick, 20);
+       *  gamecs.time.interval(tick, 20);
     */
 
     var CALLBACKS, CALLBACKS_LASTCALL, STARTTIME, TIMER_LASTCALL, Time, perInterval, reqAniFrameRecursive, reqAnimationFrame;
@@ -100,7 +100,7 @@
       };
 
       /**
-      * This function is deprecated in favor of `gamejs.time.interval`
+      * This function is deprecated in favor of `gamecs.time.interval`
       * @see #interval
       * @param {Function} fn the function to call back
       * @param {Object} thisObj `this` will be set to that object when executing the callback function

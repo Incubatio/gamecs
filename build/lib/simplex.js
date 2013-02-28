@@ -6,7 +6,7 @@
     * @fileoverview
     * A noise generator comparable to Perlin noise, which is useful
     * for generating procedural content.
-    * @see gamejs/utils/prng
+    * @see gamecs/utils/prng
     */
 
     /**
@@ -26,11 +26,11 @@
       * generator object is assumed to have a `random()` method `Math` is used
       * per default.
       *
-      * Also see `gamejs/utils/prng` for a seedable pseudo random number generator
+      * Also see `gamecs/utils/prng` for a seedable pseudo random number generator
       *
       * @param {Object} prng the random number generator to use most provide `random()` method
       * @usage
-      *  simplex = new gamejs.noise.Simplex()
+      *  simplex = new gamecs.noise.Simplex()
       *  simplex.get(x, y)
       *  # or for 3d noise
       *  simple.get(x, y, y)

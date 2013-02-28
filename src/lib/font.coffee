@@ -39,7 +39,7 @@ define (require) ->
     * Returns a Surface with the given text on it.
     * @param {String} text the text to render
     * @param {String} color a valid #RGB String, "#ffcc00"
-    * @returns {gamejs.Surface} Surface with the rendered text on it.
+    * @returns {gamecs.Surface} Surface with the rendered text on it.
     ###
     render: (text, color) ->
       dims = this.size(text)

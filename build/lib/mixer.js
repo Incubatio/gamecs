@@ -4,7 +4,7 @@
   define(function(require) {
     /**
     * @fileoverview Playing sounds with the html5 audio tag. Audio files must be preloaded
-    * with the usual `gamejs.preload()` function. Ogg, wav and webm supported.
+    * with the usual `gamecs.preload()` function. Ogg, wav and webm supported.
     *
     * Sounds & Images are loaded relative to './'.
     */
@@ -100,7 +100,7 @@
           audio.addEventListener('canplay', successHandler, true);
           audio.addEventListener('error', errorHandler, true);
           audio.src = audioUrls[key];
-          audio.gamejsKey = key;
+          audio.gamecsKey = key;
           audio.load();
         }
         if (countTotal > 0) {
@@ -130,7 +130,7 @@
         }
         docLoc = document.location.href;
         audios.forEach(function(audio) {
-          return this.CACHE[audio.gamejsKey] = audio;
+          return this.CACHE[audio.gamecsKey] = audio;
         });
       };
 
@@ -151,7 +151,7 @@
             /* TODO sync audio loading
             */
 
-            throw new Error('Missing "' + uriOrAudio + '", gamejs.preload() all audio files before loading');
+            throw new Error('Missing "' + uriOrAudio + '", gamecs.preload() all audio files before loading');
           }
           channels = [];
           i = NUM_CHANNELS;

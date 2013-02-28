@@ -11,15 +11,15 @@
 * relative - Note that you can erase those path directly in the file or
 * in the application when data have been imported.
 ###
-require ['gamejs', 'tilemap', 'http'], (gamejs, TileMap, Http) ->
+require ['gamecs', 'tilemap', 'http'], (gamecs, TileMap, Http) ->
 
 
-  gamejs.preload(['assets/data/tilesheet.png'])
+  gamecs.preload(['assets/data/tilesheet.png'])
 
-  gamejs.ready () ->
-    gamejs.Display.setCaption('TMX viewer')
+  gamecs.ready () ->
+    gamecs.Display.setCaption('TMX viewer')
 
-    display = gamejs.Display.setMode([800, 500])
+    display = gamecs.Display.setMode([800, 500])
 
     url = 'assets/data/example.json'
     req = Http.get(url)
@@ -33,13 +33,13 @@ require ['gamejs', 'tilemap', 'http'], (gamejs, TileMap, Http) ->
     offset = [0, 0]
 
     tick = (msDuration) ->
-      gamejs.Key.get().forEach (event) ->
-        if (event.type == gamejs.Key.KEY_DOWN)
+      gamecs.Key.get().forEach (event) ->
+        if (event.type == gamecs.Key.KEY_DOWN)
           switch (event.key)
-            when gamejs.Key.K_LEFT  then offset[0] += 50
-            when gamejs.Key.K_RIGHT then offset[0] -= 50
-            when gamejs.Key.K_DOWN  then offset[1] -= 50
-            when gamejs.Key.K_UP    then offset[1] += 50
+            when gamecs.Key.K_LEFT  then offset[0] += 50
+            when gamecs.Key.K_RIGHT then offset[0] -= 50
+            when gamecs.Key.K_DOWN  then offset[1] -= 50
+            when gamecs.Key.K_UP    then offset[1] += 50
 
       #update(msDuration)
       display.clear()
@@ -47,4 +47,4 @@ require ['gamejs', 'tilemap', 'http'], (gamejs, TileMap, Http) ->
         display.blit(layer.image, offset)
       #map.draw(display)
 
-    gamejs.Time.fpsCallback(tick, this, 60)
+    gamecs.Time.fpsCallback(tick, this, 60)

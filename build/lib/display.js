@@ -8,7 +8,7 @@
     LOADER_ID = "gjs-loader";
     SURFACE = null;
     /**
-    * Pass this flag to `gamejs.display.setMode(resolution, flags)` to disable
+    * Pass this flag to `gamecs.display.setMode(resolution, flags)` to disable
     * pixel smoothing; this is, for example, useful for retro-style, low resolution graphics
     * where you don't want the browser to smooth them when scaling & drawing.
     */
@@ -30,9 +30,9 @@
       * @fileoverview Methods to create, access and manipulate the display Surface.
       *
       * @example
-      * display = gamejs.display.setMode([800, 600])
+      * display = gamecs.display.setMode([800, 600])
       * // blit sunflower picture in top left corner of display
-      * sunflower = gamejs.image.load("images/sunflower")
+      * sunflower = gamecs.image.load("images/sunflower")
       * display.blit(sunflower)
       *
       */
@@ -84,7 +84,7 @@
 
       /**
       * Set the width and height of the Display. Conviniently this will
-      * return the actual display Surface - the same as calling [gamejs.display.getSurface()](#getSurface))
+      * return the actual display Surface - the same as calling [gamecs.display.getSurface()](#getSurface))
       * later on.
       * @param {Array} dimensions [width, height] of the display surface
       */
@@ -103,7 +103,7 @@
       /**
       * Set the Caption of the Display (document.title)
       * @param {String} title the title of the app
-      * @param {gamejs.Image} icon FIXME implement favicon support
+      * @param {gamecs.Image} icon FIXME implement favicon support
       */
 
 
@@ -115,7 +115,7 @@
       * The Display (the canvas element) is most likely not in the top left corner
       * of the browser due to CSS styling. To calculate the mouseposition within the
       * canvas we need this offset.
-      * @see {gamejs.event}
+      * @see {gamecs.event}
       * @ignore
       *
       * @returns {Array} [x, y] offset of the canvas
@@ -130,7 +130,7 @@
 
       /**
       * Drawing on the Surface returned by `getSurface()` will draw on the screen.
-      * @returns {gamejs.Surface} the display Surface
+      * @returns {gamecs.Surface} the display Surface
       */
 
 

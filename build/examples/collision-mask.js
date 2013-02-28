@@ -7,43 +7,43 @@
 * A 'spear' is moved around with mouse or cursors keys - the text 'COLLISION'
 * appears if the spear pixel collides with the unit.
 *
-* gamejs.mask.fromSurface is used to create two pixel masks
+* gamecs.mask.fromSurface is used to create two pixel masks
 * that do the actual collision detection.
 */
 
 
 (function() {
 
-  require(['gamejs', 'mask', 'utils/vectors'], function(gamejs, mask, $v) {
+  require(['gamecs', 'mask', 'utils/vectors'], function(gamecs, mask, $v) {
     var images, imgPath, main;
     main = function() {
       var display, font, mSpear, mUnit, spear, spearPosition, tick, unit, unitPosition;
-      display = gamejs.Display.setMode([500, 350]);
-      spear = gamejs.Img.load(imgPath + 'spear.png');
-      unit = gamejs.Img.load(imgPath + 'unit.png');
+      display = gamecs.Display.setMode([500, 350]);
+      spear = gamecs.Img.load(imgPath + 'spear.png');
+      unit = gamecs.Img.load(imgPath + 'unit.png');
       mUnit = mask.fromSurface(unit);
       mSpear = mask.fromSurface(spear);
       unitPosition = [20, 20];
       spearPosition = [6, 0];
-      font = new gamejs.Font('20px monospace');
+      font = new gamecs.Font('20px monospace');
       /** tick
       */
 
       tick = function() {
         var hasMaskOverlap, relativeOffset;
-        gamejs.Key.get().forEach(function(event) {
+        gamecs.Key.get().forEach(function(event) {
           var delta, direction;
           direction = {};
-          direction[gamejs.Key.K_UP] = [0, -1];
-          direction[gamejs.Key.K_DOWN] = [0, 1];
-          direction[gamejs.Key.K_LEFT] = [-1, 0];
-          direction[gamejs.Key.K_RIGHT] = [1, 0];
-          if (event.type === gamejs.Key.KEY_DOWN) {
+          direction[gamecs.Key.K_UP] = [0, -1];
+          direction[gamecs.Key.K_DOWN] = [0, 1];
+          direction[gamecs.Key.K_LEFT] = [-1, 0];
+          direction[gamecs.Key.K_RIGHT] = [1, 0];
+          if (event.type === gamecs.Key.KEY_DOWN) {
             delta = direction[event.key];
             if (delta) {
               return spearPosition = $v.add(spearPosition, delta);
             }
-          } else if (event.type === gamejs.Key.MOUSE_MOTION) {
+          } else if (event.type === gamecs.Key.MOUSE_MOTION) {
             if (display.rect.collidePoint(event.pos)) {
               return spearPosition = $v.subtract(event.pos, spear.getSize());
             }
@@ -59,14 +59,14 @@
         }
         return display.blit(font.render('Move with mouse or cursor keys.'), [10, 250]);
       };
-      return gamejs.Time.interval(tick);
+      return gamecs.Time.interval(tick);
     };
     imgPath = 'assets/images/';
     images = ['spear.png', 'unit.png'].map(function(img) {
       return imgPath + img;
     });
-    gamejs.preload(images);
-    return gamejs.ready(main);
+    gamecs.preload(images);
+    return gamecs.ready(main);
   });
 
 }).call(this);

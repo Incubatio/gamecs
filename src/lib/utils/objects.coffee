@@ -1,4 +1,4 @@
-# TODO: this should be a dependancy of gamejs but not part of it
+# TODO: this should be a dependancy of gamecs but not part of it
 define (require) ->
   ###*
   * @fileoverview Utility functions for working with Objects

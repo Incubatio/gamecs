@@ -17,12 +17,12 @@
 
 (function() {
 
-  require(['gamejs', 'tilemap', 'http'], function(gamejs, TileMap, Http) {
-    gamejs.preload(['assets/data/tilesheet.png']);
-    return gamejs.ready(function() {
+  require(['gamecs', 'tilemap', 'http'], function(gamecs, TileMap, Http) {
+    gamecs.preload(['assets/data/tilesheet.png']);
+    return gamecs.ready(function() {
       var data, display, map, offset, req, tick, url;
-      gamejs.Display.setCaption('TMX viewer');
-      display = gamejs.Display.setMode([800, 500]);
+      gamecs.Display.setCaption('TMX viewer');
+      display = gamecs.Display.setMode([800, 500]);
       url = 'assets/data/example.json';
       req = Http.get(url);
       data = JSON.parse(req.response);
@@ -33,16 +33,16 @@
       offset = [0, 0];
       tick = function(msDuration) {
         var k, layer, _ref, _results;
-        gamejs.Key.get().forEach(function(event) {
-          if (event.type === gamejs.Key.KEY_DOWN) {
+        gamecs.Key.get().forEach(function(event) {
+          if (event.type === gamecs.Key.KEY_DOWN) {
             switch (event.key) {
-              case gamejs.Key.K_LEFT:
+              case gamecs.Key.K_LEFT:
                 return offset[0] += 50;
-              case gamejs.Key.K_RIGHT:
+              case gamecs.Key.K_RIGHT:
                 return offset[0] -= 50;
-              case gamejs.Key.K_DOWN:
+              case gamecs.Key.K_DOWN:
                 return offset[1] -= 50;
-              case gamejs.Key.K_UP:
+              case gamecs.Key.K_UP:
                 return offset[1] += 50;
             }
           }
@@ -56,7 +56,7 @@
         }
         return _results;
       };
-      return gamejs.Time.fpsCallback(tick, this, 60);
+      return gamecs.Time.fpsCallback(tick, this, 60);
     });
   });
 

@@ -9,9 +9,9 @@ define (require) ->
   * onto each other.
   *
   * @example
-  * new gamejs.Surface([width, height])
-  * new gamejs.Surface(width, height)
-  * new gamejs.Surface(rect)
+  * new gamecs.Surface([width, height])
+  * new gamecs.Surface(width, height)
+  * new gamecs.Surface(rect)
   * @constructor
   *
   * @param {Array} dimensions Array holding width and height
@@ -23,7 +23,7 @@ define (require) ->
       if(!isInit)
         isInit = true
         Objects.accessors(Surface.prototype,
-          ### @type gamejs.Rect ###
+          ### @type gamecs.Rect ###
           rect:
             get: () ->
               return this.getRect()
@@ -95,15 +95,15 @@ define (require) ->
     * displaySurface.blit(flowerSurface, [10, 10])
     * 
     * # ... `dest` can also be a rect whose topleft position is taken:
-    * displaySurface.blit(flowerSurface, new gamejs.Rect([10, 10])
+    * displaySurface.blit(flowerSurface, new gamecs.Rect([10, 10])
     * 
     * # only blit half of the flower onto the display
     * flowerRect = flowerSurface.rect
-    * flowerRect = new gamejs.Rect([0,0], [flowerRect.width/2, flowerRect.height/2])
+    * flowerRect = new gamecs.Rect([0,0], [flowerRect.width/2, flowerRect.height/2])
     * displaySurface.blit(flowerSurface, [0,0], flowerRect)
     * 
-    * @param {gamejs.Surface} src The Surface which will be blitted onto this one
-    * @param {gamejs.Rect|Array} dst the Destination x, y position in this Surface.
+    * @param {gamecs.Surface} src The Surface which will be blitted onto this one
+    * @param {gamecs.Rect|Array} dst the Destination x, y position in this Surface.
     *            If a Rect is given, it's top and left values are taken. If this argument
     *            is not supplied the blit happens at [0,0].
     * @param {gamesjs.Rect|Array} area the Area from the passed Surface which
@@ -112,7 +112,7 @@ define (require) ->
     *            one of: source-atop, source-in, source-out, source-over (default), destination-atop, 
     *            destination-in, destination-out, destination-over, lighter, copy, xor for an explanation 
     *            of these values see: http:#dev.w3.org/html5/2dcontext/#dom-context-2d-globalcompositeoperation
-    * @returns {gamejs.Rect} Rect actually repainted FIXME actually return something?
+    * @returns {gamecs.Rect} Rect actually repainted FIXME actually return something?
     ###
     blit: (src, dest, area, compositeOperation) ->
 
@@ -166,7 +166,7 @@ define (require) ->
     * Obsolte, only here for compatibility.
     * @deprecated
     * @ignore
-    * @returns {gamejs.Rect} a Rect of the size of this Surface
+    * @returns {gamecs.Rect} a Rect of the size of this Surface
     ###
     getRect: () ->
       return new Rect([0,0], this.getSize())
@@ -174,7 +174,7 @@ define (require) ->
     ###*
     * Fills the whole Surface with a color. Usefull for erasing a Surface.
     * @param {String} CSS color string, e.g. '#0d120a' or '#0f0' or 'rgba(255, 0, 0, 0.5)'
-    * @param {gamejs.Rect} a Rect of the area to fill (defauts to entire surface if not specified)
+    * @param {gamecs.Rect} a Rect of the area to fill (defauts to entire surface if not specified)
     ###
     fill: (color, rect) ->
       this.context.save()
@@ -193,7 +193,7 @@ define (require) ->
       this.context.clearRect(rect.left, rect.top, rect.width, rect.height)
       return
 
-    ###* @returns {gamejs.Surface} a clone of this surface ###
+    ###* @returns {gamecs.Surface} a clone of this surface ###
     clone: () ->
       newSurface = new Surface(this.getRect())
       newSurface.blit(this)

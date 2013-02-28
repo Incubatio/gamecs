@@ -12,7 +12,7 @@
 
 (function() {
 
-  require(['gamejs'], function(gamejs) {
+  require(['gamecs'], function(gamecs) {
     var Ball, SCREEN_HEIGHT, SCREEN_WIDTH, main;
     SCREEN_WIDTH = 400;
     SCREEN_HEIGHT = 400;
@@ -43,7 +43,7 @@
         var lineWidth, rgbColor;
         rgbColor = Ball.COLORS[this.color];
         lineWidth = 0;
-        return gamejs.Draw.circle(display, rgbColor, this.center, this.radius, lineWidth);
+        return gamecs.Draw.circle(display, rgbColor, this.center, this.radius, lineWidth);
       };
 
       Ball.prototype.update = function(msDuration) {
@@ -61,24 +61,24 @@
       var ball, ballCenter, display, gameTick, handleEvent;
       handleEvent = function(event) {
         switch (event.type) {
-          case gamejs.Key.MOUSE_UP:
+          case gamecs.Key.MOUSE_UP:
             return ball.nextColor();
         }
       };
       gameTick = function(msDuration) {
-        gamejs.Key.get().forEach(function(event) {
+        gamecs.Key.get().forEach(function(event) {
           return handleEvent(event);
         });
         ball.update(msDuration);
         display.clear();
         return ball.draw(display);
       };
-      display = gamejs.Display.setMode([SCREEN_WIDTH, SCREEN_HEIGHT]);
+      display = gamecs.Display.setMode([SCREEN_WIDTH, SCREEN_HEIGHT]);
       ballCenter = [SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2];
       ball = new Ball(ballCenter);
-      return gamejs.Time.interval(gameTick);
+      return gamecs.Time.interval(gameTick);
     };
-    return gamejs.ready(main);
+    return gamecs.ready(main);
   });
 
 }).call(this);

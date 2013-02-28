@@ -8,7 +8,7 @@ define (require) ->
 
     constructor: () ->
 
-    #sheet is an instance of gamejs.image
+    #sheet is an instance of gamecs.image
     get: (id) ->
        return _images[id]
 

@@ -7,7 +7,7 @@
 *
 ###
 
-require ['gamejs'], (gamejs) ->
+require ['gamecs'], (gamecs) ->
 
   SCREEN_WIDTH = 400
   SCREEN_HEIGHT = 400
@@ -36,7 +36,7 @@ require ['gamejs'], (gamejs) ->
     draw: (display) ->
       rgbColor = Ball.COLORS[this.color]
       lineWidth = 0 # lineWidth zero fills the circle
-      gamejs.Draw.circle(display, rgbColor, this.center, this.radius, lineWidth)
+      gamecs.Draw.circle(display, rgbColor, this.center, this.radius, lineWidth)
     
     update: (msDuration) ->
       this.radius += this.growPerSec * (msDuration / 1000)
@@ -48,16 +48,16 @@ require ['gamejs'], (gamejs) ->
     # ball changes color on mouse up
     handleEvent = (event) ->
       switch(event.type)
-        when gamejs.Key.MOUSE_UP then ball.nextColor()
+        when gamecs.Key.MOUSE_UP then ball.nextColor()
 
     # handle events.
     # update models.
     # clear screen.
     # draw screen.
-    # called ~ 30 times per second by gamejs.time.interval()
+    # called ~ 30 times per second by gamecs.time.interval()
     # msDuration = actual time in milliseconds since last call
     gameTick = (msDuration) ->
-      gamejs.Key.get().forEach (event) ->
+      gamecs.Key.get().forEach (event) ->
         handleEvent(event)
       ball.update(msDuration)
       display.clear()
@@ -66,10 +66,10 @@ require ['gamejs'], (gamejs) ->
     # setup screen and ball.
     # ball in screen center.
     # start game loop.
-    display = gamejs.Display.setMode([SCREEN_WIDTH, SCREEN_HEIGHT])
+    display = gamecs.Display.setMode([SCREEN_WIDTH, SCREEN_HEIGHT])
     ballCenter = [SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2]
     ball = new Ball(ballCenter)
-    gamejs.Time.interval(gameTick)
+    gamecs.Time.interval(gameTick)
 
   # call main after all resources have finished loading
-  gamejs.ready(main)
+  gamecs.ready(main)

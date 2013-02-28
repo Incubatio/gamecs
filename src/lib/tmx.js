@@ -1,4 +1,4 @@
-var gamejs = require('../gamejs');
+var gamecs = require('../gamecs');
 var objects = require('./utils/objects');
 var xml = require('./xml');
 var base64 = require('./base64');
@@ -91,7 +91,7 @@ var Map = exports.Map = function(url) {
 var Tile = exports.Tile = function() {
    throw new Error('Can not be instantiated.')
    /**
-    * @type {gamejs.Surface} this tile's Surface
+    * @type {gamecs.Surface} this tile's Surface
     */
    this.surface = null;
    /**
@@ -117,7 +117,7 @@ var TileSets = exports.TileSets = function(mapNode, mapUrl) {
     * Retrieve the image for a tile ID (gid).
     *
     * @param {Number} gid global tile id to retrieve
-    * @returns {gamejs.Surface} the Surface for the gid
+    * @returns {gamecs.Surface} the Surface for the gid
     */
    this.getSurface = function(gid) {
       var tile = this.getTile(gid);
@@ -160,19 +160,19 @@ var TileSets = exports.TileSets = function(mapNode, mapUrl) {
       var imageNode = tileSetNode.element('image');
       var imageAtlasFile = imageNode.attribute('source');
       var imageUrl = uri.makeRelative(uri.resolve(mapUrl, imageAtlasFile));
-      var atlas = gamejs.image.load(imageUrl);
+      var atlas = gamecs.image.load(imageUrl);
       // FIXME set transparency if imageNode.attribute('trans') is set
 
       var tileNodes = tileSetNode.elements('tile')
       var dims = atlas.getSize();
-      var imgSize = new gamejs.Rect([0,0], [tileWidth, tileHeight]);
+      var imgSize = new gamecs.Rect([0,0], [tileWidth, tileHeight]);
       var idx = 0;
       var y = 0;
       while (y + tileHeight <= dims[1]) {
          x = 0;
          while (x + tileWidth <= dims[0]) {
-            var tileImage = new gamejs.Surface(tileWidth, tileHeight);
-            var rect = new gamejs.Rect([x, y], [tileWidth, tileHeight]);
+            var tileImage = new gamecs.Surface(tileWidth, tileHeight);
+            var rect = new gamecs.Rect([x, y], [tileWidth, tileHeight]);
             tileImage.blit(atlas, imgSize, rect);
             var tileProperties = {};
             tileNodes.some(function(tileNode) {

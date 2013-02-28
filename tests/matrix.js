@@ -1,4 +1,4 @@
-require(["./lib/gamejs/utils/matrix"], function(Matrix) {
+require(["./lib/gamecs/utils/matrix"], function(Matrix) {
   test("matrix calculation tests", function() {
     result = Matrix.add2([2, 3], [4, 6]);
     deepEqual( result, [[6, 9]], "Passed!" );

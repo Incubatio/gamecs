@@ -4,20 +4,20 @@
 
   start = new Date().getTime();
 
-  require(['gamejs'], function(gamejs) {
+  require(['gamecs'], function(gamecs) {
     var main;
     main = function() {
       var display, font, handleEvent, tick, worker, yOffset;
-      display = gamejs.Display.setMode([800, 600]);
-      gamejs.Display.setCaption("Example Simple Worker");
-      worker = new Worker('/gamecs/build/examples/workers/primes-require.js');
-      font = new gamejs.Font();
+      display = gamecs.Display.setMode([800, 600]);
+      gamecs.Display.setCaption("Example Simple Worker");
+      worker = new Worker('build/examples/workers/primes-require.js');
+      font = new gamecs.Font();
       yOffset = 50;
       worker.onmessage = function(event) {
         var startNumber;
         worker.onmessage = function(event) {
-          return gamejs.Key.post({
-            type: gamejs.Key.WORKER_RESULT,
+          return gamecs.Key.post({
+            type: gamecs.Key.WORKER_RESULT,
             data: {
               prime: event.data
             }
@@ -32,7 +32,7 @@
       };
       handleEvent = function(event) {
         var end;
-        if (event.type === gamejs.Key.WORKER_RESULT) {
+        if (event.type === gamecs.Key.WORKER_RESULT) {
           display.blit(font.render('Worker answered: ' + event.data.prime), [10, yOffset]);
           yOffset += 20;
           end = new Date().getTime();
@@ -40,11 +40,11 @@
         }
       };
       tick = function(msDuration) {
-        return gamejs.Key.get().forEach(handleEvent);
+        return gamecs.Key.get().forEach(handleEvent);
       };
-      return gamejs.Time.interval(tick);
+      return gamecs.Time.interval(tick);
     };
-    return gamejs.ready(main);
+    return gamecs.ready(main);
   });
 
 }).call(this);

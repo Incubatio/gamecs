@@ -5,7 +5,7 @@
 ###
 
 # correct way to do scale, rotate, translate
-# *  gamejs.utils.matrix will be used in gamejs.transforms, modifing the surfaces.matrix
+# *  gamecs.utils.matrix will be used in gamecs.transforms, modifing the surfaces.matrix
 # * this matrix must be applied to the context in Surface.draw()
 
 define (require) ->

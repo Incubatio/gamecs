@@ -4,7 +4,7 @@
   define(function(require) {
     /*
        * @fileoverview A seedable random-number generator. Especially
-       * useful in conjunction with the noise generator in `gamejs/utils/noise`.
+       * useful in conjunction with the noise generator in `gamecs/utils/noise`.
        *
     */
 
@@ -43,8 +43,8 @@
        * @param {Number|String} seed the seed for generating the numbers
        *
        * @usage
-       *  prng = require('gamejs/utils/prng')
-       *  seed = 'gamejs'
+       *  prng = require('gamecs/utils/prng')
+       *  seed = 'gamecs'
        *  alea = new prng.Alea(seed)
        *  alea.random() # 0.6765871671959758
        *  alea.random() # 0.15881546027958393

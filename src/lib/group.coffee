@@ -31,8 +31,8 @@ define (require) ->
 
     ###*
     * Add one or more sprites to this group
-    * @param {Array|gamejs.sprite.Sprite} sprites One or more
-    * `gamejs.sprite.Sprite` instances
+    * @param {Array|gamecs.sprite.Sprite} sprites One or more
+    * `gamecs.sprite.Sprite` instances
     ###
     add: (sprites) ->
       sprites = [sprites] if (!(sprites instanceof Array))
@@ -44,8 +44,8 @@ define (require) ->
 
     ###*
     * Remove one or more sprites from this group
-    * @param {Array|gamejs.sprite.Sprite} sprites One or more
-    * `gamejs.sprite.Sprite` instances
+    * @param {Array|gamecs.sprite.Sprite} sprites One or more
+    * `gamecs.sprite.Sprite` instances
     ###
     remove: (sprites) ->
       sprites = [sprites] if (!(sprites instanceof Array))
@@ -58,8 +58,8 @@ define (require) ->
 
     ###*
     * Check for the existence of one or more sprites within a group
-    * @param {Array|gamejs.sprite.Sprite} sprites One or more
-    * `gamejs.sprite.Sprite` instances
+    * @param {Array|gamecs.sprite.Sprite} sprites One or more
+    * `gamecs.sprite.Sprite` instances
     * @returns {Boolean} True if every sprite is in this group, false otherwise
     ###
     has: (sprites) ->
@@ -71,7 +71,7 @@ define (require) ->
 
     ###*
     * Get the sprites in this group
-    * @returns {Array} An array of `gamejs.sprite.Sprite` instances
+    * @returns {Array} An array of `gamecs.sprite.Sprite` instances
     ###
     sprites: () ->
       return this._sprites
@@ -95,8 +95,8 @@ define (require) ->
     * display surface to a a static background image in all the places
     * occupied by the sprites of all group.
     *
-    * @param {gamejs.Surface} destination the surface to draw on
-    * @param {gamejs.Surface} source surface
+    * @param {gamecs.Surface} destination the surface to draw on
+    * @param {gamecs.Surface} source surface
     ###
     clear: (destination, source) ->
       this._sprites.forEach((sprite) ->
@@ -136,11 +136,11 @@ define (require) ->
 
     ###*
     * Find sprites in a group that intersect another sprite
-    * @param {gamejs.sprite.Sprite} sprite The sprite to check
-    * @param {gamejs.sprite.Group} group The group to check
+    * @param {gamecs.sprite.Sprite} sprite The sprite to check
+    * @param {gamecs.sprite.Group} group The group to check
     * @param {Boolean} doKill If true, kill sprites in the group when collided
-    * @param {function} collided Collision function to use, defaults to `gamejs.sprite.collideRect`
-    * @returns {Array} An array of `gamejs.sprite.Sprite` instances that collided
+    * @param {function} collided Collision function to use, defaults to `gamecs.sprite.collideRect`
+    * @returns {Array} An array of `gamecs.sprite.Sprite` instances that collided
     ###
     @spriteCollide: (sprite, group, doKill, collided) ->
       collided = collided || collideRect
@@ -164,13 +164,13 @@ define (require) ->
     *    // Do processing here!
     * })
     *
-    * @param {gamejs.sprite.Group} groupA First group to check
-    * @param {gamejs.sprite.Group} groupB Second group to check
+    * @param {gamecs.sprite.Group} groupA First group to check
+    * @param {gamecs.sprite.Group} groupB Second group to check
     * @param {Boolean} doKillA If true, kill sprites in the first group when
     * collided
     * @param {Boolean} doKillB If true, kill sprites in the second group when
     * collided
-    * @param {function} collided Collision function to use, defaults to `gamejs.sprite.collideRect`
+    * @param {function} collided Collision function to use, defaults to `gamecs.sprite.collideRect`
     * @returns {Array} A list of objects where properties 'a' and 'b' that
     * correspond with objects from the first and second groups
     ###
@@ -199,8 +199,8 @@ define (require) ->
     ###*
     * Check for collisions between two sprites using their rects.
     *
-    * @param {gamejs.sprite.Sprite} spriteA First sprite to check
-    * @param {gamejs.sprite.Sprite} spriteB Second sprite to check
+    * @param {gamecs.sprite.Sprite} spriteA First sprite to check
+    * @param {gamecs.sprite.Sprite} spriteB Second sprite to check
     * @returns {Boolean} True if they collide, false otherwise
     ###
     @collideRect: (spriteA, spriteB) ->
@@ -210,13 +210,13 @@ define (require) ->
     * Collision detection between two sprites utilizing the optional `mask`
     * attribute on the sprites. Beware: expensive operation.
     *
-    * @param {gamejs.sprite.Sprite} spriteA Sprite with 'mask' property set to a `gamejs.mask.Mask`
-    * @param {gamejs.sprite.Sprite} spriteB Sprite with 'mask' property set to a `gamejs.mask.Mask`
+    * @param {gamecs.sprite.Sprite} spriteA Sprite with 'mask' property set to a `gamecs.mask.Mask`
+    * @param {gamecs.sprite.Sprite} spriteB Sprite with 'mask' property set to a `gamecs.mask.Mask`
     * @returns {Boolean} True if any mask pixels collide, false otherwise
     ###
     @collideMask: (spriteA, spriteB) ->
       if (!spriteA.mask || !spriteB.mask)
-        throw new Error("Both sprites must have 'mask' attribute set to an gamejs.mask.Mask")
+        throw new Error("Both sprites must have 'mask' attribute set to an gamecs.mask.Mask")
 
       offset = [
         spriteB.rect.left - spriteA.rect.left
@@ -227,8 +227,8 @@ define (require) ->
     ###*
     * Collision detection between two sprites using circles at centers.
     * There sprite property `radius` is used if present, otherwise derived from bounding rect.
-    * @param {gamejs.sprite.Sprite} spriteA First sprite to check
-    * @param {gamejs.sprite.Sprite} spriteB Second sprite to check
+    * @param {gamecs.sprite.Sprite} spriteA First sprite to check
+    * @param {gamecs.sprite.Sprite} spriteB Second sprite to check
     * @returns {Boolean} True if they collide, false otherwise
     ###
     @collideCircle: (spriteA, spriteB) ->

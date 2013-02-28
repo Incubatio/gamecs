@@ -1,11 +1,11 @@
 define (require) ->
   Display = require('display')
-  #gamejs = require('../gamejs')
+  #gamecs = require('../gamecs')
 
   ###*
   * @fileoverview Methods for polling mouse and keyboard.
   *
-  * Call `gamejs.event.get()` in your main loop to get a list of events that happend
+  * Call `gamecs.event.get()` in your main loop to get a list of events that happend
   * since your last call.
   *
   * Note that some events, which would trigger a default browser action, are prevented
@@ -13,22 +13,22 @@ define (require) ->
   * focus (the game gets focus if the user clicked on the game).
   *
   * All events have a type identifier. This event type is in between the values
-  * of NOEVENT and NUMEVENTS. Each event has a constant in `gamejs.event.*` 
+  * of NOEVENT and NUMEVENTS. Each event has a constant in `gamecs.event.*` 
   * All user defined events can have the value of USEREVENT or higher.
   * Make sure your custom event ids* follow this system.
   * 
   * A pattern for using the event loop: your main game function (tick in this example)
-  * is being called by [gamejs.time.interval()](../time/#interval).
-  * Inside tick we call [gamejs.event.get()](#get) for a list of events that happened since the last
+  * is being called by [gamecs.time.interval()](../time/#interval).
+  * Inside tick we call [gamecs.event.get()](#get) for a list of events that happened since the last
   * tick and we loop over each event and act on the event properties.
   *
   * @example
-  *     events = gamejs.event.get()
+  *     events = gamecs.event.get()
   *     events.forEach(function(event) {
-  *        if (event.type == gamejs.event.MOUSE_UP) {
-  *          gamejs.log(event.pos, event.button)
-  *        } else if (event.type == gamejs.event.KEY_UP) {
-  *          gamejs.log(event.key)
+  *        if (event.type == gamecs.event.MOUSE_UP) {
+  *          gamecs.log(event.pos, event.button)
+  *        } else if (event.type == gamecs.event.KEY_UP) {
+  *          gamecs.log(event.key)
   *        }
   *     })
   *
@@ -131,14 +131,14 @@ define (require) ->
 
     ###*
     * Get the newest event of the event queue
-    * @returns {gamejs.event.Event}
+    * @returns {gamecs.event.Event}
     ###
     @poll: () ->
       return Key.QUEUE.pop()
 
     ###*
     * Post an event to the event queue.
-    * @param {gamejs.event.Event} userEvent the event to post to the queue
+    * @param {gamecs.event.Event} userEvent the event to post to the queue
     ###
     @post: (userEvent) ->
       Key.QUEUE.push(userEvent)
@@ -154,9 +154,9 @@ define (require) ->
     * @class
     ###
     @Event: () ->
-      ### The type of the event. e.g., gamejs.event.QUIT, KEYDOWN, MOUSEUP. ###
+      ### The type of the event. e.g., gamecs.event.QUIT, KEYDOWN, MOUSEUP. ###
       this.type = null
-      ### key the keyCode of the key. compare with gamejs.event.K_a, gamejs.event.K_b,... ###
+      ### key the keyCode of the key. compare with gamecs.event.K_a, gamecs.event.K_b,... ###
       this.key = null
       ### relative movement for a mousemove event ###
       this.rel = null

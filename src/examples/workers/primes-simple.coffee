@@ -4,7 +4,7 @@ self.onmessage = (event) ->
     n = event.data.start
     primes = []
     x = 10000
-    search: while(primes.length < 5)
+    while(primes.length < 5)
       n += 1
       for i in [2..Math.sqrt(n)]
         continue if (n % i == 0)

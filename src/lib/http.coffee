@@ -18,10 +18,10 @@ define (require) ->
   *         ajaxBaseHref: "http://the-same-server.com/ajax/"
   *      }
   *      </script>
-  *      <script src="./public/gamejs-wrapped.js"></script>
+  *      <script src="./public/gamecs-wrapped.js"></script>
   *      ....
-  *      typeof gamejs.load('userdata/') === 'object'
-  *      typeof gamejs.get('userdata/') === 'string'
+  *      typeof gamecs.load('userdata/') === 'object'
+  *      typeof gamecs.get('userdata/') === 'string'
   *      ...
   *
   ###

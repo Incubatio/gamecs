@@ -1,5 +1,5 @@
 {
-    "name": "gamejs",
+    "name": "gamecs",
     "version": "2011.06.13",
     "description": "GameJs, html canvas wrapper",
     "keywords": ["gamedev"],
@@ -7,9 +7,9 @@
       "Simon Oberhammer <simon@nekapuzer.at>",
       "Morel Nicolas <gamecs@incubatio.org>"
     ],
-    "main": "./lib/gamejs",
+    "main": "./lib/gamecs",
     "directories": {
-        "lib": "lib/gamejs"
+        "lib": "lib/gamecs"
     },
     "repository": {
         "type": "git",

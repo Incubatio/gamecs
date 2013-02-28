@@ -4,7 +4,7 @@ GameJs
 GameCs is a port of GameJs Framework to CoffeeScript.
 
 GameJs is a JavaScript library for writing 2D games or other interactive
-graphic applications for the HTML Canvas <http://gamejs.org>.
+graphic applications for the HTML Canvas <http://gamecs.org>.
 
 Usage
 =========
@@ -20,7 +20,7 @@ in a unix shell, cygwin or in `git bash`:
 
     $ ./bin/build.sh
 
-This should create a `gamejs.min.js` file in the GameJs home directory.
+This should create a `gamecs.min.js` file in the GameJs home directory.
 
 See the `examples/skeleton/` directory for a minimal GameJs app. We recommend
 you also use this as the scaffolding if you want to create a new game yourself.
@@ -59,8 +59,8 @@ other `<script>`s.
 More Help
 ===========
 
-See the [GameJs Website](http://gamejs.org) for more help or drop us
-an email in the [Mailing List](http://groups.google.com/group/gamejs).
+See the [GameJs Website](http://gamecs.org) for more help or drop us
+an email in the [Mailing List](http://groups.google.com/group/gamecs).
 
 Check the `docs` folder of your GameJs installation.
 
