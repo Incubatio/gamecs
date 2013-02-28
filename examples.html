@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GameJS Application</title>
+    <style type=text/css>
+        body{
+           background:#fff;
+           color:#222;
+           margin:1em 0 2em 6em;
+           padding:0;
+        }
+        #gjs-loader {
+            width: 50%;
+            height: 50%;
+            background: url('../skeleton/public/ajax-loader.gif');
+        }
+        .menu {
+            width: 200px;
+            float:left;
+        }
+        .content {
+        }
+    </style>
+    <script src="assets/js/require.js"></script>
+    <!--<script src="gamejs.min.js"></script>-->
+</head>
+<body>
+    <div id='test'> </div>
+    <div>
+        <p>
+        Powered by <a href="http://gamecs.org">GameCs</a>.
+        </p>
+    </div>
+</body>
+</html>
+<script>
+        requirejs.config({baseUrl: 'build/lib/gamejs/'});
+
+        var args, script, hash, out = '', examples, list, i;
+        examples = ['collision-mask', 'draw', 'key', 'minimal', 'noise', 'skeleton', 'sprite', 
+          'tilemap', 'worker-simple', 'worker-require'];
+
+        // ################# Parse Hash ####################
+        getHash = function () { return window.location.href.split('#')[1]; } 
+        //getHash = function() { return window.location.href.match(/#(.*)$/);}
+        hash = getHash();
+
+
+        // ################## Refresh ######################
+        refresh = function () { 
+          interval = setInterval(function(){
+            if(getHash() !== hash) { window.location.reload(); }
+            window.clearInterval(interval);
+          }, 20);
+        }
+
+
+        // #################### View #######################
+
+        menu = []
+        for(i = 0; i < examples.length; i++) {
+           menu.push('<a onClick="refresh();" href="#' + examples[i] + '">' + examples[i] + '</a>'); 
+        }
+        out += '<div class="menu"><ul><li>' + menu.join('</li><li>') + '</li></ul></div>';
+
+        if(hash !== undefined) {
+          script = document.createElement('script');
+          script.type = "text/javascript";
+          script.src = 'build/examples/' + hash + '.js';
+          //script.src = './test.js';
+          document.head.appendChild(script);
+          out += '<div class="content">';
+          out += '<div id="gjs-loader"> Loading...  </div>';
+          out += '<canvas id="gjs-canvas"></canvas>';
+          out += '</div>';
+        }
+
+        document.getElementById('test').innerHTML = out;
+</script>
