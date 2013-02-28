@@ -12,6 +12,24 @@ define (require) ->
   ###
 
   class Sprite
+    ###* @ignore ###
+    _groups: []
+
+    ###* @ignore ###
+    _alive: true
+
+    ###*
+    * Image to be rendered for this Sprite.
+    * @type gamejs.Surface
+    ###
+    this.image = null
+
+    ###*
+    * Rect describing the position of this sprite on the display.
+    * @type gamejs.Rect
+    ###
+    this.rect = null
+
     ###*
     * Your visible game objects will typically subclass Sprite. By setting it's image
     * and rect attributes you can control its appeareance. Those attributes control
@@ -23,22 +41,6 @@ define (require) ->
     * @constructor
     ###
     constructor: () ->
-      ###* @ignore ###
-      this._groups = []
-      ###* @ignore ###
-      this._alive = true
-
-      ###*
-      * Image to be rendered for this Sprite.
-      * @type gamejs.Surface
-      ###
-      this.image = null
-      ###*
-      * Rect describing the position of this sprite on the display.
-      * @type gamejs.Rect
-      ###
-      this.rect = null
-
       ###* List of all groups that contain this sprite.  ###
       Objects.accessor(this, 'groups', () ->
         return this._groups

@@ -85,21 +85,23 @@
 
 
       function TileMap(data, options) {
-        var i, imageset, tileset, _i, _j, _ref, _ref1;
+        var i, imageset, tileset, _i, _j, _len, _ref, _ref1;
         options = options || {};
         this.width = data.width;
         this.height = data.height;
         this.tileWidth = data.tilewidth;
         this.tileHeight = data.tileheight;
         this.size = [this.width * this.tileWidth, this.height * this.tileHeight];
+        this.collisionLayerName = options.collisionLayerName || 'collision';
         this.tileSheet = new SpriteSheet();
         this.tileSheet.firstgid = data.tilesets[0].firstgid;
-        for (i = _i = 0, _ref = data.tilesets.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
-          tileset = data.tilesets[i];
+        _ref = data.tilesets;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          tileset = _ref[_i];
           imageset = Img.load(tileset.image);
           this.tileSheet.load(imageset, [tileset.tilewidth, tileset.tileheight]);
         }
-        this.layers = [];
+        this.layers = {};
         for (i = _j = 0, _ref1 = data.layers.length; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; i = 0 <= _ref1 ? ++_j : --_j) {
           this.layers[data.layers[i].name] = data.layers[i];
         }
@@ -234,7 +236,7 @@
                     image = this.getTile(gid);
                     surface.blit(image, rect);
                   } else {
-
+                    console.log('bug', x, y, gid);
                   }
                 }
               }

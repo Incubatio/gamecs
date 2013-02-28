@@ -10,39 +10,31 @@
 
 
 (function() {
-  var main,
-    __hasProp = {}.hasOwnProperty,
+  var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   require(['gamejs'], function(gamejs) {
     /** The ship Sprite has a randomly rotated image und moves with random speed (upwards).
     */
 
-    var Ship;
+    var Ship, main;
     Ship = (function(_super) {
 
       __extends(Ship, _super);
 
       function Ship(rect) {
         var dims;
-        Ship.superConstructor.apply(this, arguments);
+        Ship.__super__.constructor.call(this);
         this.speed = 20 + (40 * Math.random());
-        this.originalImage = gamejs.Img.load("sprite/images/asset.png");
+        this.originalImage = gamejs.Img.load("assets/images/ship.png");
         dims = this.originalImage.getSize();
         this.originalImage = gamejs.Transform.scale(this.originalImage, [dims[0] * (0.5 + Math.random()), dims[1] * (0.5 + Math.random())]);
+        this.rotation = 50 + parseInt(120 * Math.random());
+        this.image = gamejs.Transform.rotate(this.originalImage, this.rotation);
+        this.rect = new gamejs.Rect(rect);
       }
 
-      Ship.rotation = 50 + parseInt(120 * Math.random());
-
-      Ship.image = gamejs.Transform.rotate(Ship.originalImage, Ship.rotation);
-
-      Ship.rect = new gamejs.Rect(rect);
-
-      return Ship;
-
-    })(gamejs.Sprite);
-    return {
-      update: function(msDuration) {
+      Ship.prototype.update = function(msDuration) {
         this.rect.moveIp(0, this.speed * (msDuration / 1000));
         if (this.rect.top > 600) {
           this.speed *= -1;
@@ -51,38 +43,35 @@
           this.speed *= -1;
           return this.image = gamejs.Transform.rotate(this.originalImage, this.rotation);
         }
+      };
+
+      return Ship;
+
+    })(gamejs.Sprite);
+    main = function() {
+      var gShips, i, j, mainSurface, ship, tick, _i, _j;
+      gamejs.Display.setMode([800, 600]);
+      gamejs.Display.setCaption("Example Sprites");
+      ship = new Ship([100, 100]);
+      gShips = new gamejs.Group();
+      for (j = _i = 0; _i < 4; j = ++_i) {
+        for (i = _j = 0; _j < 25; i = ++_j) {
+          gShips.add(new Ship([10 + i * 20, j * 20]));
+        }
       }
+      mainSurface = gamejs.Display.getSurface();
+      tick = function(msDuration) {
+        mainSurface.fill("#FFFFFF");
+        gShips.update(msDuration);
+        return gShips.draw(mainSurface);
+      };
+      return gamejs.Time.interval(tick);
     };
+    /** MAIN
+    */
+
+    gamejs.preload(['assets/images/ship.png']);
+    return gamejs.ready(main);
   });
-
-  main = function() {
-    var gShips, i, j, mainSurface, ship, tick, _i, _j;
-    gamejs.Display.setMode([800, 600]);
-    gamejs.Display.setCaption("Example Sprites");
-    ship = new Ship([100, 100]);
-    gShips = new gamejs.Group();
-    for (j = _i = 0; _i < 4; j = ++_i) {
-      for (i = _j = 0; _j < 25; i = ++_j) {
-        gShips.add(new Ship([10 + i * 20, j * 20]));
-      }
-    }
-    mainSurface = gamejs.Display.getSurface();
-    tick = function(msDuration) {
-      mainSurface.fill("#FFFFFF");
-      gShips.update(msDuration);
-      return gShips.draw(mainSurface);
-    };
-    return gamejs.Time.interval(tick);
-  };
-
-  /** MAIN
-  */
-
-
-  gamejs.preload(['assets/images/ship.png']);
-
-  gamejs.ready(main);
-
-  return this;
 
 }).call(this);

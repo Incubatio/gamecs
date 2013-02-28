@@ -1,15 +1,16 @@
 define (require) ->
   Surface = require('surface')
   Rect = require('rect')
-  
+
   class SpriteSheet
+    
     _images = []
 
     constructor: () ->
 
-    # sheet is an instance of gamejs.image
+    #sheet is an instance of gamejs.image
     get: (id) ->
-      return _images[id]
+       return _images[id]
 
     # sheet is an imageset, size is the size of each image in the set
     load: (sheet, size) ->

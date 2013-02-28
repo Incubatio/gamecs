@@ -6,22 +6,19 @@
 * screen.
 ###
 
-require(['gamejs'], (gamejs) ->
+require ['gamejs'], (gamejs) ->
 
   ###* The ship Sprite has a randomly rotated image und moves with random speed (upwards). ###
   class Ship extends gamejs.Sprite
     constructor: (rect) ->
       # call superconstructor
-      Ship.superConstructor.apply(this, arguments)
+      super()
       this.speed = 20 + (40 * Math.random())
       # ever ship has its own scale
-      this.originalImage = gamejs.Img.load("sprite/images/asset.png")
+      this.originalImage = gamejs.Img.load("assets/images/ship.png")
       dims = this.originalImage.getSize()
-      this.originalImage = gamejs.Transform.scale(
-                                   this.originalImage,
-                                   [dims[0] * (0.5 + Math.random()), dims[1] *  (0.5 + Math.random())]
-                           )
-      this.rotation = 50 + parseInt(120*Math.random())
+      this.originalImage = gamejs.Transform.scale( this.originalImage, [dims[0] * (0.5 + Math.random()), dims[1] *  (0.5 + Math.random())])
+      this.rotation = 50 + parseInt(120 * Math.random())
       this.image = gamejs.Transform.rotate(this.originalImage, this.rotation)
       this.rect = new gamejs.Rect(rect)
 
@@ -59,5 +56,3 @@ require(['gamejs'], (gamejs) ->
   ###* MAIN ###
   gamejs.preload(['assets/images/ship.png'])
   gamejs.ready(main)
-
-)

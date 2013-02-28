@@ -76,9 +76,7 @@ define (require) ->
       this.size = [this.width * this.tileWidth, this.height * this.tileHeight]
       
       # TODO: should be managed in game logic out of the class
-      #this.collisionLayerName = options.collisionLayerName || 'collision'
-
-
+      this.collisionLayerName = options.collisionLayerName || 'collision'
 
       # by default tmx count image from 1
 
@@ -87,13 +85,12 @@ define (require) ->
 
 
       # Init tileset in the main tileSheet
-      for i in [0...data.tilesets.length]
-        tileset = data.tilesets[i]
+      for tileset in data.tilesets
         imageset = Img.load(tileset.image)
         this.tileSheet.load(imageset, [tileset.tilewidth, tileset.tileheight])
 
       # Init layers, names have to be unique
-      this.layers = []
+      this.layers = {}
       for i in [0...data.layers.length]
         this.layers[data.layers[i].name] = data.layers[i]
       
@@ -201,7 +198,8 @@ define (require) ->
               if(gid != 0)
                 if(gid)
                   image = this.getTile(gid)
+                  #console.log(gid, image)
                   surface.blit(image, rect)
                 else
-                  #console.log('bug', x, y, gid)
+                  console.log('bug', x, y, gid)
           this.layers[key].image = surface

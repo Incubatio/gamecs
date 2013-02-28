@@ -15,6 +15,33 @@
     */
 
     return Sprite = (function() {
+      /** @ignore
+      */
+
+      Sprite.prototype._groups = [];
+
+      /** @ignore
+      */
+
+
+      Sprite.prototype._alive = true;
+
+      /**
+      * Image to be rendered for this Sprite.
+      * @type gamejs.Surface
+      */
+
+
+      Sprite.image = null;
+
+      /**
+      * Rect describing the position of this sprite on the display.
+      * @type gamejs.Rect
+      */
+
+
+      Sprite.rect = null;
+
       /**
       * Your visible game objects will typically subclass Sprite. By setting it's image
       * and rect attributes you can control its appeareance. Those attributes control
@@ -26,29 +53,10 @@
       * @constructor
       */
 
+
       function Sprite() {
-        /** @ignore
-        */
-        this._groups = [];
-        /** @ignore
-        */
-
-        this._alive = true;
-        /**
-        * Image to be rendered for this Sprite.
-        * @type gamejs.Surface
-        */
-
-        this.image = null;
-        /**
-        * Rect describing the position of this sprite on the display.
-        * @type gamejs.Rect
-        */
-
-        this.rect = null;
         /** List of all groups that contain this sprite.
         */
-
         Objects.accessor(this, 'groups', function() {
           return this._groups;
         });

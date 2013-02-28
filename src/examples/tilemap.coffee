@@ -3,20 +3,18 @@
 * This loads a TMX Map and allows you to scroll over the map
 * with the cursor keys.
 *
-* Try to open the "data/cute.tmx" file with the Tiled map editor to
-* see how the layers work and how the image for the tiles is specified.
+* TMX basically mean Tile Map Xml, tmx file can be opened and edited with Tiled (mapeditor.org)
+* Note that the map example.tmx and in export in json (example.json) in assets/data are
+* perfectly readable and could provide further details about the tilemap operations.
 *
-* There are several useful classes inside the "view.js" module, which
-* help with rendering all the layers of a map.
-*
-* Note how inside the tmx-file the necessary Tilesets are specified
-* relative - this is the easiest way to get them to automatically load
-* with the map.
+* Note how inside the tilemap-file the necessary Tilesets are specified
+* relative - Note that you can erase those path directly in the file or
+* in the application when data have been imported.
 ###
 require ['gamejs', 'tilemap', 'http'], (gamejs, TileMap, Http) ->
 
 
-  gamejs.preload(['/gamecs/assets/data/tilesheet.png'])
+  gamejs.preload(['assets/data/tilesheet.png'])
 
   gamejs.ready () ->
     gamejs.Display.setCaption('TMX viewer')
@@ -28,7 +26,7 @@ require ['gamejs', 'tilemap', 'http'], (gamejs, TileMap, Http) ->
 
     data = JSON.parse(req.response)
     console.log(data)
-    data.tilesets[0].image = '/gamecs/assets/data/tilesheet.png'
+    data.tilesets[0].image = 'assets/data/tilesheet.png'
     map = new TileMap(data)
     map.prepareLayers()
 
@@ -45,8 +43,7 @@ require ['gamejs', 'tilemap', 'http'], (gamejs, TileMap, Http) ->
 
       #update(msDuration)
       display.clear()
-      #console.log(map.visibleLayers)
-      for layer of map.layers
+      for k, layer of map.layers
         display.blit(layer.image, offset)
       #map.draw(display)
 

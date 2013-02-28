@@ -16,9 +16,9 @@ require ['gamejs'], (gamejs) ->
   # ball can circle through color list.
   # ball constantly pulsates in size.
   class Ball
-    Ball.MAX_SIZE = 200
-    Ball.GROW_PER_SEC = 50
-    Ball.COLORS = ['#ff0000', '#00ff00', '#0000cc']
+    @MAX_SIZE = 200
+    @GROW_PER_SEC = 50
+    @COLORS = ['#ff0000', '#00ff00', '#0000cc']
 
     constructor: (center) ->
       this.center = center
@@ -28,16 +28,17 @@ require ['gamejs'], (gamejs) ->
       return this
 
 
-    Ball.prototype.nextColor = () ->
+    nextColor: () ->
       this.color += 1
       if (this.color >= Ball.COLORS.length)
          this.color = 0
-    Ball.prototype.draw = (display) ->
+
+    draw: (display) ->
       rgbColor = Ball.COLORS[this.color]
       lineWidth = 0 # lineWidth zero fills the circle
       gamejs.Draw.circle(display, rgbColor, this.center, this.radius, lineWidth)
     
-    Ball.prototype.update = (msDuration) ->
+    update: (msDuration) ->
       this.radius += this.growPerSec * (msDuration / 1000)
       if (this.radius > Ball.MAX_SIZE || this.radius < Math.abs(this.growPerSec))
         this.radius = if(this.radius > Ball.MAX_SIZE) then Ball.MAX_SIZE else Math.abs(this.growPerSec)
