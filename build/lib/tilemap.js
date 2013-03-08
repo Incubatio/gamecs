@@ -92,18 +92,22 @@
         this.tileWidth = data.tilewidth;
         this.tileHeight = data.tileheight;
         this.size = [this.width * this.tileWidth, this.height * this.tileHeight];
-        this.collisionLayerName = options.collisionLayerName || 'collision';
-        this.tileSheet = new SpriteSheet();
-        this.tileSheet.firstgid = data.tilesets[0].firstgid;
-        _ref = data.tilesets;
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          tileset = _ref[_i];
-          imageset = Img.load(tileset.image);
-          this.tileSheet.load(imageset, [tileset.tilewidth, tileset.tileheight]);
+        if (data.tilesets) {
+          this.tileSheet = new SpriteSheet();
+          this.tileSheet.firstgid = data.tilesets[0].firstgid;
+          _ref = data.tilesets;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            tileset = _ref[_i];
+            imageset = Img.load(tileset.image);
+            this.tileSheet.load(imageset, [tileset.tilewidth, tileset.tileheight]);
+          }
         }
-        this.layers = {};
-        for (i = _j = 0, _ref1 = data.layers.length; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; i = 0 <= _ref1 ? ++_j : --_j) {
-          this.layers[data.layers[i].name] = data.layers[i];
+        if (data.layers) {
+          this.collisionLayerName = options.collisionLayerName || 'collision';
+          this.layers = {};
+          for (i = _j = 0, _ref1 = data.layers.length; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; i = 0 <= _ref1 ? ++_j : --_j) {
+            this.layers[data.layers[i].name] = data.layers[i];
+          }
         }
       }
 
@@ -114,19 +118,18 @@
 
 
       TileMap.prototype.gid2pos = function(gid) {
-        var getX, x, y, _ref;
+        var getX, x, y;
         gid -= 1;
         getX = function(i, width) {
-          var _ref;
-          return (_ref = i % width === 0) != null ? _ref : width - {
-            1: (i % width) - 1
-          };
+          if (i % width === 0) {
+            return width - 1;
+          } else {
+            return (i % width) - 1;
+          }
         };
-        x = (_ref = gid === 0) != null ? _ref : {
-          0: getX(gid + 1, this.width)
-        };
+        x = gid === 0 ? 0 : getX(gid + 1, this.width);
         y = Math.floor(gid / this.width);
-        return [(x + 1) * this.tileWidth, y * this.tileHeight];
+        return [x * this.tileWidth, y * this.tileHeight];
       };
 
       /**

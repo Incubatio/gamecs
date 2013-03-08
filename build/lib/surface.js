@@ -24,7 +24,7 @@
     return Surface = (function() {
 
       function Surface() {
-        var args, height, width;
+        var args, args2, height, width;
         args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
         if (!isInit) {
           isInit = true;
@@ -52,12 +52,12 @@
             }
           });
         }
-        args = Rect.normalizeArguments.apply(this, args);
-        width = args.left;
-        height = args.top;
-        if (args.length === 1 && args[0] instanceof Rect) {
-          width = args.width;
-          height = args.height;
+        args2 = Rect.normalizeArguments.apply(this, args);
+        width = args2.left;
+        height = args2.top;
+        if (args[0].length === 1 && args[0] instanceof Rect) {
+          width = args[0].width;
+          height = args[0].height;
         }
         /* @ignore
         */
@@ -235,7 +235,7 @@
 
       Surface.prototype.clone = function() {
         var newSurface;
-        newSurface = new Surface(this.getRect());
+        newSurface = new Surface(this.getRect().clone());
         newSurface.blit(this);
         return newSurface;
       };

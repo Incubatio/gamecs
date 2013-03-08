@@ -13,7 +13,7 @@
     var main;
     main = function() {
       var colorOne, colorThree, colorTwo, defaultFont, display, textSurface;
-      display = gamecs.Display.setMode([800, 600]);
+      display = gamecs.Display.setMode([600, 400]);
       gamecs.Display.setCaption("Example Draw");
       colorOne = '#ff0000';
       colorTwo = 'rgb(255, 50, 60)';

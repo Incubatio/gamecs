@@ -6,7 +6,7 @@
 require ['gamecs', 'draw', 'font'], (gamecs, Draw, Font) ->
   main = () ->
     # set resolution & title
-    display = gamecs.Display.setMode([800, 600])
+    display = gamecs.Display.setMode([600, 400])
     gamecs.Display.setCaption("Example Draw")
 
     colorOne = '#ff0000'

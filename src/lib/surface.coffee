@@ -38,13 +38,13 @@ define (require) ->
               return this._canvas
         )
 
-      args = Rect.normalizeArguments.apply(this, args)
-      width = args.left
-      height = args.top
+      args2 = Rect.normalizeArguments.apply(this, args)
+      width = args2.left
+      height = args2.top
       # unless argument is rect:
-      if (args.length == 1 && args[0] instanceof Rect)
-        width = args.width
-        height = args.height
+      if (args[0].length == 1 && args[0] instanceof Rect)
+        width = args[0].width
+        height = args[0].height
       # only for rotatation & scale
       ### @ignore ###
       #this._matrix = Matrix.identity()
@@ -195,7 +195,7 @@ define (require) ->
 
     ###* @returns {gamecs.Surface} a clone of this surface ###
     clone: () ->
-      newSurface = new Surface(this.getRect())
+      newSurface = new Surface(this.getRect().clone())
       newSurface.blit(this)
       return newSurface
 
