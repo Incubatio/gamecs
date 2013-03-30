@@ -2,7 +2,7 @@ define (require) ->
   Rect   = require('rect')
   #Display = require('display')
   Objects = require('utils/objects')
-  #Matrix = require('Matrix')
+  Matrix = require('utils/matrix')
   ###*
   * A Surface represents a bitmap image with a fixed width and height. The
   * most important feature of a Surface is that they can be `blitted`
@@ -147,11 +147,10 @@ define (require) ->
       this.context.save()
       this.context.globalCompositeOperation = compositeOperation
       ### first translate, then rotate ###
-      #m = matrix.translate(matrix.identity(), rDest.left, rDest.top);
-      this.context.translate(rDest.left, rDest.top)
-      #m = Matrix.translate(Matrix.identity(), rDest.left, rDest.top)
-      #m = Matrix.multiply(m, src._matrix)
-      #this.context.transform(m[0], m[1], m[2], m[3], m[4], m[5])
+      #this.context.translate(rDest.left, rDest.top)
+      m = Matrix.translate(Matrix.identity(), rDest.left, rDest.top)
+      m = Matrix.multiply(m, src._matrix)
+      this.context.transform(m[0], m[1], m[2], m[3], m[4], m[5])
       ### drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) ###
       this.context.globalAlpha = src._blitAlpha
       this.context.drawImage(src.canvas, rArea.left, rArea.top, rArea.width, rArea.height, 0, 0, rDest.width, rDest.height)

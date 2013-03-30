@@ -3,9 +3,10 @@
   var __slice = [].slice;
 
   define(function(require) {
-    var Objects, Rect, Surface, isInit;
+    var Matrix, Objects, Rect, Surface, isInit;
     Rect = require('rect');
     Objects = require('utils/objects');
+    Matrix = require('utils/matrix');
     /**
     * A Surface represents a bitmap image with a fixed width and height. The
     * most important feature of a Surface is that they can be `blitted`
@@ -140,7 +141,7 @@
 
 
       Surface.prototype.blit = function(src, dest, area, compositeOperation) {
-        var rArea, rDest, size, srcSize;
+        var m, rArea, rDest, size, srcSize;
         if (dest instanceof Rect) {
           rDest = dest.clone();
           srcSize = src.getSize();
@@ -172,7 +173,9 @@
         /* first translate, then rotate
         */
 
-        this.context.translate(rDest.left, rDest.top);
+        m = Matrix.translate(Matrix.identity(), rDest.left, rDest.top);
+        m = Matrix.multiply(m, src._matrix);
+        this.context.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
         /* drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
         */
 

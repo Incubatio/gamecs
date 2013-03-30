@@ -46,6 +46,6 @@ For now please use http://docs.gamejs.org/
 
 ### TODO
 
+- Add Multi-canvas Support
 - Architecture refarctoring
-- Fix Transformation.rotate
 - Feature refatoring 
