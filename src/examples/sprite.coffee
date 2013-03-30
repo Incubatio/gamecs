@@ -34,7 +34,7 @@ require ['gamecs'], (gamecs) ->
 
   main = () ->
     # screen setup
-    gamecs.Display.setMode([800, 600])
+    gamecs.Display.setMode([600, 600])
     gamecs.Display.setCaption("Example Sprites")
     # create some ship sprites and put them in a group
     ship = new Ship([100, 100])

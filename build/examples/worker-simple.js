@@ -6,7 +6,7 @@
 
   require(['gamecs'], function(gamecs) {
     var display, font, startNumber, worker, yOffset;
-    display = gamecs.Display.setMode([800, 600]);
+    display = gamecs.Display.setMode([200, 100]);
     gamecs.Display.setCaption("Example Simple Worker");
     worker = new Worker('build/examples/workers/primes-simple.js');
     font = new gamecs.Font();

@@ -12,7 +12,7 @@ require ['gamecs'], (gamecs) ->
 
   main = () ->
 
-    display = gamecs.Display.setMode([850, 600])
+    display = gamecs.Display.setMode([800, 600])
     gamecs.Display.setCaption('example key capture')
     starImage = gamecs.Img.load('assets/images/sparkle.png')
 

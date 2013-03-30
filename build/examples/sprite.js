@@ -50,7 +50,7 @@
     })(gamecs.Sprite);
     main = function() {
       var gShips, i, j, mainSurface, ship, tick, _i, _j;
-      gamecs.Display.setMode([800, 600]);
+      gamecs.Display.setMode([600, 600]);
       gamecs.Display.setCaption("Example Sprites");
       ship = new Ship([100, 100]);
       gShips = new gamecs.Group();
