@@ -1,7 +1,7 @@
 start = new Date().getTime()
 
 require ['gamecs'], (gamecs) ->
-  display = gamecs.Display.setMode([800, 600])
+  display = gamecs.Display.setMode([200, 100])
   gamecs.Display.setCaption("Example Simple Worker")
 
   worker = new Worker('build/examples/workers/primes-simple.js')
