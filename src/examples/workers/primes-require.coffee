@@ -1,5 +1,5 @@
-importScripts('/gamecs/assets/js/require.js')
-importScripts('/gamecs/assets/js/gamecs.min.js')
+importScripts('assets/js/require.js')
+importScripts('assets/js/gamecs.min.js')
 requirejs.config({baseUrl: '/gamecs/build/lib/'})
 
 require ['rect'], (Rect) ->
