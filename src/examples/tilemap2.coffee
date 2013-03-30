@@ -158,4 +158,4 @@ require ['gamecs', 'tilemap', 'surface'], (gcs, TileMap, Surface) ->
           dirty = false
           if(result == undefined) then draw() else end(result)
 
-    gcs.Time.fpsCallback(tick, this, 60)
+    gcs.Time.interval(tick, this, 60)

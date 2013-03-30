@@ -56,7 +56,7 @@
         }
         return _results;
       };
-      return gamecs.Time.fpsCallback(tick, this, 60);
+      return gamecs.Time.interval(tick);
     });
   });
 

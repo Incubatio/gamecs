@@ -47,4 +47,4 @@ require ['gamecs', 'tilemap', 'http'], (gamecs, TileMap, Http) ->
         display.blit(layer.image, offset)
       #map.draw(display)
 
-    gamecs.Time.fpsCallback(tick, this, 60)
+    gamecs.Time.interval(tick)

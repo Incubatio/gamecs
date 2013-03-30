@@ -152,7 +152,7 @@
           }
         }
       };
-      return gcs.Time.fpsCallback(tick, this, 60);
+      return gcs.Time.interval(tick, this, 60);
     });
   });
 
