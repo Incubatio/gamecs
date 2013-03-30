@@ -1,60 +1,32 @@
-GameJs
-=======
+Description
+===========
 
 GameCs is a port of GameJs Framework to CoffeeScript.
 
 GameJs is a JavaScript library for writing 2D games or other interactive
 graphic applications for the HTML Canvas <http://gamecs.org>.
 
-Usage
-=========
 
-## Option 1: If you downloaded a release
+Examples
+========
 
-Try the examples in the zip file over http://
-
-## Option 2: If you downloaded the git version
-
-You will have to build GameJs. Go to the GameJs directory and execute this 
-in a unix shell, cygwin or in `git bash`:
-
-    $ ./bin/build.sh
-
-This should create a `gamecs.min.js` file in the GameJs home directory.
-
-See the `examples/skeleton/` directory for a minimal GameJs app. We recommend
-you also use this as the scaffolding if you want to create a new game yourself.
+You can check gamecs examples online at http://github.com/Incubatio/gamecs/examples.html
+Examples are also available in the repository in the `src/examples/` directory.
 
 http:// vs file://
-----------------------
+------------------
+Every example works in file:// except worker-require that uses WebWorker's ImportScript function which require http://
 
-Note that you need to run the examples via `http://` (not `file://`)
-unless you use Firefox or Safari. One trivial, cross-plattform solution to serve
-a directory via http is this executable: <http://code.google.com/p/mongoose/>.
 
-Bundled applications don't have the http:// requirement - see below.
+Usage
+=====
+Download last version [here](https://raw.github.com/Incubatio/gamecs/master/assets/js/gamecs.min.js)
+OR
+compile it yourself by:
+1. cloning repository
+2. ``coffee --compile --watch --output build src``
+3. ``sh ./bin/build.sh`` (this will replace assets/js/gamecs.min.js file)
 
-Bundle your application for production
-==========================================================
-
-A bundled game:
-
-  * does not need to be served over http:// (unless it uses `SurfaceArray`)
-  * has a smaller file size
-  * has somewhat obfuscated code
-
-To bundle all JavaScript files into one single file, use:
-
-    $./bin/minify-app.sh ./path-to-your-app/javascript/
-
-You can also add a second argument `compress`. With `compress`, the resulting
-bundle file will be compressed for smaller file size as well as obfuscated.
-
-`minify-app.sh` will create the bundled file `app.min.js` in your app's
-`javascript` folder.
-
-To use the bundled file add a `<script>` tag loading it and remove all
-other `<script>`s.
 
 More Help
 ===========
@@ -62,28 +34,23 @@ More Help
 See the [GameJs Website](http://gamecs.org) for more help or drop us
 an email in the [Mailing List](http://groups.google.com/group/gamecs).
 
-Check the `docs` folder of your GameJs installation.
+Irc channel #gamejs (on irc.freenode.net)
 
-Example application can be found in the `examples/` directory.
-
-GameJs Contribution
-===================
-
-Don't forget to `./bin/build.sh` when modifying the source.
-
-All applications use a bundled JavaScript file which contains all the 
-GameJs source files; thus if you modify the files below `./lib` your 
-changes won't show up in the examples unless you re-build the source files 
-with the `./bin/build.sh` command.
 
 Unit Tests
---------------
+-----------
 
-We use QUnit <https://github.com/jquery/qunit> for the GameJs unit tests. Execute
-the tests by opening `tests/index.html`.
+Under refactoring
+
 
 JsDoc
-----------
-For the JavaScript documentation system, RingoJs must be installed on your system.
+-----
 
-    $ ./bin/create-jsdoc.sh
+For now please use http://docs.gamejs.org/
+
+
+TODO
+====
+- Architecture refarctoring
+- Fix Transformation.rotate
+- Feature refatoring 
