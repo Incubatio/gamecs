@@ -1,0 +1,40 @@
+<html>
+  <head>
+  </head>
+  <body>
+    </ul>
+      <li><a style="font-style:italic" href="./examples.html">gamecs examples</a></li>
+    </ul>
+------------------
+    <pre id='bwa'>
+    </pre>
+    
+    <style type=text/css>
+      font-size: 120%;
+    </style>
+
+  </body>
+</html>
+<script>
+  ajax = function(method, url, data, type) {
+    var response;
+    data = data || null;
+    XHR = new XMLHttpRequest();
+    XHR.open(method, url, true);
+    XHR.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    XHR.send(data);
+    return XHR;
+  };
+
+  get = function(url) {
+    return ajax('GET', url);
+  };
+  
+  req = get('README.md');
+  req.onreadystatechange = function() {
+  if (req.readyState == 4 && req.status == 200) {
+      document.getElementById('bwa').innerHTML = req.response;
+    }
+  }
+
+</script>
