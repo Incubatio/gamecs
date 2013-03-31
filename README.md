@@ -9,7 +9,8 @@ graphic applications for the HTML Canvas <http://gamecs.org>.
 
 ### Examples
 
-You can check gamecs examples online [here](http://incubatio.github.com/gamecs/examples.html).  
+You can check simple canvas gamecs examples online [here](http://incubatio.github.com/gamecs/sc-examples.html)  
+and multi-canvas example [here](http://incubatio.github.com/gamecs/mc-examples.html)
 Examples are also available in the repository in the `src/examples/` directory.
 
 ###### http:// vs file://
