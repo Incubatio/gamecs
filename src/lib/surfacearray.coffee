@@ -1,6 +1,7 @@
 define (require) ->
   Surface = require('surface')
   Objects = require('utils/objects')
+
   ###*
   * @fileoverview Fast pixel access.
   *
@@ -14,12 +15,10 @@ define (require) ->
   *   // blit modified array back to display surface
   *   blitArray(display, srfArray)
   ###
-
-  size = null
-  data = null
-  imageData = null
-
   class SurfaceArray
+    size = null
+    data = null
+    imageData = null
     ###*
     * Directly copy values from an array into a Surface.
     *
@@ -51,18 +50,13 @@ define (require) ->
     * If an array is used to construct SurfaceArray, the array must describe
     * the dimensions of the SurfaceArray [width, height].
     *
-    * @param {gamecs.Surface|Array} surfaceOrDimensions
+    * @param {gamecs.Surface} surface
     * @see http://dev.w3.org/html5/2dcontext/#pixel-manipulation
     ###
-    constructor: (surfaceOrDimensions) ->
-      if (surfaceOrDimensions instanceof Array)
-        size = surfaceOrDimensions
-        imageData = Display.getSurface().context.createImageData(size[0], size[1])
-        data = imageData.data
-      else
-        size = surfaceOrDimensions.getSize()
-        imageData = surfaceOrDimensions.getImageData(0, 0, size[0], size[1])
-        data = imageData.data
+    constructor: (surface) ->
+      size = surface.getSize()
+      imageData = surface.getImageData(0, 0, size[0], size[1])
+      data = imageData.data
       Objects.accessors(this,
         surface:
           get: () ->
