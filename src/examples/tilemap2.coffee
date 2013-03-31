@@ -35,7 +35,7 @@ require ['gamecs', 'tilemap', 'surface'], (gcs, TileMap, Surface) ->
   font = new gcs.Font('20px monospace')
 
   ###### Dom events 
-  canvas = document.getElementById('gjs-canvas')
+  canvas = document.getElementById('gcs-canvas')
   canvas.addEventListener("mouseout", () ->
     dirty = true
     mouseover = false
@@ -144,6 +144,7 @@ require ['gamecs', 'tilemap', 'surface'], (gcs, TileMap, Surface) ->
                 if res == true
                   result = team
                   alive = false
+                  break
               count = 0
               for i in [0...grid.length] then if grid[i] != undefined then count++
 
@@ -158,4 +159,4 @@ require ['gamecs', 'tilemap', 'surface'], (gcs, TileMap, Surface) ->
           dirty = false
           if(result == undefined) then draw() else end(result)
 
-    gcs.Time.interval(tick, this, 60)
+    gcs.Time.interval(tick)
