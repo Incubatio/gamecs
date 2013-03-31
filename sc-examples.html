@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GameCS Application</title>
+    <meta charset="UTF-8">
+    <style type=text/css>
+        body {
+           background:#fff;
+           color:#222;
+           margin:1em 0 2em 6em;
+           padding:0;
+        }
+        canvas, span {
+          display: inline-block;
+          vertical-align:top;
+        }
+        footer { text-align: center }
+        #gcs-loader { width: 50%; height: 50%; }
+        #menu { width: 200px; }
+        #content { min-width: 800px; width: 1000px; margin:auto; }
+        #message { padding-top:100px; }
+    </style>
+    <script src="assets/js/require.js"></script>
+    <script src="assets/js/gamecs.min.js"></script>
+</head>
+<body>
+     <div id='content'>   
+        <span id='test'>
+            <span id='menu'> </span>
+        </span>
+        <span id='message'>
+            Please select an example on the left menu
+        </span>
+    </div>
+    
+    <footer>
+        Powered by <a href="https://github.com/Incubatio/gamecs">GameCs</a>.
+    </footer>
+</body>
+</html>
+<script>
+        requirejs.config({baseUrl: 'build/lib/'});
+
+        var args, script, hash, out = '', examples, list, i;
+        examples = ['collision-mask', 'draw', 'key', 'minimal', 'noise', 'skeleton', 'sprite', 
+          'tilemap', 'tilemap2', 'worker-simple', 'worker-require'];
+
+        // ################# Parse Hash ####################
+        getHash = function () { return window.location.href.split('#')[1]; } 
+        //getHash = function() { return window.location.href.match(/#(.*)$/);}
+        hash = getHash();
+
+
+        // ################## Refresh ######################
+        refresh = function () { 
+          interval = setInterval(function(){
+            if(getHash() !== hash) { window.location.reload(); }
+            window.clearInterval(interval);
+          }, 20);
+        }
+
+
+        // #################### View #######################
+
+        menu = []
+        for(i = 0; i < examples.length; i++) {
+           menu.push('<a onClick="refresh();" href="#' + examples[i] + '">' + examples[i] + '</a>'); 
+        }
+        out += '<span id="menu"><ul><li>' + menu.join('</li><li>') + '</li></ul></span>';
+
+        if(hash !== undefined) {
+          document.getElementById('message').innerHTML = '';
+          script = document.createElement('script');
+          script.type = "text/javascript";
+          script.src = 'build/sc-examples/' + hash + '.js';
+          //script.src = './test.js';
+          document.head.appendChild(script);
+          out += '<span id="gcs-container">';
+          out += '<span id="gcs-loader"> Loading...  </span>';
+          out += '</span>';
+        }
+
+        document.getElementById('test').innerHTML = out;
+</script>

@@ -2,41 +2,55 @@
 (function() {
 
   define(function(require) {
-    var CANVAS_ID, DISABLE_SMOOTHING, Display, LOADER_ID, SURFACE, Surface, getCanvas, _SURFACE_SMOOTHING;
+    var Display, Key, Surface;
     Surface = require('surface');
-    CANVAS_ID = "gjs-canvas";
-    LOADER_ID = "gjs-loader";
-    SURFACE = null;
+    Key = require('key');
     /**
-    * Pass this flag to `gamecs.display.setMode(resolution, flags)` to disable
-    * pixel smoothing; this is, for example, useful for retro-style, low resolution graphics
-    * where you don't want the browser to smooth them when scaling & drawing.
+    * @fileoverview Methods to create, access and manipulate the display Surface.
+    *
+    * @example
+    * display = gamecs.display.setMode([800, 600])
+    * // blit sunflower picture in top left corner of display
+    * sunflower = gamecs.image.load("images/sunflower")
+    * display.blit(sunflower)
+    *
     */
 
-    DISABLE_SMOOTHING = 2;
-    _SURFACE_SMOOTHING = true;
-    /**
-    * @returns {document.Element} the canvas dom element
-    */
-
-    getCanvas = function() {
-      return document.getElementById(CANVAS_ID);
-    };
     return Display = (function() {
+      var CANVAS_ID, CONTAINER_ID, DISABLE_SMOOTHING, LOADER_ID, getCanvas, layers, _SURFACE_SMOOTHING;
 
       function Display() {}
 
+      CONTAINER_ID = "gcs-container";
+
+      CANVAS_ID = "gcs-canvas";
+
+      LOADER_ID = "gcs-loader";
+
+      layers = {};
+
       /**
-      * @fileoverview Methods to create, access and manipulate the display Surface.
-      *
-      * @example
-      * display = gamecs.display.setMode([800, 600])
-      * // blit sunflower picture in top left corner of display
-      * sunflower = gamecs.image.load("images/sunflower")
-      * display.blit(sunflower)
-      *
+      * Pass this flag to `gamecs.display.setMode(resolution, flags)` to disable
+      * pixel smoothing; this is, for example, useful for retro-style, low resolution graphics
+      * where you don't want the browser to smooth them when scaling & drawing.
       */
 
+
+      DISABLE_SMOOTHING = 2;
+
+      _SURFACE_SMOOTHING = true;
+
+      /**
+      * @param {String} [id] id of the canvas dom element
+      * @returns {document.Element} the canvas dom element
+      */
+
+
+      getCanvas = function(id) {
+        var canvasId;
+        canvasId = id || CANVAS_ID;
+        return document.getElementById(canvasId);
+      };
 
       /**
       * Create the master Canvas plane.
@@ -48,30 +62,22 @@
         /** create canvas element if not yet present
         */
 
-        var $loader, jsGameCanvas;
-        jsGameCanvas = null;
-        if ((jsGameCanvas = getCanvas()) === null) {
-          jsGameCanvas = document.createElement("canvas");
-          jsGameCanvas.setAttribute("id", CANVAS_ID);
-          document.body.appendChild(jsGameCanvas);
+        var gameContainer, loader;
+        gameContainer = document.getElementById(CONTAINER_ID);
+        if (gameContainer === null) {
+          gameContainer = document.createElement("div");
+          gameContainer.setAttribute("id", CONTAINER_ID);
+          document.body.appendChild(gameContainer);
         }
-        jsGameCanvas.setAttribute("tabindex", 1);
-        jsGameCanvas.focus();
+        gameContainer.setAttribute("tabindex", 1);
+        gameContainer.focus();
         /** remove loader if any
         */
 
-        $loader = document.getElementById('gjs-loader');
-        if ($loader) {
-          return $loader.style.display = "none";
+        loader = document.getElementById(LOADER_ID);
+        if (loader) {
+          return loader.style.display = "none";
         }
-      };
-
-      /** @ignore
-      */
-
-
-      Display._hasFocus = function() {
-        return document.activeElement === getCanvas();
       };
 
       /** @ignore
@@ -87,17 +93,27 @@
       * return the actual display Surface - the same as calling [gamecs.display.getSurface()](#getSurface))
       * later on.
       * @param {Array} dimensions [width, height] of the display surface
+      * @param {String} [id] id of the canvas dom element
       */
 
 
-      Display.setMode = function(dimensions, flags) {
-        var canvas;
-        SURFACE = null;
-        canvas = getCanvas();
+      Display.setMode = function(dimensions, id, flags) {
+        var canvas, canvasId, gameContainer;
+        canvasId = id || CANVAS_ID;
+        gameContainer = document.getElementById(CONTAINER_ID);
+        gameContainer.style.width = dimensions[0] + "px";
+        gameContainer.style.height = dimensions[1] + "px";
+        canvas = getCanvas(canvasId);
+        if (canvas === null) {
+          canvas = document.createElement("canvas");
+          canvas.setAttribute("id", canvasId);
+          gameContainer.appendChild(canvas);
+          Key.initCanvas(canvas);
+        }
         canvas.width = dimensions[0];
         canvas.height = dimensions[1];
         _SURFACE_SMOOTHING = flags !== DISABLE_SMOOTHING;
-        return this.getSurface();
+        return this.getSurface(canvasId);
       };
 
       /**
@@ -111,38 +127,28 @@
         return document.title = title;
       };
 
-      /**
-      * The Display (the canvas element) is most likely not in the top left corner
-      * of the browser due to CSS styling. To calculate the mouseposition within the
-      * canvas we need this offset.
-      * @see {gamecs.event}
-      * @ignore
-      *
-      * @returns {Array} [x, y] offset of the canvas
-      */
-
-
-      Display._getCanvasOffset = function() {
-        var boundRect;
-        boundRect = getCanvas().getBoundingClientRect();
-        return [boundRect.left, boundRect.top];
+      Display.getSurfaces = function() {
+        return layers;
       };
 
       /**
       * Drawing on the Surface returned by `getSurface()` will draw on the screen.
+      * @param {String} [id] id of the canvas dom element
       * @returns {gamecs.Surface} the display Surface
       */
 
 
-      Display.getSurface = function() {
-        var canvas;
-        if (SURFACE === null) {
-          canvas = getCanvas();
-          SURFACE = new Surface([canvas.clientWidth, canvas.clientHeight]);
-          SURFACE._canvas = canvas;
-          SURFACE._context = canvas.getContext('2d');
+      Display.getSurface = function(id) {
+        var canvas, canvasId, surface;
+        canvasId = id || CANVAS_ID;
+        if (!layers[canvasId]) {
+          canvas = getCanvas(id);
+          surface = new Surface([canvas.clientWidth, canvas.clientHeight]);
+          surface._canvas = canvas;
+          surface._context = canvas.getContext('2d');
+          layers[canvasId] = surface;
         }
-        return SURFACE;
+        return layers[canvasId];
       };
 
       return Display;

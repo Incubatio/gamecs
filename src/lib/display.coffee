@@ -1,38 +1,43 @@
 define (require) ->
   # TOTHINK: merge display with surface
   Surface = require('surface')
+  Key = require('key')
 
-  # TODO: move "Constants" as "default static properties"
-  CANVAS_ID = "gjs-canvas"
-  LOADER_ID = "gjs-loader"
-  SURFACE = null
 
   ###*
-  * Pass this flag to `gamecs.display.setMode(resolution, flags)` to disable
-  * pixel smoothing; this is, for example, useful for retro-style, low resolution graphics
-  * where you don't want the browser to smooth them when scaling & drawing.
+  * @fileoverview Methods to create, access and manipulate the display Surface.
+  *
+  * @example
+  * display = gamecs.display.setMode([800, 600])
+  * // blit sunflower picture in top left corner of display
+  * sunflower = gamecs.image.load("images/sunflower")
+  * display.blit(sunflower)
+  *
   ###
-  DISABLE_SMOOTHING = 2
-
-  _SURFACE_SMOOTHING = true
-
-  ###*
-  * @returns {document.Element} the canvas dom element
-  ###
-  getCanvas = () ->
-    return document.getElementById(CANVAS_ID)
-
   class Display
+    # TODO: move "Constants" as "default static properties"
+    CONTAINER_ID = "gcs-container"
+    CANVAS_ID = "gcs-canvas"
+    LOADER_ID = "gcs-loader"
+
+    layers = {}
+
     ###*
-    * @fileoverview Methods to create, access and manipulate the display Surface.
-    *
-    * @example
-    * display = gamecs.display.setMode([800, 600])
-    * // blit sunflower picture in top left corner of display
-    * sunflower = gamecs.image.load("images/sunflower")
-    * display.blit(sunflower)
-    *
+    * Pass this flag to `gamecs.display.setMode(resolution, flags)` to disable
+    * pixel smoothing; this is, for example, useful for retro-style, low resolution graphics
+    * where you don't want the browser to smooth them when scaling & drawing.
     ###
+    DISABLE_SMOOTHING = 2
+
+    _SURFACE_SMOOTHING = true
+
+    ###*
+    * @param {String} [id] id of the canvas dom element
+    * @returns {document.Element} the canvas dom element
+    ###
+    getCanvas = (id) ->
+      canvasId = id || CANVAS_ID
+      return document.getElementById(canvasId)
 
 
 
@@ -42,23 +47,20 @@ define (require) ->
     ###
     @init: () ->
       ###* create canvas element if not yet present ###
-      jsGameCanvas = null
-      if ((jsGameCanvas = getCanvas()) == null)
-        jsGameCanvas = document.createElement("canvas")
-        jsGameCanvas.setAttribute("id", CANVAS_ID)
-        document.body.appendChild(jsGameCanvas)
+      #jsGameCanvas = null
+      gameContainer = document.getElementById(CONTAINER_ID)
+      if (gameContainer == null)
+        gameContainer = document.createElement("div")
+        gameContainer.setAttribute("id", CONTAINER_ID)
+        document.body.appendChild(gameContainer)
 
       # to be focusable, tabindex must be set
-      jsGameCanvas.setAttribute("tabindex", 1)
-      jsGameCanvas.focus()
+      gameContainer.setAttribute("tabindex", 1)
+      gameContainer.focus()
 
       ###* remove loader if any ###
-      $loader = document.getElementById('gjs-loader')
-      $loader.style.display = "none" if ($loader)
-
-    ###* @ignore ###
-    @_hasFocus: () ->
-      return document.activeElement == getCanvas()
+      loader = document.getElementById(LOADER_ID)
+      loader.style.display = "none" if (loader)
 
     ###* @ignore ###
     @_isSmoothingEnabled: () ->
@@ -69,14 +71,24 @@ define (require) ->
     * return the actual display Surface - the same as calling [gamecs.display.getSurface()](#getSurface))
     * later on.
     * @param {Array} dimensions [width, height] of the display surface
+    * @param {String} [id] id of the canvas dom element
     ###
-    @setMode: (dimensions, flags) ->
-      SURFACE = null
-      canvas = getCanvas()
+    @setMode: (dimensions, id, flags) ->
+      canvasId = id || CANVAS_ID
+      gameContainer = document.getElementById(CONTAINER_ID)
+      gameContainer.style.width = dimensions[0] + "px"
+      gameContainer.style.height = dimensions[1] + "px"
+      canvas = getCanvas(canvasId)
+      if(canvas == null)
+        canvas = document.createElement("canvas")
+        canvas.setAttribute("id", canvasId)
+        gameContainer.appendChild(canvas)
+        Key.initCanvas(canvas)
+        
       canvas.width  = dimensions[0]
       canvas.height = dimensions[1]
       _SURFACE_SMOOTHING = (flags != DISABLE_SMOOTHING)
-      return this.getSurface()
+      return @getSurface(canvasId)
 
     ###*
     * Set the Caption of the Display (document.title)
@@ -86,29 +98,21 @@ define (require) ->
     @setCaption: (title, icon) ->
       document.title = title
 
-    ###*
-    * The Display (the canvas element) is most likely not in the top left corner
-    * of the browser due to CSS styling. To calculate the mouseposition within the
-    * canvas we need this offset.
-    * @see {gamecs.event}
-    * @ignore
-    *
-    * @returns {Array} [x, y] offset of the canvas
-    ###
-    # TODO: _ designate private/protected property, ... this one was clearly exported...
-    @_getCanvasOffset: () ->
-      boundRect = getCanvas().getBoundingClientRect()
-      return [boundRect.left, boundRect.top]
-
+    @getSurfaces: () ->
+      return layers
 
     ###*
     * Drawing on the Surface returned by `getSurface()` will draw on the screen.
+    * @param {String} [id] id of the canvas dom element
     * @returns {gamecs.Surface} the display Surface
     ###
-    @getSurface: () ->
-      if (SURFACE == null)
-        canvas = getCanvas()
-        SURFACE = new Surface([canvas.clientWidth, canvas.clientHeight])
-        SURFACE._canvas = canvas
-        SURFACE._context = canvas.getContext('2d')
-      return SURFACE
+    @getSurface: (id) ->
+      canvasId = id || CANVAS_ID
+      if (!layers[canvasId])
+        canvas = getCanvas(id)
+        surface = new Surface([canvas.clientWidth, canvas.clientHeight])
+        surface._canvas = canvas
+        surface._context = canvas.getContext('2d')
+        layers[canvasId] = surface
+      return layers[canvasId]
+  #return new Display()

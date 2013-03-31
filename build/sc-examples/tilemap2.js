@@ -30,7 +30,7 @@
     display = gcs.Display.setMode(s1);
     gcs.Display.setCaption('TileMap simple test');
     font = new gcs.Font('20px monospace');
-    canvas = document.getElementById('gjs-canvas');
+    canvas = document.getElementById('gcs-canvas');
     canvas.addEventListener("mouseout", function() {
       dirty = true;
       return mouseover = false;
@@ -125,6 +125,7 @@
                   if (res === true) {
                     result = team;
                     alive = false;
+                    break;
                   }
                 }
                 count = 0;
@@ -152,7 +153,7 @@
           }
         }
       };
-      return gcs.Time.interval(tick, this, 60);
+      return gcs.Time.interval(tick);
     });
   });
 

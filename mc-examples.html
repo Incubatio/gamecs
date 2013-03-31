@@ -14,8 +14,12 @@
           display: inline-block;
           vertical-align:top;
         }
+        canvas {
+          image-rendering: optimizespeed;
+          position: absolute;
+        }
         footer { text-align: center }
-        #gjs-loader { width: 50%; height: 50%; }
+        #gcs-loader { width: 50%; height: 50%; }
         #menu { width: 200px; }
         #content { min-width: 800px; width: 1000px; margin:auto; }
         #message { padding-top:100px; }
@@ -36,14 +40,11 @@
     <footer>
         Powered by <a href="https://github.com/Incubatio/gamecs">GameCs</a>.
     </footer>
-</body>
-</html>
 <script>
         requirejs.config({baseUrl: 'build/lib/'});
 
         var args, script, hash, out = '', examples, list, i;
-        examples = ['collision-mask', 'draw', 'key', 'minimal', 'noise', 'skeleton', 'sprite', 
-          'tilemap', 'tilemap2', 'worker-simple', 'worker-require'];
+        examples = ['skeleton'];
 
         // ################# Parse Hash ####################
         getHash = function () { return window.location.href.split('#')[1]; } 
@@ -72,14 +73,15 @@
           document.getElementById('message').innerHTML = '';
           script = document.createElement('script');
           script.type = "text/javascript";
-          script.src = 'build/examples/' + hash + '.js';
+          script.src = 'build/mc-examples/' + hash + '.js';
           //script.src = './test.js';
           document.head.appendChild(script);
-          out += '<span class="content">';
-          out += '<div id="gjs-loader"> Loading...  </div>';
-          out += '<canvas id="gjs-canvas"></canvas>';
+          out += '<span id="gcs-container">';
+          out += '<span id="gcs-loader"> Loading...  </span>';
           out += '</span>';
         }
 
         document.getElementById('test').innerHTML = out;
 </script>
+</body>
+</html>

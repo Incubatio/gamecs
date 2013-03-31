@@ -2,8 +2,6 @@
 (function() {
 
   define(function(require) {
-    var Display, Key, lastPos;
-    Display = require('display');
     /**
     * @fileoverview Methods for polling mouse and keyboard.
     *
@@ -36,8 +34,10 @@
     *
     */
 
+    var Key, lastPos;
     lastPos = [];
     return Key = (function() {
+      var _getCanvasOffset, _getContainer, _hasFocus;
 
       function Key() {}
 
@@ -274,18 +274,19 @@
 
 
       Key.init = function() {
-        var canvas;
         lastPos = [];
         /**
         * IEFIX does not support addEventListener on document itself
         * MOZFIX but in moz & opera events don't reach body if mouse outside window or on menubar
         */
 
-        canvas = Display.getSurface()._canvas;
         document.addEventListener('mousedown', this.onMouseDown, false);
         document.addEventListener('mouseup', this.onMouseUp, false);
         document.addEventListener('keydown', this.onKeyDown, false);
-        document.addEventListener('keyup', this.onKeyUp, false);
+        return document.addEventListener('keyup', this.onKeyUp, false);
+      };
+
+      Key.initCanvas = function(canvas) {
         canvas.addEventListener('mousemove', this.onMouseMove, false);
         canvas.addEventListener('mousewheel', this.onMouseScroll, false);
         /** 
@@ -300,9 +301,38 @@
 
       };
 
+      _getContainer = function() {
+        return document.getElementById('gcs-container');
+      };
+
+      /**
+      * The Display (the canvas element) is most likely not in the top left corner
+      * of the browser due to CSS styling. To calculate the mouseposition within the
+      * canvas we need this offset.
+      * @see {gamecs.event}
+      * @ignore
+      *
+      * @returns {Array} [x, y] offset of the canvas
+      */
+
+
+      _getCanvasOffset = function() {
+        var boundRect;
+        boundRect = _getContainer().getBoundingClientRect();
+        return [boundRect.left, boundRect.top];
+      };
+
+      /** @ignore
+      */
+
+
+      _hasFocus = function() {
+        return document.activeElement === _getContainer();
+      };
+
       Key.onMouseDown = function(ev) {
         var canvasOffset;
-        canvasOffset = Display._getCanvasOffset();
+        canvasOffset = _getCanvasOffset();
         return Key.QUEUE.push({
           type: Key.MOUSE_DOWN,
           pos: [ev.clientX - canvasOffset[0], ev.clientY - canvasOffset[1]],
@@ -315,7 +345,7 @@
 
       Key.onMouseUp = function(ev) {
         var canvasOffset;
-        canvasOffset = Display._getCanvasOffset();
+        canvasOffset = _getCanvasOffset();
         return Key.QUEUE.push({
           type: Key.MOUSE_UP,
           pos: [ev.clientX - canvasOffset[0], ev.clientY - canvasOffset[1]],
@@ -336,7 +366,7 @@
           ctrlKey: ev.ctrlKey,
           metaKey: ev.metaKey
         });
-        if (Display._hasFocus() && (!ev.ctrlKey && !ev.metaKey && ((key >= Key.K_LEFT && key <= Key.K_DOWN) || (key >= Key.K_0 && key <= Key.K_z) || (key >= Key.K_KP1 && key <= Key.K_KP9) || key === Key.K_SPACE || key === Key.K_TAB || key === Key.K_ENTER)) || key === Key.K_ALT || key === Key.K_BACKSPACE) {
+        if (_hasFocus() && (!ev.ctrlKey && !ev.metaKey && ((key >= Key.K_LEFT && key <= Key.K_DOWN) || (key >= Key.K_0 && key <= Key.K_z) || (key >= Key.K_KP1 && key <= Key.K_KP9) || key === Key.K_SPACE || key === Key.K_TAB || key === Key.K_ENTER)) || key === Key.K_ALT || key === Key.K_BACKSPACE) {
           return ev.preventDefault();
         }
       };
@@ -353,7 +383,7 @@
 
       Key.onMouseMove = function(ev) {
         var canvasOffset, currentPos, relativePos;
-        canvasOffset = Display._getCanvasOffset();
+        canvasOffset = _getCanvasOffset();
         currentPos = [ev.clientX - canvasOffset[0], ev.clientY - canvasOffset[1]];
         relativePos = [];
         if (lastPos.length) {
@@ -371,7 +401,7 @@
 
       Key.onMouseScroll = function(ev) {
         var canvasOffset, currentPos;
-        canvasOffset = Display._getCanvasOffset();
+        canvasOffset = _getCanvasOffset();
         currentPos = [ev.clientX - canvasOffset[0], ev.clientY - canvasOffset[1]];
         return Key.QUEUE.push({
           type: Key.MOUSE_WHEEL,

@@ -2,7 +2,7 @@
 (function() {
 
   define(function(require) {
-    var Objects, Surface, SurfaceArray, data, imageData, size;
+    var Objects, Surface, SurfaceArray;
     Surface = require('surface');
     Objects = require('utils/objects');
     /**
@@ -19,10 +19,15 @@
     *   blitArray(display, srfArray)
     */
 
-    size = null;
-    data = null;
-    imageData = null;
     return SurfaceArray = (function() {
+      var data, imageData, size;
+
+      size = null;
+
+      data = null;
+
+      imageData = null;
+
       /**
       * Directly copy values from an array into a Surface.
       *
@@ -33,6 +38,7 @@
       * @param {gamecs.Surface} surface
       * @param {gamecs.surfacearray.SurfaceArray} surfaceArray
       */
+
 
       SurfaceArray.blitArray = function(surface, surfaceArray) {
         return surface.context.putImageData(surfaceArray.imageData, 0, 0);
@@ -56,21 +62,15 @@
       * If an array is used to construct SurfaceArray, the array must describe
       * the dimensions of the SurfaceArray [width, height].
       *
-      * @param {gamecs.Surface|Array} surfaceOrDimensions
+      * @param {gamecs.Surface} surface
       * @see http://dev.w3.org/html5/2dcontext/#pixel-manipulation
       */
 
 
-      function SurfaceArray(surfaceOrDimensions) {
-        if (surfaceOrDimensions instanceof Array) {
-          size = surfaceOrDimensions;
-          imageData = Display.getSurface().context.createImageData(size[0], size[1]);
-          data = imageData.data;
-        } else {
-          size = surfaceOrDimensions.getSize();
-          imageData = surfaceOrDimensions.getImageData(0, 0, size[0], size[1]);
-          data = imageData.data;
-        }
+      function SurfaceArray(surface) {
+        size = surface.getSize();
+        imageData = surface.getImageData(0, 0, size[0], size[1]);
+        data = imageData.data;
         Objects.accessors(this, {
           surface: {
             get: function() {
