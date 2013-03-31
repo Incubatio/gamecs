@@ -122,18 +122,18 @@ require ['gamecs', 'tilemap', 'surface'], (gcs, TileMap, Surface) ->
     tick = (msDuration) ->
 
       if(alive)
-        gcs.Key.get().forEach (event) ->
-          if (event.type == gcs.Key.MOUSE_MOTION)
+        gcs.Input.get().forEach (event) ->
+          if (event.type == gcs.Input.T_MOUSE_MOTION)
             mPos = event.pos
             newgid = map.pos2gid(mPos[0], mPos[1])
             if(gid != newgid)
               gid = newgid
               dirty = true
 
-          if (event.type == gcs.Key.MOUSE_DOWN)
+          if (event.type == gcs.Input.T_MOUSE_DOWN)
             dirty = true
 
-          else if (event.type == gcs.Key.MOUSE_UP)
+          else if (event.type == gcs.Input.T_MOUSE_UP)
             if(grid[gid] == undefined && mouseover)
               grid[gid] = team
 

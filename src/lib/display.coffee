@@ -1,7 +1,7 @@
 define (require) ->
   # TOTHINK: merge display with surface
   Surface = require('surface')
-  Key = require('key')
+  Input = require('input')
 
 
   ###*
@@ -83,7 +83,7 @@ define (require) ->
         canvas = document.createElement("canvas")
         canvas.setAttribute("id", canvasId)
         gameContainer.appendChild(canvas)
-        Key.initCanvas(canvas)
+        Input.initCanvasEvents(canvas)
         
       canvas.width  = dimensions[0]
       canvas.height = dimensions[1]

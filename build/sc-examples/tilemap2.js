@@ -100,9 +100,9 @@
       };
       tick = function(msDuration) {
         if (alive) {
-          gcs.Key.get().forEach(function(event) {
+          gcs.Input.get().forEach(function(event) {
             var count, i, j, newgid, res, _i, _j, _k, _ref, _ref1, _ref2;
-            if (event.type === gcs.Key.MOUSE_MOTION) {
+            if (event.type === gcs.Input.T_MOUSE_MOTION) {
               mPos = event.pos;
               newgid = map.pos2gid(mPos[0], mPos[1]);
               if (gid !== newgid) {
@@ -110,9 +110,9 @@
                 dirty = true;
               }
             }
-            if (event.type === gcs.Key.MOUSE_DOWN) {
+            if (event.type === gcs.Input.T_MOUSE_DOWN) {
               return dirty = true;
-            } else if (event.type === gcs.Key.MOUSE_UP) {
+            } else if (event.type === gcs.Input.T_MOUSE_UP) {
               if (grid[gid] === void 0 && mouseover) {
                 grid[gid] = team;
                 for (i = _i = 0, _ref = rules.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {

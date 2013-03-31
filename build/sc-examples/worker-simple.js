@@ -8,7 +8,7 @@
     var display, font, startNumber, worker, yOffset;
     display = gamecs.Display.setMode([200, 100]);
     gamecs.Display.setCaption("Example Simple Worker");
-    worker = new Worker('build/examples/workers/primes-simple.js');
+    worker = new Worker('build/sc-examples/workers/primes-simple.js');
     font = new gamecs.Font();
     yOffset = 50;
     worker.onmessage = function(event) {

@@ -23,13 +23,13 @@ require ['gamecs'], (gamecs) ->
     tick = (msDuration) ->
 
       # handle key / mouse events
-      gamecs.Key.get().forEach (event) ->
-        if (event.type == gamecs.Key.KEY_UP)
-          if (event.key == gamecs.Key.K_UP)
+      gamecs.Input.get().forEach (event) ->
+        if (event.type == gamecs.Input.T_KEY_UP)
+          if (event.key == gamecs.Input.K_UP)
             # reverse Y direction of sparkles
             sparkles.forEach (sparkle) ->
               sparkle.deltaY *= -1
-        else if (event.type == gamecs.Key.MOUSE_MOTION)
+        else if (event.type == gamecs.Input.T_MOUSE_MOTION)
            # if mouse is over display surface
            if (displayRect.collidePoint(event.pos))
              # add sparkle at mouse position

@@ -31,19 +31,19 @@
 
       tick = function() {
         var hasMaskOverlap, relativeOffset;
-        gamecs.Key.get().forEach(function(event) {
+        gamecs.Input.get().forEach(function(event) {
           var delta, direction;
           direction = {};
-          direction[gamecs.Key.K_UP] = [0, -1];
-          direction[gamecs.Key.K_DOWN] = [0, 1];
-          direction[gamecs.Key.K_LEFT] = [-1, 0];
-          direction[gamecs.Key.K_RIGHT] = [1, 0];
-          if (event.type === gamecs.Key.KEY_DOWN) {
+          direction[gamecs.Input.K_UP] = [0, -1];
+          direction[gamecs.Input.K_DOWN] = [0, 1];
+          direction[gamecs.Input.K_LEFT] = [-1, 0];
+          direction[gamecs.Input.K_RIGHT] = [1, 0];
+          if (event.type === gamecs.Input.T_KEY_DOWN) {
             delta = direction[event.key];
             if (delta) {
               return spearPosition = $v.add(spearPosition, delta);
             }
-          } else if (event.type === gamecs.Key.MOUSE_MOTION) {
+          } else if (event.type === gamecs.Input.T_MOUSE_MOTION) {
             if (display.rect.collidePoint(event.pos)) {
               return spearPosition = $v.subtract(event.pos, spear.getSize());
             }

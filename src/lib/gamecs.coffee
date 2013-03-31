@@ -47,7 +47,7 @@ define (require) ->
 
   Display = exports.Display = require('display')
   Draw    = exports.Draw    = require('draw')
-  Key     = exports.Key     = require('key')
+  Input     = exports.Input     = require('input')
   Font    = exports.Font    = require('font')
   Http    = exports.Http    = require('http')
   Img     = exports.Img     = require('img')
@@ -101,7 +101,7 @@ define (require) ->
       Display.init()
       Img.init()
       Mixer.init()
-      Key.init()
+      Input.init()
       readyFn()
 
     # 1.
@@ -122,7 +122,7 @@ define (require) ->
   ###
   init = () ->
     errorModules = {}
-    ['Time', 'Display', 'Img', 'Mixer', 'Key'].forEach((moduleName) ->
+    ['Time', 'Display', 'Img', 'Mixer', 'Input'].forEach((moduleName) ->
       try
         this[moduleName].init()
       catch e

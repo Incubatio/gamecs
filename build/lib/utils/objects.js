@@ -111,8 +111,8 @@
 
 
       Objects.accessors = function(object, props) {
-        return Objects.keys(props).forEach(function(propKey) {
-          return Objects.accessor(object, propKey, props[propKey].get, props[propKey].set);
+        return Objects.keys(props).forEach(function(propInput) {
+          return Objects.accessor(object, propInput, props[propInput].get, props[propInput].set);
         });
       };
 

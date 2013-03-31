@@ -48,7 +48,7 @@ require ['gamecs'], (gamecs) ->
     # ball changes color on mouse up
     handleEvent = (event) ->
       switch(event.type)
-        when gamecs.Key.MOUSE_UP then ball.nextColor()
+        when gamecs.Input.T_MOUSE_UP then ball.nextColor()
 
     # handle events.
     # update models.
@@ -57,7 +57,7 @@ require ['gamecs'], (gamecs) ->
     # called ~ 30 times per second by gamecs.time.interval()
     # msDuration = actual time in milliseconds since last call
     gameTick = (msDuration) ->
-      gamecs.Key.get().forEach (event) ->
+      gamecs.Input.get().forEach (event) ->
         handleEvent(event)
       ball.update(msDuration)
       display.clear()

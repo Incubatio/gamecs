@@ -33,13 +33,13 @@ require ['gamecs', 'tilemap', 'http'], (gamecs, TileMap, Http) ->
     offset = [0, 0]
 
     tick = (msDuration) ->
-      gamecs.Key.get().forEach (event) ->
-        if (event.type == gamecs.Key.KEY_DOWN)
+      gamecs.Input.get().forEach (event) ->
+        if (event.type == gamecs.Input.T_KEY_DOWN)
           switch (event.key)
-            when gamecs.Key.K_LEFT  then offset[0] += 50
-            when gamecs.Key.K_RIGHT then offset[0] -= 50
-            when gamecs.Key.K_DOWN  then offset[1] -= 50
-            when gamecs.Key.K_UP    then offset[1] += 50
+            when gamecs.Input.K_LEFT  then offset[0] += 50
+            when gamecs.Input.K_RIGHT then offset[0] -= 50
+            when gamecs.Input.K_DOWN  then offset[1] -= 50
+            when gamecs.Input.K_UP    then offset[1] += 50
 
       #update(msDuration)
       display.clear()

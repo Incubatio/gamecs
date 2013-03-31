@@ -9,7 +9,7 @@
        * the most important as it kickstarts your app.
     */
 
-    var Base64, DEBUG_LEVELS, Display, Draw, Font, Group, Http, Img, Key, Mask, Mixer, RESOURCES, Rect, Simplex, Sprite, TileMap, Time, Transform, Xml, debugLevel, exports, init, preload, resourceBaseHref;
+    var Base64, DEBUG_LEVELS, Display, Draw, Font, Group, Http, Img, Input, Mask, Mixer, RESOURCES, Rect, Simplex, Sprite, TileMap, Time, Transform, Xml, debugLevel, exports, init, preload, resourceBaseHref;
     DEBUG_LEVELS = ['info', 'warn', 'error', 'fatal'];
     debugLevel = 2;
     exports = {};
@@ -66,7 +66,7 @@
     };
     Display = exports.Display = require('display');
     Draw = exports.Draw = require('draw');
-    Key = exports.Key = require('key');
+    Input = exports.Input = require('input');
     Font = exports.Font = require('font');
     Http = exports.Http = require('http');
     Img = exports.Img = require('img');
@@ -111,7 +111,7 @@
         Display.init();
         Img.init();
         Mixer.init();
-        Key.init();
+        Input.init();
         return readyFn();
       };
       window.setTimeout(_ready, 13);
@@ -133,7 +133,7 @@
     init = function() {
       var errorModules;
       errorModules = {};
-      ['Time', 'Display', 'Img', 'Mixer', 'Key'].forEach(function(moduleName) {
+      ['Time', 'Display', 'Img', 'Mixer', 'Input'].forEach(function(moduleName) {
         try {
           return this[moduleName].init();
         } catch (e) {

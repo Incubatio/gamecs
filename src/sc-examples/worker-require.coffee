@@ -4,15 +4,15 @@ require ['gamecs'], (gamecs) ->
     display = gamecs.Display.setMode([800, 600])
     gamecs.Display.setCaption("Example Simple Worker")
 
-    worker = new Worker('build/examples/workers/primes-require.js')
+    worker = new Worker('build/sc-examples/workers/primes-require.js')
     font = new gamecs.Font()
     yOffset = 50
 
     # Because of race condition we first need to ensure that the worker is ready by simply receiving a message
     worker.onmessage = (event) ->
       worker.onmessage = (event) ->
-        gamecs.Key.post({
-          type: gamecs.Key.WORKER_RESULT,
+        gamecs.Input.post({
+          type: gamecs.Input.WORKER_RESULT,
           data: {prime: event.data}
         })
 
@@ -22,13 +22,13 @@ require ['gamecs'], (gamecs) ->
 
 
     handleEvent = (event) ->
-      if (event.type == gamecs.Key.WORKER_RESULT)
+      if (event.type == gamecs.Input.WORKER_RESULT)
         display.blit(font.render('Worker answered: ' + event.data.prime), [10, yOffset])
         yOffset += 20
         end = new Date().getTime()
         console.log((end - start) + 'ms')
 
     tick = (msDuration) ->
-      gamecs.Key.get().forEach(handleEvent)
+      gamecs.Input.get().forEach(handleEvent)
     gamecs.Time.interval(tick)
   gamecs.ready(main)

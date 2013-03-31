@@ -24,21 +24,21 @@
     CALLBACKS_LASTCALL = {};
     STARTTIME = null;
     perInterval = function() {
-      var callbackWrapper, fpsKey, lastCalls, msNow, msWaited, _results;
+      var callbackWrapper, fpsInput, lastCalls, msNow, msWaited, _results;
       msNow = Date.now();
       lastCalls = CALLBACKS_LASTCALL;
       callbackWrapper = function(fnInfo) {
         return fnInfo.callback(msWaited);
       };
       _results = [];
-      for (fpsKey in lastCalls) {
-        if (!lastCalls[fpsKey]) {
-          CALLBACKS_LASTCALL[fpsKey] = msNow;
+      for (fpsInput in lastCalls) {
+        if (!lastCalls[fpsInput]) {
+          CALLBACKS_LASTCALL[fpsInput] = msNow;
         }
-        msWaited = msNow - lastCalls[fpsKey];
-        if (fpsKey <= msWaited) {
-          CALLBACKS_LASTCALL[fpsKey] = msNow;
-          _results.push(CALLBACKS[fpsKey].forEach(callbackWrapper, this));
+        msWaited = msNow - lastCalls[fpsInput];
+        if (fpsInput <= msWaited) {
+          CALLBACKS_LASTCALL[fpsInput] = msNow;
+          _results.push(CALLBACKS[fpsInput].forEach(callbackWrapper, this));
         } else {
           _results.push(void 0);
         }

@@ -100,7 +100,7 @@
           audio.addEventListener('canplay', successHandler, true);
           audio.addEventListener('error', errorHandler, true);
           audio.src = audioUrls[key];
-          audio.gamecsKey = key;
+          audio.gamecsInput = key;
           audio.load();
         }
         if (countTotal > 0) {
@@ -130,7 +130,7 @@
         }
         docLoc = document.location.href;
         audios.forEach(function(audio) {
-          return this.CACHE[audio.gamecsKey] = audio;
+          return this.CACHE[audio.gamecsInput] = audio;
         });
       };
 

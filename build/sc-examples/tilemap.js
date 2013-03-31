@@ -33,16 +33,16 @@
       offset = [0, 0];
       tick = function(msDuration) {
         var k, layer, _ref, _results;
-        gamecs.Key.get().forEach(function(event) {
-          if (event.type === gamecs.Key.KEY_DOWN) {
+        gamecs.Input.get().forEach(function(event) {
+          if (event.type === gamecs.Input.T_KEY_DOWN) {
             switch (event.key) {
-              case gamecs.Key.K_LEFT:
+              case gamecs.Input.K_LEFT:
                 return offset[0] += 50;
-              case gamecs.Key.K_RIGHT:
+              case gamecs.Input.K_RIGHT:
                 return offset[0] -= 50;
-              case gamecs.Key.K_DOWN:
+              case gamecs.Input.K_DOWN:
                 return offset[1] -= 50;
-              case gamecs.Key.K_UP:
+              case gamecs.Input.K_UP:
                 return offset[1] += 50;
             }
           }

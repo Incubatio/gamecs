@@ -24,12 +24,12 @@ define (require) ->
     lastCalls = CALLBACKS_LASTCALL
     callbackWrapper = (fnInfo) ->
       fnInfo.callback(msWaited)
-    for fpsKey of lastCalls
-      CALLBACKS_LASTCALL[fpsKey] = msNow if (!lastCalls[fpsKey])
-      msWaited = msNow - lastCalls[fpsKey]
-      if (fpsKey <= msWaited)
-        CALLBACKS_LASTCALL[fpsKey] = msNow
-        CALLBACKS[fpsKey].forEach(callbackWrapper, this)
+    for fpsInput of lastCalls
+      CALLBACKS_LASTCALL[fpsInput] = msNow if (!lastCalls[fpsInput])
+      msWaited = msNow - lastCalls[fpsInput]
+      if (fpsInput <= msWaited)
+        CALLBACKS_LASTCALL[fpsInput] = msNow
+        CALLBACKS[fpsInput].forEach(callbackWrapper, this)
 
   ###*
   * `window` is not accessible in webworker (would lead to TypeError)

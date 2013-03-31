@@ -14,7 +14,7 @@ define (require) ->
   * @private
   ###
   addToCache = (img) ->
-    CACHE[img.gamecsKey] = img
+    CACHE[img.gamecsInput] = img
 
   ###*
   * @fileoverview Load images as Surfaces.
@@ -101,15 +101,15 @@ define (require) ->
         throw new Error('Error loading ' + this.src)
 
       for key of imgIdents
-        lowerKey = key.toLowerCase()
-        continue if (lowerKey.indexOf('.png') == -1 && lowerKey.indexOf('.jpg') == -1 &&
-          lowerKey.indexOf('.jpeg') == -1 && lowerKey.indexOf('.svg') == -1 &&
-          lowerKey.indexOf('.gif') == -1)
+        lowerInput = key.toLowerCase()
+        continue if (lowerInput.indexOf('.png') == -1 && lowerInput.indexOf('.jpg') == -1 &&
+          lowerInput.indexOf('.jpeg') == -1 && lowerInput.indexOf('.svg') == -1 &&
+          lowerInput.indexOf('.gif') == -1)
         img = new Image()
         img.addEventListener('load', successHandler, true)
         img.addEventListener('error', errorHandler, true)
         img.src = imgIdents[key]
-        img.gamecsKey = key
+        img.gamecsInput = key
         countTotal++
 
       if (countTotal > 0)

@@ -5,7 +5,7 @@
     /**
     * @fileoverview Methods for polling mouse and keyboard.
     *
-    * Call `gamecs.event.get()` in your main loop to get a list of events that happend
+    * Call `gamecs.Input.get()` in your main loop to get a list of input events that happend
     * since your last call.
     *
     * Note that some events, which would trigger a default browser action, are prevented
@@ -19,171 +19,171 @@
     * 
     * A pattern for using the event loop: your main game function (tick in this example)
     * is being called by [gamecs.time.interval()](../time/#interval).
-    * Inside tick we call [gamecs.event.get()](#get) for a list of events that happened since the last
+    * Inside tick we call [gamecs.Input.get()](#get) for a list of events that happened since the last
     * tick and we loop over each event and act on the event properties.
     *
     * @example
-    *     events = gamecs.event.get()
+    *     events = gamecs.Input.get()
     *     events.forEach(function(event) {
-    *        if (event.type == gamecs.event.MOUSE_UP) {
+    *        if (event.type == gamecs.Input.T_MOUSE_UP) {
     *          gamecs.log(event.pos, event.button)
-    *        } else if (event.type == gamecs.event.KEY_UP) {
+    *        } else if (event.type == gamecs.Input.T_KEY_UP) {
     *          gamecs.log(event.key)
     *        }
     *     })
     *
     */
 
-    var Key, lastPos;
+    var Input, lastPos;
     lastPos = [];
-    return Key = (function() {
+    return Input = (function() {
       var _getCanvasOffset, _getContainer, _hasFocus;
 
-      function Key() {}
+      function Input() {}
 
       /* key constants
       */
 
 
-      Key.K_LEFT = 37;
+      Input.K_LEFT = 37;
 
-      Key.K_UP = 38;
+      Input.K_UP = 38;
 
-      Key.K_RIGHT = 39;
+      Input.K_RIGHT = 39;
 
-      Key.K_DOWN = 40;
+      Input.K_DOWN = 40;
 
-      Key.K_BACKSPACE = 8;
+      Input.K_BACKSPACE = 8;
 
-      Key.K_TAB = 9;
+      Input.K_TAB = 9;
 
-      Key.K_ENTER = 13;
+      Input.K_ENTER = 13;
 
-      Key.K_SHIFT = 16;
+      Input.K_SHIFT = 16;
 
-      Key.K_CTRL = 17;
+      Input.K_CTRL = 17;
 
-      Key.K_ALT = 18;
+      Input.K_ALT = 18;
 
-      Key.K_ESC = 27;
+      Input.K_ESC = 27;
 
-      Key.K_SPACE = 32;
+      Input.K_SPACE = 32;
 
-      Key.K_0 = 48;
+      Input.K_0 = 48;
 
-      Key.K_1 = 49;
+      Input.K_1 = 49;
 
-      Key.K_2 = 50;
+      Input.K_2 = 50;
 
-      Key.K_3 = 51;
+      Input.K_3 = 51;
 
-      Key.K_4 = 52;
+      Input.K_4 = 52;
 
-      Key.K_5 = 53;
+      Input.K_5 = 53;
 
-      Key.K_6 = 54;
+      Input.K_6 = 54;
 
-      Key.K_7 = 55;
+      Input.K_7 = 55;
 
-      Key.K_8 = 56;
+      Input.K_8 = 56;
 
-      Key.K_9 = 57;
+      Input.K_9 = 57;
 
-      Key.K_a = 65;
+      Input.K_a = 65;
 
-      Key.K_b = 66;
+      Input.K_b = 66;
 
-      Key.K_c = 67;
+      Input.K_c = 67;
 
-      Key.K_d = 68;
+      Input.K_d = 68;
 
-      Key.K_e = 69;
+      Input.K_e = 69;
 
-      Key.K_f = 70;
+      Input.K_f = 70;
 
-      Key.K_g = 71;
+      Input.K_g = 71;
 
-      Key.K_h = 72;
+      Input.K_h = 72;
 
-      Key.K_i = 73;
+      Input.K_i = 73;
 
-      Key.K_j = 74;
+      Input.K_j = 74;
 
-      Key.K_k = 75;
+      Input.K_k = 75;
 
-      Key.K_l = 76;
+      Input.K_l = 76;
 
-      Key.K_m = 77;
+      Input.K_m = 77;
 
-      Key.K_n = 78;
+      Input.K_n = 78;
 
-      Key.K_o = 79;
+      Input.K_o = 79;
 
-      Key.K_p = 80;
+      Input.K_p = 80;
 
-      Key.K_q = 81;
+      Input.K_q = 81;
 
-      Key.K_r = 82;
+      Input.K_r = 82;
 
-      Key.K_s = 83;
+      Input.K_s = 83;
 
-      Key.K_t = 84;
+      Input.K_t = 84;
 
-      Key.K_u = 85;
+      Input.K_u = 85;
 
-      Key.K_v = 86;
+      Input.K_v = 86;
 
-      Key.K_w = 87;
+      Input.K_w = 87;
 
-      Key.K_x = 88;
+      Input.K_x = 88;
 
-      Key.K_y = 89;
+      Input.K_y = 89;
 
-      Key.K_z = 90;
+      Input.K_z = 90;
 
-      Key.K_KP1 = 97;
+      Input.K_KP1 = 97;
 
-      Key.K_KP2 = 98;
+      Input.K_KP2 = 98;
 
-      Key.K_KP3 = 99;
+      Input.K_KP3 = 99;
 
-      Key.K_KP4 = 100;
+      Input.K_KP4 = 100;
 
-      Key.K_KP5 = 101;
+      Input.K_KP5 = 101;
 
-      Key.K_KP6 = 102;
+      Input.K_KP6 = 102;
 
-      Key.K_KP7 = 103;
+      Input.K_KP7 = 103;
 
-      Key.K_KP8 = 104;
+      Input.K_KP8 = 104;
 
-      Key.K_KP9 = 105;
+      Input.K_KP9 = 105;
 
       /* event type constants
       */
 
 
-      Key.NOEVENT = 0;
+      Input.NOEVENT = 0;
 
-      Key.NUMEVENTS = 32000;
+      Input.NUMEVENTS = 32000;
 
-      Key.QUIT = 0;
+      Input.T_QUIT = 0;
 
-      Key.KEY_DOWN = 1;
+      Input.T_KEY_DOWN = 1;
 
-      Key.KEY_UP = 2;
+      Input.T_KEY_UP = 2;
 
-      Key.MOUSE_MOTION = 3;
+      Input.T_MOUSE_MOTION = 3;
 
-      Key.MOUSE_UP = 4;
+      Input.T_MOUSE_UP = 4;
 
-      Key.MOUSE_DOWN = 5;
+      Input.T_MOUSE_DOWN = 5;
 
-      Key.MOUSE_WHEEL = 6;
+      Input.T_MOUSE_WHEEL = 6;
 
-      Key.USEREVENT = 2000;
+      Input.T_USEREVENT = 2000;
 
-      Key.QUEUE = [];
+      Input.QUEUE = [];
 
       /**
       * Get all events from the event queue
@@ -191,16 +191,16 @@
       */
 
 
-      Key.get = function(eventTypes) {
+      Input.get = function(eventTypes) {
         var result;
         if (eventTypes === void 0) {
-          return Key.QUEUE.splice(0, Key.QUEUE.length);
+          return Input.QUEUE.splice(0, Input.QUEUE.length);
         } else {
           if (!(eventTypes instanceof Array)) {
             eventTypes = [eventTypes];
           }
           result = [];
-          Key.QUEUE = Key.QUEUE.filter(function(event) {
+          Input.QUEUE = Input.QUEUE.filter(function(event) {
             if (eventTypes.indexOf(event.type) === -1) {
               return true;
             }
@@ -217,8 +217,8 @@
       */
 
 
-      Key.poll = function() {
-        return Key.QUEUE.pop();
+      Input.poll = function() {
+        return Input.QUEUE.pop();
       };
 
       /**
@@ -227,8 +227,8 @@
       */
 
 
-      Key.post = function(userEvent) {
-        return Key.QUEUE.push(userEvent);
+      Input.post = function(userEvent) {
+        return Input.QUEUE.push(userEvent);
       };
 
       /**
@@ -236,8 +236,8 @@
       */
 
 
-      Key.clear = function() {
-        return Key.QUEUE = [];
+      Input.clear = function() {
+        return Input.QUEUE = [];
       };
 
       /**
@@ -246,8 +246,8 @@
       */
 
 
-      Key.Event = function() {
-        /* The type of the event. e.g., gamecs.event.QUIT, KEYDOWN, MOUSEUP.
+      Input.Event = function() {
+        /* The type of the event. e.g., gamecs.event.T_QUIT, T_KEY_DOWN, T_MOUSE_UP.
         */
         this.type = null;
         /* key the keyCode of the key. compare with gamecs.event.K_a, gamecs.event.K_b,...
@@ -273,7 +273,7 @@
       */
 
 
-      Key.init = function() {
+      Input.init = function() {
         lastPos = [];
         /**
         * IEFIX does not support addEventListener on document itself
@@ -282,11 +282,11 @@
 
         document.addEventListener('mousedown', this.onMouseDown, false);
         document.addEventListener('mouseup', this.onMouseUp, false);
-        document.addEventListener('keydown', this.onKeyDown, false);
-        return document.addEventListener('keyup', this.onKeyUp, false);
+        document.addEventListener('keydown', this.onInputDown, false);
+        return document.addEventListener('keyup', this.onInputUp, false);
       };
 
-      Key.initCanvas = function(canvas) {
+      Input.initCanvasEvents = function(canvas) {
         canvas.addEventListener('mousemove', this.onMouseMove, false);
         canvas.addEventListener('mousewheel', this.onMouseScroll, false);
         /** 
@@ -309,7 +309,7 @@
       * The Display (the canvas element) is most likely not in the top left corner
       * of the browser due to CSS styling. To calculate the mouseposition within the
       * canvas we need this offset.
-      * @see {gamecs.event}
+      * @see {gamecs.Input}
       * @ignore
       *
       * @returns {Array} [x, y] offset of the canvas
@@ -330,58 +330,58 @@
         return document.activeElement === _getContainer();
       };
 
-      Key.onMouseDown = function(ev) {
+      Input.onMouseDown = function(ev) {
         var canvasOffset;
         canvasOffset = _getCanvasOffset();
-        return Key.QUEUE.push({
-          type: Key.MOUSE_DOWN,
+        return Input.QUEUE.push({
+          type: Input.T_MOUSE_DOWN,
           pos: [ev.clientX - canvasOffset[0], ev.clientY - canvasOffset[1]],
           button: ev.button,
-          shiftKey: ev.shiftKey,
-          ctrlKey: ev.ctrlKey,
-          metaKey: ev.metaKey
+          shiftInput: ev.shiftInput,
+          ctrlInput: ev.ctrlInput,
+          metaInput: ev.metaInput
         });
       };
 
-      Key.onMouseUp = function(ev) {
+      Input.onMouseUp = function(ev) {
         var canvasOffset;
         canvasOffset = _getCanvasOffset();
-        return Key.QUEUE.push({
-          type: Key.MOUSE_UP,
+        return Input.QUEUE.push({
+          type: Input.T_MOUSE_UP,
           pos: [ev.clientX - canvasOffset[0], ev.clientY - canvasOffset[1]],
           button: ev.button,
-          shiftKey: ev.shiftKey,
-          ctrlKey: ev.ctrlKey,
-          metaKey: ev.metaKey
+          shiftInput: ev.shiftInput,
+          ctrlInput: ev.ctrlInput,
+          metaInput: ev.metaInput
         });
       };
 
-      Key.onKeyDown = function(ev) {
+      Input.onInputDown = function(ev) {
         var key;
         key = ev.keyCode || ev.which;
-        Key.QUEUE.push({
-          type: Key.KEY_DOWN,
+        Input.QUEUE.push({
+          type: Input.T_KEY_DOWN,
           key: key,
-          shiftKey: ev.shiftKey,
-          ctrlKey: ev.ctrlKey,
-          metaKey: ev.metaKey
+          shiftInput: ev.shiftInput,
+          ctrlInput: ev.ctrlInput,
+          metaInput: ev.metaInput
         });
-        if (_hasFocus() && (!ev.ctrlKey && !ev.metaKey && ((key >= Key.K_LEFT && key <= Key.K_DOWN) || (key >= Key.K_0 && key <= Key.K_z) || (key >= Key.K_KP1 && key <= Key.K_KP9) || key === Key.K_SPACE || key === Key.K_TAB || key === Key.K_ENTER)) || key === Key.K_ALT || key === Key.K_BACKSPACE) {
+        if (_hasFocus() && (!ev.ctrlInput && !ev.metaInput && ((key >= Input.K_LEFT && key <= Input.K_DOWN) || (key >= Input.K_0 && key <= Input.K_z) || (key >= Input.K_KP1 && key <= Input.K_KP9) || key === Input.K_SPACE || key === Input.K_TAB || key === Input.K_ENTER)) || key === Input.K_ALT || key === Input.K_BACKSPACE) {
           return ev.preventDefault();
         }
       };
 
-      Key.onKeyUp = function(ev) {
-        return Key.QUEUE.push({
-          type: Key.KEY_UP,
+      Input.onInputUp = function(ev) {
+        return Input.QUEUE.push({
+          type: Input.T_KEY_UP,
           key: ev.keyCode,
-          shiftKey: ev.shiftKey,
-          ctrlKey: ev.ctrlKey,
-          metaKey: ev.metaKey
+          shiftInput: ev.shiftInput,
+          ctrlInput: ev.ctrlInput,
+          metaInput: ev.metaInput
         });
       };
 
-      Key.onMouseMove = function(ev) {
+      Input.onMouseMove = function(ev) {
         var canvasOffset, currentPos, relativePos;
         canvasOffset = _getCanvasOffset();
         currentPos = [ev.clientX - canvasOffset[0], ev.clientY - canvasOffset[1]];
@@ -389,8 +389,8 @@
         if (lastPos.length) {
           relativePos = [lastPos[0] - currentPos[0], lastPos[1] - currentPos[1]];
         }
-        Key.QUEUE.push({
-          type: Key.MOUSE_MOTION,
+        Input.QUEUE.push({
+          type: Input.T_MOUSE_MOTION,
           pos: currentPos,
           rel: relativePos,
           buttons: null,
@@ -399,24 +399,24 @@
         return lastPos = currentPos;
       };
 
-      Key.onMouseScroll = function(ev) {
+      Input.onMouseScroll = function(ev) {
         var canvasOffset, currentPos;
         canvasOffset = _getCanvasOffset();
         currentPos = [ev.clientX - canvasOffset[0], ev.clientY - canvasOffset[1]];
-        return Key.QUEUE.push({
-          type: Key.MOUSE_WHEEL,
+        return Input.QUEUE.push({
+          type: Input.T_MOUSE_WHEEL,
           pos: currentPos,
           delta: ev.detail || (-ev.wheelDeltaY / 40)
         });
       };
 
-      Key.onBeforeUnload = function(ev) {
-        return Key.QUEUE.push({
-          type: Key.QUIT
+      Input.onBeforeUnload = function(ev) {
+        return Input.QUEUE.push({
+          type: Input.T_QUIT
         });
       };
 
-      return Key;
+      return Input;
 
     })();
   });

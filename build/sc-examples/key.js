@@ -24,14 +24,14 @@
       displayRect = display.rect;
       sparkles = [];
       tick = function(msDuration) {
-        gamecs.Key.get().forEach(function(event) {
-          if (event.type === gamecs.Key.KEY_UP) {
-            if (event.key === gamecs.Key.K_UP) {
+        gamecs.Input.get().forEach(function(event) {
+          if (event.type === gamecs.Input.T_KEY_UP) {
+            if (event.key === gamecs.Input.K_UP) {
               return sparkles.forEach(function(sparkle) {
                 return sparkle.deltaY *= -1;
               });
             }
-          } else if (event.type === gamecs.Key.MOUSE_MOTION) {
+          } else if (event.type === gamecs.Input.T_MOUSE_MOTION) {
             if (displayRect.collidePoint(event.pos)) {
               return sparkles.push({
                 left: event.pos[0],

@@ -17,7 +17,7 @@
     */
 
     addToCache = function(img) {
-      return CACHE[img.gamecsKey] = img;
+      return CACHE[img.gamecsInput] = img;
     };
     /**
     * @fileoverview Load images as Surfaces.
@@ -98,7 +98,7 @@
 
 
       Img.preload = function(imgIdents) {
-        var countLoaded, countTotal, errorHandler, getProgress, img, incrementLoaded, key, lowerKey, successHandler;
+        var countLoaded, countTotal, errorHandler, getProgress, img, incrementLoaded, key, lowerInput, successHandler;
         countLoaded = 0;
         countTotal = 0;
         incrementLoaded = function() {
@@ -126,15 +126,15 @@
           throw new Error('Error loading ' + this.src);
         };
         for (key in imgIdents) {
-          lowerKey = key.toLowerCase();
-          if (lowerKey.indexOf('.png') === -1 && lowerKey.indexOf('.jpg') === -1 && lowerKey.indexOf('.jpeg') === -1 && lowerKey.indexOf('.svg') === -1 && lowerKey.indexOf('.gif') === -1) {
+          lowerInput = key.toLowerCase();
+          if (lowerInput.indexOf('.png') === -1 && lowerInput.indexOf('.jpg') === -1 && lowerInput.indexOf('.jpeg') === -1 && lowerInput.indexOf('.svg') === -1 && lowerInput.indexOf('.gif') === -1) {
             continue;
           }
           img = new Image();
           img.addEventListener('load', successHandler, true);
           img.addEventListener('error', errorHandler, true);
           img.src = imgIdents[key];
-          img.gamecsKey = key;
+          img.gamecsInput = key;
           countTotal++;
         }
         if (countTotal > 0) {

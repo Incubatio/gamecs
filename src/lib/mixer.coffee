@@ -73,7 +73,7 @@ define (require) ->
         audio.addEventListener('canplay', successHandler, true)
         audio.addEventListener('error', errorHandler, true)
         audio.src = audioUrls[key]
-        audio.gamecsKey = key
+        audio.gamecsInput = key
         audio.load()
 
       @_PRELOADING = true if (countTotal > 0)
@@ -94,7 +94,7 @@ define (require) ->
 
       docLoc = document.location.href
       audios.forEach((audio) ->
-        @CACHE[audio.gamecsKey] = audio
+        @CACHE[audio.gamecsInput] = audio
       )
       return
 

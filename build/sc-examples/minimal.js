@@ -61,12 +61,12 @@
       var ball, ballCenter, display, gameTick, handleEvent;
       handleEvent = function(event) {
         switch (event.type) {
-          case gamecs.Key.MOUSE_UP:
+          case gamecs.Input.T_MOUSE_UP:
             return ball.nextColor();
         }
       };
       gameTick = function(msDuration) {
-        gamecs.Key.get().forEach(function(event) {
+        gamecs.Input.get().forEach(function(event) {
           return handleEvent(event);
         });
         ball.update(msDuration);
