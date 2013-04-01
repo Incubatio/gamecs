@@ -22,7 +22,7 @@
     return gamecs.ready(function() {
       var data, display, map, offset, req, tick, url;
       gamecs.Display.setCaption('TMX viewer');
-      display = gamecs.Display.setMode([600, 600]);
+      display = gamecs.Display.setMode([800, 500]);
       url = 'assets/data/example.json';
       req = Http.get(url);
       data = JSON.parse(req.response);

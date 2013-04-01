@@ -21,26 +21,23 @@
         } */
         #code {
           min-width: 600px;
-          max-width: 750px;
           margin-left: 20px;
         }
         #gcs-container { min-width: 400px; } 
-        #container { max-width: 1400px; margin:auto; }
         footer { text-align: center }
         #content { margin:auto; }
-        #message { margin:auto; width: 300px; }
+        .alert{ margin-bottom: 5px; }
     </style>
 
     <script src="assets/js/require.js"></script>
     <script src="assets/js/gamecs.min.js"></script>
 </head>
 <body>
-     <div id="container">   
+    <div id="menu"></div>
+    <div id='message'><span class='alert alert-info'>Please select an example on the top menu</span></div>
+    <div id='container'>
         <span id='content'>
         </span>
-    </div>
-    <div id='message'>
-        Please select an example on the top menu
     </div>
     
     <script>
@@ -87,7 +84,8 @@
         for(i = 0; i < examples.length; i++) {
            menu.push('<a onClick="refresh();" href="#' + examples[i] + '">' + examples[i] + '</a>'); 
         }
-        out += '<div id="menu" class="btn-group"><ul><li class="btn">' + menu.join('</li><li class="btn">') + '</li></ul></div>';
+        out += '<ul class="btn-group"><li class="btn">' + menu.join('</li><li class="btn">') + '</li></ul>';
+        document.getElementById('menu').innerHTML = out;
 
         if(hash !== undefined) {
           document.getElementById('message').innerHTML = '';
@@ -96,14 +94,12 @@
           script.src = 'build/sc-examples/' + hash + '.js';
           //script.src = './test.js';
           document.head.appendChild(script);
-          out += '<div>'
-          out += '<span id="gcs-container">';
+          out = '<span id="gcs-container">';
           out += '<span id="gcs-loader"> Loading...  </span>';
           //out += '<footer>Powered by <a href="https://github.com/Incubatio/gamecs">GameCs</a></footer>';
           out += '</span>';
           out += '<span id="code"><pre><code class="coffeescript"></code></pre></span>';
-          out += '</div>'
-          document.getElementById('content').innerHTML = out;
+          document.getElementById('container').innerHTML = out;
 
           // code 
           req = get('src/sc-examples/' + hash + '.coffee');
@@ -114,8 +110,6 @@
               hljs.highlightBlock(e)
             }
           }
-        } else {
-          document.getElementById('content').innerHTML = out;
         }
 
     </script>

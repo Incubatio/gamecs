@@ -9,9 +9,9 @@
     main = function() {
       var display, font, handleEvent, tick, worker, yOffset;
       display = gamecs.Display.setMode([400, 200]);
-      gamecs.Display.setCaption("Example Simple Worker");
-      worker = new Worker('build/sc-examples/workers/primes-require.js');
       font = new gamecs.Font();
+      gamecs.Display.setCaption("Example Worker in application context");
+      worker = new Worker('build/sc-examples/workers/primes-require.js');
       yOffset = 50;
       worker.onmessage = function(event) {
         var startNumber;
@@ -29,6 +29,13 @@
           todo: "nextprimes",
           start: startNumber
         });
+      };
+      worker.onerror = function(event) {
+        var error, msg;
+        msg = document.getElementById("message");
+        msg.innerHTML += '<div class="alert"><strong>Warning</strong> This example requires http:// context (gh-pages is file://)</div>';
+        error = '<strong>Error</strong> in "' + event.filename + '" at line ' + event.lineno + ': ' + event.message;
+        return msg.innerHTML += '<div class="alert alert-error">' + error + '</div>';
       };
       handleEvent = function(event) {
         var end;

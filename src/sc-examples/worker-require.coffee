@@ -2,10 +2,10 @@ start = new Date().getTime()
 require ['gamecs'], (gamecs) ->
   main = () ->
     display = gamecs.Display.setMode([400, 200])
-    gamecs.Display.setCaption("Example Simple Worker")
+    font = new gamecs.Font()
+    gamecs.Display.setCaption("Example Worker in application context")
 
     worker = new Worker('build/sc-examples/workers/primes-require.js')
-    font = new gamecs.Font()
     yOffset = 50
 
     # Because of race condition we first need to ensure that the worker is ready by simply receiving a message
@@ -20,6 +20,12 @@ require ['gamecs'], (gamecs) ->
       display.blit(font.render('Asking worker for primes after ' + startNumber), [100,30])
       worker.postMessage({ todo: "nextprimes", start: startNumber })
 
+    worker.onerror = (event) ->
+      msg = document.getElementById("message")
+      msg.innerHTML += '<div class="alert"><strong>Warning</strong> This example requires http:// context (gh-pages is file://)</div>'
+      error = '<strong>Error</strong> in "' + event.filename + '" at line ' + event.lineno + ': ' + event.message
+      msg.innerHTML += '<div class="alert alert-error">' + error + '</div>'
+
 
     handleEvent = (event) ->
       if (event.type == gamecs.Input.WORKER_RESULT)
@@ -30,5 +36,6 @@ require ['gamecs'], (gamecs) ->
 
     tick = (msDuration) ->
       gamecs.Input.get().forEach(handleEvent)
+
     gamecs.Time.interval(tick)
   gamecs.ready(main)
