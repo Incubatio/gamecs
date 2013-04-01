@@ -47,50 +47,51 @@ For now please use http://docs.gamejs.org/
 
 ### TODO
 
-- Architecture refarctoring, Separate whole project into smaller modules, my actual proposition is: 
-  Audio: 
-    * mixer
-    * sound
-    * midi
-  Sprite (2d):
-    * rect
-    * circle
-    * polygon (or pnpoly)
-    * mask (when pnpoly is not precise enough)
-    * collision
-    * spriteSheet
-    * Tilemap
-  Draw:
-    * surface
-    * surfaceArray
-    * shape (formerly draw)
-    * img
-    * noise (simplex, Alea)
-    * transform
-  Engines:
-    * Particle
-    * Physics
-  Text:
-    * Font
-  Browser (or Web?):
-    * Dom
-    * XHttp (formerly http)
-    * Input (formerly events)
-    * Uri
-  Algorithm
-    * Astar
-    * MinMax (AlphaBeta pruning)
-    * prng
-  Utils
-    * Arrays
-    * BinaryHeap
-    * Base64
-    * Geometry (formerly utils/math)
-    * Matrix
-    * Objects
-    * Time
-    * Vectors
-  Parser:
-    * xml
+Architecture refarctoring, Separate whole project into smaller modules, my actual proposition is:  
+
+- Audio: 
+  * mixer
+  * sound
+  * midi
+- Sprite (2d):
+  * rect
+  * circle
+  * polygon (or pnpoly)
+  * mask (when pnpoly is not precise enough)
+  * collision
+  * spriteSheet
+  * Tilemap
+- Draw:
+  * surface
+  * surfaceArray
+  * shape (formerly draw)
+  * img
+  * noise (simplex, Alea)
+  * transform
+- Engines:
+  * Particle
+  * Physics
+- Text:
+  * Font
+- Browser (or Web?):
+  * Dom
+  * XHttp (formerly http)
+  * Input (formerly events)
+  * Uri
+- Algorithm
+  * Astar
+  * MinMax (AlphaBeta pruning)
+  * prng
+- Utils
+  * Arrays
+  * BinaryHeap
+  * Base64
+  * Geometry (formerly utils/math)
+  * Matrix
+  * Objects
+  * Time
+  * Vectors
+- Parser
+  * xml
 
 - Feature refatoring 

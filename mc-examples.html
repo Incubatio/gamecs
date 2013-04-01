@@ -105,7 +105,7 @@
           document.getElementById('content').innerHTML = out;
 
           // code 
-          req = get('src/sc-examples/' + hash + '.coffee');
+          req = get('src/mc-examples/' + hash + '.coffee');
           req.onreadystatechange = function() {
           if (req.readyState == 4 && req.status == 200) {
               e = document.getElementById('code').firstChild.firstChild;

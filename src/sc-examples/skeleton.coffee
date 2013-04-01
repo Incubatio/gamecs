@@ -5,7 +5,7 @@
 require ['gamecs'], (gamecs) ->
   gamecs.ready () ->
 
-      display = gamecs.Display.setMode([600, 400])
+      display = gamecs.Display.setMode([400, 200])
       display.blit((new gamecs.Font('30px Sans-serif')).render('Hello World'))
 
       ###*
