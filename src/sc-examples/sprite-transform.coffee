@@ -17,7 +17,8 @@ require ['gamecs'], (gamecs) ->
       # ever ship has its own scale
       this.originalImage = gamecs.Img.load("assets/images/ship.png")
       dims = this.originalImage.getSize()
-      this.originalImage = gamecs.Transform.scale( this.originalImage, [dims[0] * (0.5 + Math.random()), dims[1] *  (0.5 + Math.random())])
+      newDims = [dims[0] * (0.5 + Math.random()), dims[1] *  (0.5 + Math.random())]
+      this.originalImage = gamecs.Transform.scale(this.originalImage, newDims)
       this.rotation = 50 + parseInt(120 * Math.random())
       this.image = gamecs.Transform.rotate(this.originalImage, this.rotation)
       this.rect = new gamecs.Rect(rect)
