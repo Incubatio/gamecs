@@ -18,6 +18,9 @@
 (function() {
 
   require(['gamecs', 'tilemap', 'surface'], function(gcs, TileMap, Surface) {
+    /* Some game variables
+    */
+
     var alive, canvas, dirty, display, font, grid, mouseover, result, rules, s1, team;
     s1 = [600, 600];
     alive = true;
@@ -30,6 +33,9 @@
     display = gcs.Display.setMode(s1);
     gcs.Display.setCaption('TileMap simple test');
     font = new gcs.Font('20px monospace');
+    /* Dom events
+    */
+
     canvas = document.getElementById('gcs-canvas');
     canvas.addEventListener("mouseout", function() {
       dirty = true;
@@ -39,6 +45,9 @@
       dirty = true;
       return mouseover = true;
     }, false);
+    /* Game Management
+    */
+
     return gcs.ready(function() {
       var a, colorThree, draw, end, g, gid, gridLineWidth, lineWidth, mPos, map, o, s2, s3, spritePos, sprites, tick, w, x;
       a = s1 / 3;

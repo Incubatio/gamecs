@@ -13,7 +13,8 @@
 ###
 require ['gamecs', 'tilemap', 'surface'], (gcs, TileMap, Surface) ->
 
-  #### Some game variables
+  ### Some game variables ###
+
   # screen size
   s1 = [600, 600]
 
@@ -34,7 +35,7 @@ require ['gamecs', 'tilemap', 'surface'], (gcs, TileMap, Surface) ->
   gcs.Display.setCaption('TileMap simple test')
   font = new gcs.Font('20px monospace')
 
-  ###### Dom events 
+  ### Dom events ###
   canvas = document.getElementById('gcs-canvas')
   canvas.addEventListener("mouseout", () ->
     dirty = true
@@ -45,7 +46,7 @@ require ['gamecs', 'tilemap', 'surface'], (gcs, TileMap, Surface) ->
     mouseover = true
   , false)
 
-  ###### Game Management
+  ### Game Management ###
   gcs.ready () ->
 
     a = s1 / 3
