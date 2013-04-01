@@ -107,6 +107,7 @@
         if (canvas === null) {
           canvas = document.createElement("canvas");
           canvas.setAttribute("id", canvasId);
+          canvas.style.position = "absolute";
           gameContainer.appendChild(canvas);
           Input.initCanvasEvents(canvas);
         }

@@ -1,7 +1,7 @@
 start = new Date().getTime()
 require ['gamecs'], (gamecs) ->
   main = () ->
-    display = gamecs.Display.setMode([800, 600])
+    display = gamecs.Display.setMode([400, 200])
     gamecs.Display.setCaption("Example Simple Worker")
 
     worker = new Worker('build/sc-examples/workers/primes-require.js')
@@ -17,13 +17,13 @@ require ['gamecs'], (gamecs) ->
         })
 
       startNumber = parseInt(1230023 + (Math.random() * 10000))
-      display.blit(font.render('Asking worker for primes after ' + startNumber), [10,30])
+      display.blit(font.render('Asking worker for primes after ' + startNumber), [100,30])
       worker.postMessage({ todo: "nextprimes", start: startNumber })
 
 
     handleEvent = (event) ->
       if (event.type == gamecs.Input.WORKER_RESULT)
-        display.blit(font.render('Worker answered: ' + event.data.prime), [10, yOffset])
+        display.blit(font.render('Worker answered: ' + event.data.prime), [100, yOffset])
         yOffset += 20
         end = new Date().getTime()
         console.log((end - start) + 'ms')

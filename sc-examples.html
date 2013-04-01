@@ -1,48 +1,69 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>GameCS Application</title>
+    <title>GameCS Simple-Canvas Example</title>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/github.css">
+    <script src="assets/js/highlight.pack.js"></script>
+
     <style type=text/css>
         body {
            background:#fff;
            color:#222;
-           margin:1em 0 2em 6em;
-           padding:0;
         }
         canvas, span {
           display: inline-block;
           vertical-align:top;
         }
+        /*canvas {
+          image-rendering: optimizespeed;
+        } */
+        #code {
+          min-width: 600px;
+          max-width: 750px;
+          margin-left: 20px;
+        }
+        #gcs-container { min-width: 400px; } 
+        #container { max-width: 1400px; margin:auto; }
         footer { text-align: center }
-        #gcs-loader { width: 50%; height: 50%; }
-        #menu { width: 200px; }
-        #content { min-width: 800px; width: 1000px; margin:auto; }
-        #message { padding-top:100px; }
+        #content { margin:auto; }
+        #message { margin:auto; width: 300px; }
     </style>
+
     <script src="assets/js/require.js"></script>
     <script src="assets/js/gamecs.min.js"></script>
 </head>
 <body>
-     <div id='content'>   
-        <span id='test'>
-            <span id='menu'> </span>
-        </span>
-        <span id='message'>
-            Please select an example on the left menu
+     <div id="container">   
+        <span id='content'>
         </span>
     </div>
+    <div id='message'>
+        Please select an example on the top menu
+    </div>
     
-    <footer>
-        Powered by <a href="https://github.com/Incubatio/gamecs">GameCs</a>.
-    </footer>
-</body>
-</html>
-<script>
+    <script>
+      ajax = function(method, url, data, type) {
+        var response;
+        data = data || null;
+        XHR = new XMLHttpRequest();
+        XHR.open(method, url, true);
+        XHR.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        XHR.send(data);
+        return XHR;
+      };
+
+      get = function(url) {
+        return ajax('GET', url);
+      };
+
+    </script>
+    <script>
         requirejs.config({baseUrl: 'build/lib/'});
 
         var args, script, hash, out = '', examples, list, i;
-        examples = ['collision-mask', 'draw', 'key', 'minimal', 'noise', 'skeleton', 'sprite', 
+        examples = ['collision-mask', 'draw', 'input', 'minimal', 'noise', 'skeleton', 'sprite', 
           'tilemap', 'tilemap2', 'worker-simple', 'worker-require'];
 
         // ################# Parse Hash ####################
@@ -66,7 +87,7 @@
         for(i = 0; i < examples.length; i++) {
            menu.push('<a onClick="refresh();" href="#' + examples[i] + '">' + examples[i] + '</a>'); 
         }
-        out += '<span id="menu"><ul><li>' + menu.join('</li><li>') + '</li></ul></span>';
+        out += '<div id="menu" class="btn-group"><ul><li class="btn">' + menu.join('</li><li class="btn">') + '</li></ul></div>';
 
         if(hash !== undefined) {
           document.getElementById('message').innerHTML = '';
@@ -75,10 +96,28 @@
           script.src = 'build/sc-examples/' + hash + '.js';
           //script.src = './test.js';
           document.head.appendChild(script);
+          out += '<div>'
           out += '<span id="gcs-container">';
           out += '<span id="gcs-loader"> Loading...  </span>';
+          //out += '<footer>Powered by <a href="https://github.com/Incubatio/gamecs">GameCs</a></footer>';
           out += '</span>';
+          out += '<span id="code"><pre><code class="coffeescript"></code></pre></span>';
+          out += '</div>'
+          document.getElementById('content').innerHTML = out;
+
+          // code 
+          req = get('src/sc-examples/' + hash + '.coffee');
+          req.onreadystatechange = function() {
+          if (req.readyState == 4 && req.status == 200) {
+              e = document.getElementById('code').firstChild.firstChild;
+              e.innerHTML = req.response;
+              hljs.highlightBlock(e)
+            }
+          }
+        } else {
+          document.getElementById('content').innerHTML = out;
         }
 
-        document.getElementById('test').innerHTML = out;
-</script>
+    </script>
+</body>
+</html>

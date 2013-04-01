@@ -17,7 +17,7 @@
     var main;
     main = function() {
       var display, displayRect, instructionFont, sparkles, starImage, tick;
-      display = gamecs.Display.setMode([800, 600]);
+      display = gamecs.Display.setMode([600, 600]);
       gamecs.Display.setCaption('example key capture');
       starImage = gamecs.Img.load('assets/images/sparkle.png');
       instructionFont = new gamecs.Font('30px monospace');
