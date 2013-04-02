@@ -9,9 +9,9 @@
       layer1.blit((new gamecs.Font('30px Sans-serif')).render('Hello World'));
       return layer2.blit((new gamecs.Font('45px Sans-serif')).render('Hello World'));
       /**
-      function tick(msDuration) {
-          # game loop
-          return
+      tick = (msDuration) -> 
+        # game loop
+        return
       }
       gamecs.time.interval(tick)
       */

@@ -7,10 +7,9 @@
       display = gamecs.Display.setMode([400, 200]);
       return display.blit((new gamecs.Font('30px Sans-serif')).render('Hello World'));
       /**
-      function tick(msDuration) {
-          # game loop
-          return
-      }
+      tick = (msDuration) ->
+        # game loop
+        return
       gamecs.time.interval(tick)
       */
 

@@ -12,9 +12,9 @@ require ['gamecs'], (gamecs) ->
       layer2.blit((new gamecs.Font('45px Sans-serif')).render('Hello World'))
 
       ###*
-      function tick(msDuration) {
-          # game loop
-          return
+      tick = (msDuration) -> 
+        # game loop
+        return
       }
       gamecs.time.interval(tick)
       ###
