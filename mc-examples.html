@@ -16,10 +16,9 @@
           display: inline-block;
           vertical-align:top;
         }
-        /*canvas {
+        canvas {
           image-rendering: optimizespeed;
-          position: absolute;
-        }*/
+        }
         #code {
           min-width: 600px;
           max-width: 750px;
@@ -32,7 +31,7 @@
         #message { margin:auto; width: 300px; }
     </style>
     <script src="assets/js/require.js"></script>
-    <script src="assets/js/gamecs.min.js"></script>
+    <!--<script src="assets/js/gamecs.min.js"></script>-->
 </head>
 <body>
      <div id="container">   
@@ -60,6 +59,18 @@
 
     </script>
     <script>
+        function clone(obj) {
+            if (null == obj || "object" != typeof obj) return obj;
+            var copy = obj.constructor();
+            for (var attr in obj) {
+                if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+            }
+            return copy;
+        }
+        requirejs2 = clone(requirejs);
+        require2 = clone(requirejs);
+        define2 = clone(define);
+ 
         requirejs.config({baseUrl: 'build/lib/'});
 
         var args, script, hash, out = '', examples, list, i;

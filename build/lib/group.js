@@ -186,7 +186,7 @@
 
       Group.spriteCollide = function(sprite, group, doKill, collided) {
         var collidingSprites;
-        collided = collided || collideRect;
+        collided = collided || Sprite.collideRect;
         doKill = doKill || false;
         collidingSprites = [];
         group.sprites().forEach(function(groupSprite) {

@@ -268,12 +268,17 @@
         return this.pos = null;
       };
 
+      _getContainer = function() {
+        return document.getElementById('gcs-container');
+      };
+
       /**
       * @ignore
       */
 
 
       Input.init = function() {
+        var container;
         lastPos = [];
         /**
         * IEFIX does not support addEventListener on document itself
@@ -283,26 +288,20 @@
         document.addEventListener('mousedown', this.onMouseDown, false);
         document.addEventListener('mouseup', this.onMouseUp, false);
         document.addEventListener('keydown', this.onInputDown, false);
-        return document.addEventListener('keyup', this.onInputUp, false);
-      };
-
-      Input.initCanvasEvents = function(canvas) {
-        canvas.addEventListener('mousemove', this.onMouseMove, false);
-        canvas.addEventListener('mousewheel', this.onMouseScroll, false);
+        document.addEventListener('keyup', this.onInputUp, false);
+        container = _getContainer();
+        container.addEventListener('mousemove', this.onMouseMove, false);
+        container.addEventListener('mousewheel', this.onMouseScroll, false);
         /** 
         * MOZFIX
         * https://developer.mozilla.org/en/Code_snippets/Miscellaneous#Detecting_mouse_wheel_events
         */
 
-        canvas.addEventListener('DOMMouseScroll', this.onMouseScroll, false);
-        return canvas.addEventListener('beforeunload', this.onBeforeUnload, false);
+        container.addEventListener('DOMMouseScroll', this.onMouseScroll, false);
+        return container.addEventListener('beforeunload', this.onBeforeUnload, false);
         /* anonymous functions as event handlers = memory leak, see MDC:elementAddEventListener
         */
 
-      };
-
-      _getContainer = function() {
-        return document.getElementById('gcs-container');
       };
 
       /**

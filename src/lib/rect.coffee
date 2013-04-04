@@ -182,6 +182,7 @@ define (require) ->
 
     ###*
     * Normalize various ways to specify a Rect into {left, top, width, height} form.
+    * TODO: remove the method and normalize parameter all over application
     ###
     Rect.normalizeArguments = (args...) ->
       # res = [left, top, width, height]
@@ -194,6 +195,7 @@ define (require) ->
       else if (args.length == 1 && args[0] instanceof Array)
         res = [args[0][0], args[0][1], args[0][2], args[0][3]]
 
+      # TOTHINK: create a rect from a rect, it's like cloning
       else if (args.length == 1 && args[0] instanceof Rect)
         res = [args[0].left, args[0].top, args[0].width, args[0].height]
 

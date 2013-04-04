@@ -165,11 +165,13 @@ define (require) ->
       ### pos the position of the event for mouse events ###
       this.pos = null
 
+    _getContainer = () ->
+      return document.getElementById('gcs-container')
+
     ###*
     * @ignore
     ###
     @init: () ->
-
       lastPos = []
 
       ###*
@@ -181,22 +183,18 @@ define (require) ->
       document.addEventListener('keydown', this.onInputDown, false)
       document.addEventListener('keyup', this.onInputUp, false)
 
-
-    @initCanvasEvents: (canvas) ->
-      canvas.addEventListener('mousemove', this.onMouseMove, false)
-      canvas.addEventListener('mousewheel', this.onMouseScroll, false)
+      container = _getContainer()
+      container.addEventListener('mousemove', this.onMouseMove, false)
+      container.addEventListener('mousewheel', this.onMouseScroll, false)
       ###* 
       * MOZFIX
       * https://developer.mozilla.org/en/Code_snippets/Miscellaneous#Detecting_mouse_wheel_events
       ###
-      canvas.addEventListener('DOMMouseScroll', this.onMouseScroll, false)
-      canvas.addEventListener('beforeunload', this.onBeforeUnload, false)
+      container.addEventListener('DOMMouseScroll', this.onMouseScroll, false)
+      container.addEventListener('beforeunload', this.onBeforeUnload, false)
 
       ### anonymous functions as event handlers = memory leak, see MDC:elementAddEventListener ###
 
-
-    _getContainer = () ->
-      return document.getElementById('gcs-container')
     ###*
     * The Display (the canvas element) is most likely not in the top left corner
     * of the browser due to CSS styling. To calculate the mouseposition within the

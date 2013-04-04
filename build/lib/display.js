@@ -2,9 +2,8 @@
 (function() {
 
   define(function(require) {
-    var Display, Input, Surface;
+    var Display, Surface;
     Surface = require('surface');
-    Input = require('input');
     /**
     * @fileoverview Methods to create, access and manipulate the display Surface.
     *
@@ -108,8 +107,10 @@
           canvas = document.createElement("canvas");
           canvas.setAttribute("id", canvasId);
           canvas.style.position = "absolute";
+          canvas.onclick = function() {
+            return gameContainer.focus();
+          };
           gameContainer.appendChild(canvas);
-          Input.initCanvasEvents(canvas);
         }
         canvas.width = dimensions[0];
         canvas.height = dimensions[1];

@@ -143,7 +143,7 @@ define (require) ->
     * @returns {Array} An array of `gamecs.sprite.Sprite` instances that collided
     ###
     @spriteCollide: (sprite, group, doKill, collided) ->
-      collided = collided || collideRect
+      collided = collided || Sprite.collideRect
       doKill = doKill || false
 
       collidingSprites = []

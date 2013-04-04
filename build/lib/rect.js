@@ -224,6 +224,7 @@
 
       /**
       * Normalize various ways to specify a Rect into {left, top, width, height} form.
+      * TODO: remove the method and normalize parameter all over application
       */
 
 
