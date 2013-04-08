@@ -40,10 +40,10 @@ define (require) ->
     * Sets the number of available channels for the mixer. The default value is 8.
     ###
     @setNumChannels: (count) ->
-      @NUM_CHANNELS = parseInt(count, 10) || @NUM_CHANNELS
+      Mixer.NUM_CHANNELS = parseInt(count, 10) || Mixer.NUM_CHANNELS
 
     @getNumChannels: () ->
-      return @NUM_CHANNELS
+      return Mixer.NUM_CHANNELS
 
     ###*
     * put all audios on page in cache
@@ -67,7 +67,7 @@ define (require) ->
 
       incrementLoaded = () ->
         countLoaded++
-        @_PRELOADING = false if (countLoaded == countTotal)
+        Mixer._PRELOADING = false if (countLoaded == countTotal)
 
       getProgress = () ->
         if countTotal > 0 then countLoaded / countTotal else 1
@@ -81,7 +81,7 @@ define (require) ->
         throw new Error('Error loading ' + this.src)
 
       for key of audioUrls
-        continue if (key.indexOf('wav') == -1 && key.indexOf('ogg') == -1 && key.indexOf('webm') == -1)
+        continue if (key.indexOf('wav') == -1 && key.indexOf('ogg') == -1 && key.indexOf('webm') == -1 && key.indexOf('mp3') == -1 && key.indexOf('m4a') == -1 && key.indexOf('mpeg') == -1)
 
         countTotal++
         audio = new Audio()
@@ -91,13 +91,13 @@ define (require) ->
         audio.gamecsInput = key
         audio.load()
 
-      @_PRELOADING = true if (countTotal > 0)
+      Mixer._PRELOADING = true if (countTotal > 0)
 
       return getProgress
 
     ###* @ignore ###
     @isPreloading = () ->
-      return @_PRELOADING
+      return Mixer._PRELOADING
 
     ###*
     * @param {dom.ImgElement} audios the <audio> elements to put into cache

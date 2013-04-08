@@ -52,11 +52,11 @@
 
 
       Mixer.setNumChannels = function(count) {
-        return this.NUM_CHANNELS = parseInt(count, 10) || this.NUM_CHANNELS;
+        return Mixer.NUM_CHANNELS = parseInt(count, 10) || Mixer.NUM_CHANNELS;
       };
 
       Mixer.getNumChannels = function() {
-        return this.NUM_CHANNELS;
+        return Mixer.NUM_CHANNELS;
       };
 
       /**
@@ -87,7 +87,7 @@
         incrementLoaded = function() {
           countLoaded++;
           if (countLoaded === countTotal) {
-            return this._PRELOADING = false;
+            return Mixer._PRELOADING = false;
           }
         };
         getProgress = function() {
@@ -106,7 +106,7 @@
           throw new Error('Error loading ' + this.src);
         };
         for (key in audioUrls) {
-          if (key.indexOf('wav') === -1 && key.indexOf('ogg') === -1 && key.indexOf('webm') === -1) {
+          if (key.indexOf('wav') === -1 && key.indexOf('ogg') === -1 && key.indexOf('webm') === -1 && key.indexOf('mp3') === -1 && key.indexOf('m4a') === -1 && key.indexOf('mpeg') === -1) {
             continue;
           }
           countTotal++;
@@ -118,7 +118,7 @@
           audio.load();
         }
         if (countTotal > 0) {
-          this._PRELOADING = true;
+          Mixer._PRELOADING = true;
         }
         return getProgress;
       };
@@ -128,7 +128,7 @@
 
 
       Mixer.isPreloading = function() {
-        return this._PRELOADING;
+        return Mixer._PRELOADING;
       };
 
       /**

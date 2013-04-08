@@ -6,7 +6,7 @@
       baseUrl: 'build/mc-examples/space'
     });
     return require(['gamecs', 'systems', 'director', 'data'], function(gamecs, systems, Director, data) {
-      var k, myEntities, mySystems, resources, type, v, _i, _j, _len, _len1, _ref, _ref1, _ref2;
+      var k, myEntities, mySystems, resources, v, _i, _j, _len, _len1, _ref, _ref1, _ref2;
       resources = [];
       myEntities = [];
       mySystems = {};
@@ -17,7 +17,7 @@
           resources.push(data.prefixs.image + v.Visible.image);
         }
       }
-      type = false;
+      gamecs.Mixer.sfxType = false;
       _ref1 = ['mp3', 'wav', 'ogg', 'm4a'];
       for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
         k = _ref1[_i];

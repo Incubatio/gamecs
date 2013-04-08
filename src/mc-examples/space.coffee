@@ -14,7 +14,7 @@ require ['gamecs'], (gamecs) ->
       #  resources.push data.prefixs.image + v.Animated.frameset
 
     # Load sound from data
-    type = false
+    gamecs.Mixer.sfxType = false
     for k in ['mp3', 'wav', 'ogg', 'm4a']
       if gamecs.Mixer.support[k]
         gamecs.Mixer.sfxType = k
@@ -22,7 +22,6 @@ require ['gamecs'], (gamecs) ->
 
     for k in data.sfx
       resources.push data.prefixs.sfx + k + '.' + gamecs.Mixer.sfxType
-
 
     gamecs.preload(resources)
 
