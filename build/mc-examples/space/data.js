@@ -7,7 +7,8 @@
         size: [600, 800]
       },
       prefixs: {
-        image: 'assets/images/'
+        image: 'assets/images/',
+        sfx: 'assets/sfx/'
       },
       stars: {
         number: 25
@@ -21,6 +22,7 @@
         spawnRate: 4000
       },
       systems: ['Movement', 'Rotation', 'Collision', 'Rendering'],
+      sfx: ['laser1'],
       sprites: {
         Player: {
           Mobile: {

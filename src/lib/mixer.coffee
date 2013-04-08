@@ -1,5 +1,19 @@
 define (require) ->
 
+  elem = document.createElement('audio')
+  bool = false
+
+  try
+    if ( bool = !!elem.canPlayType )
+      bool      = new Boolean(bool)
+      bool.ogg  = elem.canPlayType('audio/ogg; codecs="vorbis"').replace(/^no$/,'')
+      bool.mp3  = elem.canPlayType('audio/mpeg;')               .replace(/^no$/,'')
+
+      bool.wav  = elem.canPlayType('audio/wav; codecs="1"')     .replace(/^no$/,'')
+      bool.m4a  = (elem.canPlayType('audio/x-m4a;') || elem.canPlayType('audio/aac;')).replace(/^no$/,'')
+  catch error
+    console.log error
+
   ###*
   * @fileoverview Playing sounds with the html5 audio tag. Audio files must be preloaded
   * with the usual `gamecs.preload()` function. Ogg, wav and webm supported.
@@ -10,6 +24,7 @@ define (require) ->
 
     @CACHE = {}
 
+    @support = bool
     ###*
     * need to export preloading status for require
     * @ignore
@@ -37,7 +52,7 @@ define (require) ->
     ###
     @init: () ->
       audios = Array.prototype.slice.call(document.getElementsByTagName("audio"), 0)
-      @addToCache(audios)
+      Mixer.addToCache(audios)
       return
 
     ###*
@@ -58,7 +73,7 @@ define (require) ->
         if countTotal > 0 then countLoaded / countTotal else 1
 
       successHandler = () ->
-        @addToCache(this)
+        Mixer.addToCache(this)
         incrementLoaded()
 
       errorHandler = () ->
@@ -94,7 +109,7 @@ define (require) ->
 
       docLoc = document.location.href
       audios.forEach((audio) ->
-        @CACHE[audio.gamecsInput] = audio
+        Mixer.CACHE[audio.gamecsInput] = audio
       )
       return
 
@@ -104,28 +119,28 @@ define (require) ->
     * @param {String|dom.AudioElement} uriOrAudio the uri of <audio> dom element
     *                of the sound
     ###
-    class Sound
+    @Sound: class
       constructor: (uriOrAudio) ->
-        cachedAudio = if (typeof uriOrAudio == 'string') then @CACHE[uriOrAudio] else uriOrAudio
+        cachedAudio = if (typeof uriOrAudio == 'string') then Mixer.CACHE[uriOrAudio] else uriOrAudio
         if (!cachedAudio)
           ### TODO sync audio loading ###
           throw new Error('Missing "' + uriOrAudio + '", gamecs.preload() all audio files before loading')
 
-        channels = []
-        i = NUM_CHANNELS
+        @channels = []
+        i = Mixer.NUM_CHANNELS
         while (i-->0)
           audio = new Audio()
           audio.preload = "auto"
           audio.loop = false
           audio.src = cachedAudio.src
-          channels.push(audio)
+          @channels.push(audio)
 
       ###*
       * start the sound
       * @param {Boolean} loop whether the audio should loop for ever or not
       ###
       play: (myLoop) ->
-        channels.some((audio) ->
+        @channels.some((audio) ->
           if (audio.ended || audio.paused)
             audio.loop = !!myLoop
             audio.play()
@@ -138,7 +153,7 @@ define (require) ->
       * This will stop the playback of this Sound on any active Channels.
       ###
       stop: () ->
-        channels.forEach((audio) ->
+        @channels.forEach((audio) ->
           audio.stop()
         )
 
@@ -147,7 +162,7 @@ define (require) ->
       * @param {Number} value volume from 0 to 1
       ###
       setVolume: (value) ->
-        channels.forEach((audio) ->
+        @channels.forEach((audio) ->
           audio.volume = value
         )
 
@@ -155,12 +170,12 @@ define (require) ->
       * @returns {Number} the sound's volume from 0 to 1
       ###
       getVolume: () ->
-        return channels[0].volume
+        return @channels[0].volume
 
       ###*
       * @returns {Number} Duration of this sound in seconds
       ###
       getLength: () ->
-        return channels[0].duration
+        return @channels[0].duration
 
       #return this

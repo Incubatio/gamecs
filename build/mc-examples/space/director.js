@@ -7,8 +7,18 @@
     Entity = require('entity');
     return Director = (function() {
 
+      Director.prototype.isGameOver = false;
+
       Director.prototype.loadImage = function(suffix) {
         return gamecs.Img.load(this.data.prefixs.image + suffix);
+      };
+
+      Director.prototype.sounds = {};
+
+      Director.prototype.playSound = function(suffix) {
+        var sound;
+        sound = new gamecs.Mixer.Sound(this.data.prefixs.sfx + suffix + '.' + gamecs.Mixer.sfxType);
+        return sound.play();
       };
 
       Director.prototype.getRandPos = function(x, y) {
@@ -65,6 +75,7 @@
         var entity, i, k, pos, v, _i, _j, _len, _ref, _ref1, _ref2, _ref3;
         this.display = display;
         this.data = data;
+        this.font = new gamecs.Font('20px monospace');
         this.display.bg1.fill('#000');
         this.display.fg.blit((new gamecs.Font('45px Sans-serif')).render('Hello World'));
         _ref = this.data.sprites;
@@ -95,6 +106,8 @@
             this.player = entity;
           }
         }
+        this.player.score = 0;
+        this.blitScore(0);
         for (i = _j = 0, _ref3 = this.data.stars.number; 0 <= _ref3 ? _j <= _ref3 : _j >= _ref3; i = 0 <= _ref3 ? ++_j : --_j) {
           this.groups.stars.push(this.createStar());
         }
@@ -103,66 +116,68 @@
       Director.prototype.handleInput = function(events) {
         var component, event, x, y, _i, _len, _results;
         component = this.player.components.Mobile;
-        _results = [];
-        for (_i = 0, _len = events.length; _i < _len; _i++) {
-          event = events[_i];
-          x = component.moveX;
-          y = component.moveY;
-          if (event.type === gamecs.Input.T_KEY_DOWN) {
-            switch (event.key) {
-              case gamecs.Input.K_UP:
-              case gamecs.Input.K_w:
-                y = -1;
-                break;
-              case gamecs.Input.K_DOWN:
-              case gamecs.Input.K_s:
-                y = 1;
-                break;
-              case gamecs.Input.K_LEFT:
-              case gamecs.Input.K_a:
-                x = -1;
-                break;
-              case gamecs.Input.K_RIGHT:
-              case gamecs.Input.K_d:
-                x = 1;
-                break;
-              case gamecs.Input.K_SPACE:
-                this.player.firing = true;
+        if (!this.isGameOver) {
+          _results = [];
+          for (_i = 0, _len = events.length; _i < _len; _i++) {
+            event = events[_i];
+            x = component.moveX;
+            y = component.moveY;
+            if (event.type === gamecs.Input.T_KEY_DOWN) {
+              switch (event.key) {
+                case gamecs.Input.K_UP:
+                case gamecs.Input.K_w:
+                  y = -1;
+                  break;
+                case gamecs.Input.K_DOWN:
+                case gamecs.Input.K_s:
+                  y = 1;
+                  break;
+                case gamecs.Input.K_LEFT:
+                case gamecs.Input.K_a:
+                  x = -1;
+                  break;
+                case gamecs.Input.K_RIGHT:
+                case gamecs.Input.K_d:
+                  x = 1;
+                  break;
+                case gamecs.Input.K_SPACE:
+                  this.player.firing = true;
+              }
+            } else if (event.type === gamecs.Input.T_KEY_UP) {
+              switch (event.key) {
+                case gamecs.Input.K_UP:
+                case gamecs.Input.K_w:
+                  if (y < 0) {
+                    y = 0;
+                  }
+                  break;
+                case gamecs.Input.K_DOWN:
+                case gamecs.Input.K_s:
+                  if (y > 0) {
+                    y = 0;
+                  }
+                  break;
+                case gamecs.Input.K_LEFT:
+                case gamecs.Input.K_a:
+                  if (x < 0) {
+                    x = 0;
+                  }
+                  break;
+                case gamecs.Input.K_RIGHT:
+                case gamecs.Input.K_d:
+                  if (x > 0) {
+                    x = 0;
+                  }
+                  break;
+                case gamecs.Input.K_SPACE:
+                  this.player.firing = false;
+              }
             }
-          } else if (event.type === gamecs.Input.T_KEY_UP) {
-            switch (event.key) {
-              case gamecs.Input.K_UP:
-              case gamecs.Input.K_w:
-                if (y < 0) {
-                  y = 0;
-                }
-                break;
-              case gamecs.Input.K_DOWN:
-              case gamecs.Input.K_s:
-                if (y > 0) {
-                  y = 0;
-                }
-                break;
-              case gamecs.Input.K_LEFT:
-              case gamecs.Input.K_a:
-                if (x < 0) {
-                  x = 0;
-                }
-                break;
-              case gamecs.Input.K_RIGHT:
-              case gamecs.Input.K_d:
-                if (x > 0) {
-                  x = 0;
-                }
-                break;
-              case gamecs.Input.K_SPACE:
-                this.player.firing = false;
-            }
+            component.moveX = x;
+            _results.push(component.moveY = y);
           }
-          component.moveX = x;
-          _results.push(component.moveY = y);
+          return _results;
         }
-        return _results;
       };
 
       Director.prototype.update = function() {
@@ -189,7 +204,7 @@
                 }
               } else {
                 if (entity.rect.left < -w2 || entity.rect.right > w + w2 || entity.rect.bottom < 0 || entity.rect.top > h) {
-                  entity.kill = true;
+                  entity.killed = true;
                   if (entity.name === 'Star' && this.groups.stars.length <= this.data.stars.number) {
                     this.groups.stars.push(this.createStar({
                       y: 0
@@ -205,10 +220,11 @@
             v = this.data.sprites.RLazer;
             pos = [this.player.rect.left + 45, this.player.rect.top - 50];
             this.groups.sprites.push(new Entity(pos, v, {
-              name: k,
+              name: 'RLazer',
               rect: new gamecs.Rect(pos, v.Visible.size),
               dirty: true
             }));
+            this.playSound('laser1');
             this.player.cooldown = 100;
           }
         } else {
@@ -229,7 +245,10 @@
             _results1 = [];
             for (i = _j = 0, _ref2 = group.length; 0 <= _ref2 ? _j < _ref2 : _j > _ref2; i = 0 <= _ref2 ? ++_j : --_j) {
               entity = group[i];
-              if (entity && entity.kill) {
+              if (entity && entity.killed) {
+                if (entity.name === 'Meteor' && entity.killer === 'RLazer') {
+                  this.blitScore(10);
+                }
                 this.display.fg.clear(entity.rect);
                 _results1.push(group.splice(i, 1));
               } else {
@@ -240,6 +259,28 @@
           }).call(this));
         }
         return _results;
+      };
+
+      Director.prototype.gameOver = function() {
+        var s1, surface;
+        this.isGameOver = true;
+        s1 = this.data.screen.size;
+        surface = new gamecs.Surface(s1);
+        surface.setAlpha(0.5);
+        surface.fill('#f00');
+        this.display.fg2.blit(surface);
+        return this.display.fg2.blit(this.font.render('Game Over', '#fff'), [s1[0] / 2 - 30, s1[1] / 2 - 5]);
+      };
+
+      Director.prototype.blitScore = function(score) {
+        var pos, s, surface;
+        this.player.score += score;
+        s = this.data.screen.size;
+        score = (this.player.score + 10000000).toString().slice(1);
+        surface = this.font.render(score, '#fff');
+        pos = [s[0] - 100, 20];
+        this.display.fg2.clear(surface.clone().clear(), pos);
+        return this.display.fg2.blit(surface, pos);
       };
 
       return Director;

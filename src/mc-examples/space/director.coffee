@@ -3,8 +3,15 @@ define (require) ->
   Entity = require('entity')
 
   class Director
+    isGameOver: false
+  
     loadImage: (suffix) ->
       return gamecs.Img.load(@data.prefixs.image + suffix)
+
+    sounds: {}
+    playSound: (suffix) ->
+      sound = new gamecs.Mixer.Sound(@data.prefixs.sfx + suffix + '.' + gamecs.Mixer.sfxType)
+      sound.play()
 
     getRandPos: (x = false, y = false) ->
       if(x == false) then x = Math.round(Math.random() * @data.screen.size[0])
@@ -29,6 +36,8 @@ define (require) ->
 
 
     constructor: (@display, @data) ->
+      @font = new gamecs.Font('20px monospace')
+
       @display.bg1.fill('#000')
       @display.fg.blit((new gamecs.Font('45px Sans-serif')).render('Hello World'))
 
@@ -48,7 +57,8 @@ define (require) ->
         entity.oldRect = entity.rect.clone()
         @groups.sprites.push entity
         @player = entity if entity.name == "Player"
-
+      @player.score = 0
+      @blitScore(0)
       # Init stars for background
       for i in [0..@data.stars.number] then @groups.stars.push @createStar()
 
@@ -56,25 +66,26 @@ define (require) ->
     handleInput: (events) ->
       # Handle Input
       component = @player.components.Mobile
-      for event in events
-        x = component.moveX
-        y = component.moveY
-        if event.type == gamecs.Input.T_KEY_DOWN
-          switch event.key
-            when gamecs.Input.K_UP,    gamecs.Input.K_w then y = -1
-            when gamecs.Input.K_DOWN,  gamecs.Input.K_s then y = 1
-            when gamecs.Input.K_LEFT,  gamecs.Input.K_a then x = -1
-            when gamecs.Input.K_RIGHT, gamecs.Input.K_d then x = 1
-            when gamecs.Input.K_SPACE then @player.firing = true
-        else if event.type == gamecs.Input.T_KEY_UP
-          switch event.key
-            when gamecs.Input.K_UP,    gamecs.Input.K_w then if y < 0 then y = 0
-            when gamecs.Input.K_DOWN,  gamecs.Input.K_s then if y > 0 then y = 0
-            when gamecs.Input.K_LEFT,  gamecs.Input.K_a then if x < 0 then x = 0
-            when gamecs.Input.K_RIGHT, gamecs.Input.K_d then if x > 0 then x = 0
-            when gamecs.Input.K_SPACE then @player.firing = false
-        component.moveX = x
-        component.moveY = y
+      if !@isGameOver
+        for event in events
+          x = component.moveX
+          y = component.moveY
+          if event.type == gamecs.Input.T_KEY_DOWN
+            switch event.key
+              when gamecs.Input.K_UP,    gamecs.Input.K_w then y = -1
+              when gamecs.Input.K_DOWN,  gamecs.Input.K_s then y = 1
+              when gamecs.Input.K_LEFT,  gamecs.Input.K_a then x = -1
+              when gamecs.Input.K_RIGHT, gamecs.Input.K_d then x = 1
+              when gamecs.Input.K_SPACE then @player.firing = true
+          else if event.type == gamecs.Input.T_KEY_UP
+            switch event.key
+              when gamecs.Input.K_UP,    gamecs.Input.K_w then if y < 0 then y = 0
+              when gamecs.Input.K_DOWN,  gamecs.Input.K_s then if y > 0 then y = 0
+              when gamecs.Input.K_LEFT,  gamecs.Input.K_a then if x < 0 then x = 0
+              when gamecs.Input.K_RIGHT, gamecs.Input.K_d then if x > 0 then x = 0
+              when gamecs.Input.K_SPACE then @player.firing = false
+          component.moveX = x
+          component.moveY = y
 
     update: () ->
       # Manage world bounds for every entities
@@ -92,7 +103,7 @@ define (require) ->
 
           else
             if entity.rect.left < - w2  || entity.rect.right > w + w2 || entity.rect.bottom < 0 || entity.rect.top > h
-              entity.kill = true
+              entity.killed = true
               if entity.name == 'Star' && @groups.stars.length <= @data.stars.number
                 # weird param requirement
                 @groups.stars.push @createStar({y: 0})
@@ -102,7 +113,8 @@ define (require) ->
         if @player.firing
           v = @data.sprites.RLazer
           pos = [@player.rect.left + 45, @player.rect.top - 50]
-          @groups.sprites.push new Entity(pos, v, {name: k, rect: new gamecs.Rect(pos, v.Visible.size), dirty: true})
+          @groups.sprites.push new Entity(pos, v, {name: 'RLazer', rect: new gamecs.Rect(pos, v.Visible.size), dirty: true})
+          @playSound('laser1')
           @player.cooldown = 100
       else @player.cooldown -= 30
 
@@ -118,6 +130,28 @@ define (require) ->
       # TODO: Implement Pool of entity with real garbage collection
       for k, group of @groups then for i in [0...group.length]
         entity = group[i]
-        if entity && entity.kill
+        if entity && entity.killed
+          if entity.name == 'Meteor' && entity.killer == 'RLazer' then @blitScore(10)
           @display.fg.clear(entity.rect)
           group.splice(i, 1)
+
+    gameOver: () ->
+      @isGameOver = true
+      s1 = @data.screen.size
+      surface = new gamecs.Surface(s1)
+      #display.clear()
+      surface.setAlpha(0.5)
+      surface.fill('#f00')
+      @display.fg2.blit(surface)
+      @display.fg2.blit(@font.render('Game Over', '#fff'), [s1[0] / 2 - 30, s1[1] / 2 - 5])
+
+    blitScore: (score) ->
+      @player.score += score
+      s = @data.screen.size
+      #@display.fg2.clear()
+      score = (@player.score + 10000000).toString().slice(1)
+      surface = @font.render(score, '#fff')
+      pos = [s[0] - 100, 20]
+
+      @display.fg2.clear(surface.clone().clear(), pos)
+      @display.fg2.blit(surface, pos)

@@ -138,19 +138,20 @@
               y = component.moveY * component.speed;
               collisions = _spriteCollide(entity, this.entities);
               if (collisions.length > 0) {
+                weapon = false;
                 for (_i = 0, _len = collisions.length; _i < _len; _i++) {
                   entity2 = collisions[_i];
                   if (entity2.components.Weaponized) {
                     weapon = true;
-                    entity.kill = true;
+                    entity.killed = true;
+                    entity.killer = entity2.name;
                   }
                   if (entity.components.Weaponized) {
-                    entity2.kill = true;
+                    entity2.killed = true;
+                    entity2.killer = entity.name;
                   }
                 }
-                if (weapon) {
-
-                } else {
+                if (!weapon) {
                   entity.rect = entity.oldRect.clone();
                   entity.rect.moveIp(x, 0);
                   collisions = _spriteCollide(entity, this.entities);

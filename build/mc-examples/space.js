@@ -6,7 +6,7 @@
       baseUrl: 'build/mc-examples/space'
     });
     return require(['gamecs', 'systems', 'director', 'data'], function(gamecs, systems, Director, data) {
-      var k, myEntities, mySystems, resources, v, _ref;
+      var k, myEntities, mySystems, resources, type, v, _i, _j, _len, _len1, _ref, _ref1, _ref2;
       resources = [];
       myEntities = [];
       mySystems = {};
@@ -17,48 +17,66 @@
           resources.push(data.prefixs.image + v.Visible.image);
         }
       }
+      type = false;
+      _ref1 = ['mp3', 'wav', 'ogg', 'm4a'];
+      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+        k = _ref1[_i];
+        if (gamecs.Mixer.support[k]) {
+          gamecs.Mixer.sfxType = k;
+          break;
+        }
+      }
+      _ref2 = data.sfx;
+      for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
+        k = _ref2[_j];
+        resources.push(data.prefixs.sfx + k + '.' + gamecs.Mixer.sfxType);
+      }
       gamecs.preload(resources);
       return gamecs.ready(function() {
-        var display, myDirector, tick, _i, _len, _ref1;
+        var display, myDirector, tick, _k, _len2, _ref3;
         display = {
           bg1: gamecs.Display.setMode(data.screen.size, 'background'),
           bg2: gamecs.Display.setMode(data.screen.size, 'stars'),
-          fg: gamecs.Display.setMode(data.screen.size, 'foreground')
+          fg: gamecs.Display.setMode(data.screen.size, 'sprites'),
+          fg2: gamecs.Display.setMode(data.screen.size, 'foreground')
         };
         myDirector = new Director(display, data);
-        _ref1 = data.systems;
-        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-          k = _ref1[_i];
+        _ref3 = data.systems;
+        for (_k = 0, _len2 = _ref3.length; _k < _len2; _k++) {
+          k = _ref3[_k];
           mySystems[k] = new systems[k]({
             entities: myDirector.groups.sprites,
             data: data
           });
         }
         tick = function() {
-          var entity, group, k2, system, _j, _k, _l, _len1, _len2, _len3, _ref2, _ref3, _ref4;
+          var entity, group, k2, system, _l, _len3, _len4, _len5, _m, _n, _ref4, _ref5, _ref6;
           myDirector.handleInput(gamecs.Input.get());
-          _ref2 = myDirector.groups;
-          for (k in _ref2) {
-            group = _ref2[k];
-            for (_j = 0, _len1 = group.length; _j < _len1; _j++) {
-              entity = group[_j];
+          _ref4 = myDirector.groups;
+          for (k in _ref4) {
+            group = _ref4[k];
+            for (_l = 0, _len3 = group.length; _l < _len3; _l++) {
+              entity = group[_l];
               for (k2 in mySystems) {
                 system = mySystems[k2];
                 system.update(entity, 30);
               }
             }
           }
-          _ref3 = myDirector.groups.stars;
-          for (_k = 0, _len2 = _ref3.length; _k < _len2; _k++) {
-            entity = _ref3[_k];
+          _ref5 = myDirector.groups.stars;
+          for (_m = 0, _len4 = _ref5.length; _m < _len4; _m++) {
+            entity = _ref5[_m];
             mySystems.Rendering.draw(entity, display.bg2);
           }
-          _ref4 = myDirector.groups.sprites;
-          for (_l = 0, _len3 = _ref4.length; _l < _len3; _l++) {
-            entity = _ref4[_l];
+          _ref6 = myDirector.groups.sprites;
+          for (_n = 0, _len5 = _ref6.length; _n < _len5; _n++) {
+            entity = _ref6[_n];
             mySystems.Rendering.draw(entity, display.fg);
           }
-          return myDirector.update();
+          myDirector.update();
+          if (myDirector.player.killed && !myDirector.isGameOver) {
+            return myDirector.gameOver();
+          }
         };
         return gamecs.Time.interval(tick, 36);
       });

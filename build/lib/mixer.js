@@ -2,6 +2,20 @@
 (function() {
 
   define(function(require) {
+    var Mixer, bool, elem;
+    elem = document.createElement('audio');
+    bool = false;
+    try {
+      if ((bool = !!elem.canPlayType)) {
+        bool = new Boolean(bool);
+        bool.ogg = elem.canPlayType('audio/ogg; codecs="vorbis"').replace(/^no$/, '');
+        bool.mp3 = elem.canPlayType('audio/mpeg;').replace(/^no$/, '');
+        bool.wav = elem.canPlayType('audio/wav; codecs="1"').replace(/^no$/, '');
+        bool.m4a = (elem.canPlayType('audio/x-m4a;') || elem.canPlayType('audio/aac;')).replace(/^no$/, '');
+      }
+    } catch (error) {
+      console.log(error);
+    }
     /**
     * @fileoverview Playing sounds with the html5 audio tag. Audio files must be preloaded
     * with the usual `gamecs.preload()` function. Ogg, wav and webm supported.
@@ -9,13 +23,13 @@
     * Sounds & Images are loaded relative to './'.
     */
 
-    var Mixer;
     return Mixer = (function() {
-      var Sound;
 
       function Mixer() {}
 
       Mixer.CACHE = {};
+
+      Mixer.support = bool;
 
       /**
       * need to export preloading status for require
@@ -55,7 +69,7 @@
       Mixer.init = function() {
         var audios;
         audios = Array.prototype.slice.call(document.getElementsByTagName("audio"), 0);
-        this.addToCache(audios);
+        Mixer.addToCache(audios);
       };
 
       /**
@@ -84,7 +98,7 @@
           }
         };
         successHandler = function() {
-          this.addToCache(this);
+          Mixer.addToCache(this);
           return incrementLoaded();
         };
         errorHandler = function() {
@@ -130,7 +144,7 @@
         }
         docLoc = document.location.href;
         audios.forEach(function(audio) {
-          return this.CACHE[audio.gamecsInput] = audio;
+          return Mixer.CACHE[audio.gamecsInput] = audio;
         });
       };
 
@@ -142,25 +156,25 @@
       */
 
 
-      Sound = (function() {
+      Mixer.Sound = (function() {
 
-        function Sound(uriOrAudio) {
-          var audio, cachedAudio, channels, i;
-          cachedAudio = typeof uriOrAudio === 'string' ? this.CACHE[uriOrAudio] : uriOrAudio;
+        function _Class(uriOrAudio) {
+          var audio, cachedAudio, i;
+          cachedAudio = typeof uriOrAudio === 'string' ? Mixer.CACHE[uriOrAudio] : uriOrAudio;
           if (!cachedAudio) {
             /* TODO sync audio loading
             */
 
             throw new Error('Missing "' + uriOrAudio + '", gamecs.preload() all audio files before loading');
           }
-          channels = [];
-          i = NUM_CHANNELS;
+          this.channels = [];
+          i = Mixer.NUM_CHANNELS;
           while (i-- > 0) {
             audio = new Audio();
             audio.preload = "auto";
             audio.loop = false;
             audio.src = cachedAudio.src;
-            channels.push(audio);
+            this.channels.push(audio);
           }
         }
 
@@ -170,8 +184,8 @@
         */
 
 
-        Sound.prototype.play = function(myLoop) {
-          return channels.some(function(audio) {
+        _Class.prototype.play = function(myLoop) {
+          return this.channels.some(function(audio) {
             if (audio.ended || audio.paused) {
               audio.loop = !!myLoop;
               audio.play();
@@ -187,8 +201,8 @@
         */
 
 
-        Sound.prototype.stop = function() {
-          return channels.forEach(function(audio) {
+        _Class.prototype.stop = function() {
+          return this.channels.forEach(function(audio) {
             return audio.stop();
           });
         };
@@ -199,8 +213,8 @@
         */
 
 
-        Sound.prototype.setVolume = function(value) {
-          return channels.forEach(function(audio) {
+        _Class.prototype.setVolume = function(value) {
+          return this.channels.forEach(function(audio) {
             return audio.volume = value;
           });
         };
@@ -210,8 +224,8 @@
         */
 
 
-        Sound.prototype.getVolume = function() {
-          return channels[0].volume;
+        _Class.prototype.getVolume = function() {
+          return this.channels[0].volume;
         };
 
         /**
@@ -219,11 +233,11 @@
         */
 
 
-        Sound.prototype.getLength = function() {
-          return channels[0].duration;
+        _Class.prototype.getLength = function() {
+          return this.channels[0].duration;
         };
 
-        return Sound;
+        return _Class;
 
       })();
 

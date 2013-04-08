@@ -5,6 +5,7 @@ define (require) ->
 
     prefixs:
       image: 'assets/images/'
+      sfx: 'assets/sfx/'
 
     stars:
       number: 25
@@ -28,6 +29,10 @@ define (require) ->
       
       #'Trigger'
       'Rendering'
+    ]
+
+    sfx: [
+      'laser1'
     ]
       
 

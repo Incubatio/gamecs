@@ -12,6 +12,18 @@ require ['gamecs'], (gamecs) ->
         resources.push data.prefixs.image + v.Visible.image
       #if v.Animated && v.Animated.frameset
       #  resources.push data.prefixs.image + v.Animated.frameset
+
+    # Load sound from data
+    type = false
+    for k in ['mp3', 'wav', 'ogg', 'm4a']
+      if gamecs.Mixer.support[k]
+        gamecs.Mixer.sfxType = k
+        break
+
+    for k in data.sfx
+      resources.push data.prefixs.sfx + k + '.' + gamecs.Mixer.sfxType
+
+
     gamecs.preload(resources)
 
     gamecs.ready () ->
@@ -19,7 +31,8 @@ require ['gamecs'], (gamecs) ->
       display =
         bg1: gamecs.Display.setMode(data.screen.size, 'background')
         bg2: gamecs.Display.setMode(data.screen.size, 'stars')
-        fg:  gamecs.Display.setMode(data.screen.size, 'foreground')
+        fg:  gamecs.Display.setMode(data.screen.size, 'sprites')
+        fg2:  gamecs.Display.setMode(data.screen.size, 'foreground')
 
       myDirector = new Director(display, data)
 
@@ -43,5 +56,7 @@ require ['gamecs'], (gamecs) ->
         for entity in myDirector.groups.sprites then mySystems.Rendering.draw(entity, display.fg)
 
         myDirector.update()
+      
+        if myDirector.player.killed && !myDirector.isGameOver then myDirector.gameOver()
 
       gamecs.Time.interval(tick, 36)

@@ -61,6 +61,7 @@ define (require) ->
   Rect    = exports.Rect    = require('rect')
   Transform = exports.Transform = require('transform')
   Simplex = exports.Simplex = require('simplex')
+  Surface = exports.Surface = require('surface')
   TileMap = exports.TileMap = require('tilemap')
     #tmx',
     #noise'

@@ -111,17 +111,17 @@ define (require) ->
             #console.log collisions
             if(collisions.length > 0)
 
+              weapon = false
               for entity2 in collisions
                 if entity2.components.Weaponized
                   weapon = true
-                  entity.kill = true
+                  entity.killed = true
+                  entity.killer = entity2.name
                 if entity.components.Weaponized
-                  entity2.kill = true
+                  entity2.killed = true
+                  entity2.killer = entity.name
 
-
-              if weapon
-               
-              else
+              if !weapon
                 entity.rect = entity.oldRect.clone()
                 entity.rect.moveIp(x, 0)
 
