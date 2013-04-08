@@ -23,6 +23,13 @@
 
     isInit = false;
     return Surface = (function() {
+      /**
+      * set to false to disable
+      * pixel smoothing; this is, for example, useful for retro-style, low resolution graphics
+      * where you don't want the browser to smooth them when scaling & drawing.
+      */
+
+      Surface.SURFACE_SMOOTHING = true;
 
       function Surface() {
         var args, args2, height, width;
@@ -78,7 +85,11 @@
         */
 
         this._context = this._canvas.getContext('2d');
-        this._noSmooth();
+        if (Surface.SURFACE_SMOOTHING) {
+          this._smooth();
+        } else {
+          this._noSmooth();
+        }
       }
 
       /** @ignore
@@ -93,16 +104,15 @@
         */
         this.context.mozImageSmoothingEnabled = false;
         this.context.webkitImageSmoothingEnabled = false;
-        return;
-        return {
-          /** @ignore
-          */
+      };
 
-          _smooth: function() {
-            this.context.mozImageSmoothingEnabled = true;
-            return this.context.webkitImageSmoothingEnabled = true;
-          }
-        };
+      /** @ignore
+      */
+
+
+      Surface.prototype._smooth = function() {
+        this.context.mozImageSmoothingEnabled = true;
+        return this.context.webkitImageSmoothingEnabled = true;
       };
 
       /**
@@ -151,7 +161,7 @@
           if (!rDest.height) {
             rDest.height = srcSize[1];
           }
-        } else if (dest && dest instanceof Array && (dest.length = 2)) {
+        } else if (dest && dest instanceof Array && dest.length === 2) {
           rDest = new Rect(dest, src.getSize());
         } else {
           rDest = new Rect([0, 0], src.getSize());
@@ -159,7 +169,7 @@
         compositeOperation = compositeOperation || 'source-over';
         if (area instanceof Rect) {
           rArea = area;
-        } else if (area && area instanceof Array && (area.length = 2)) {
+        } else if (area && area instanceof Array && area.length === 2) {
           size = src.getSize();
           rArea = new Rect(area, [size[0] - area[0], size[1] - area[1]]);
         } else {

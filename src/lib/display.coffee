@@ -22,15 +22,6 @@ define (require) ->
     layers = {}
 
     ###*
-    * Pass this flag to `gamecs.display.setMode(resolution, flags)` to disable
-    * pixel smoothing; this is, for example, useful for retro-style, low resolution graphics
-    * where you don't want the browser to smooth them when scaling & drawing.
-    ###
-    DISABLE_SMOOTHING = 2
-
-    _SURFACE_SMOOTHING = true
-
-    ###*
     * @param {String} [id] id of the canvas dom element
     * @returns {document.Element} the canvas dom element
     ###
@@ -72,7 +63,7 @@ define (require) ->
     * @param {Array} dimensions [width, height] of the display surface
     * @param {String} [id] id of the canvas dom element
     ###
-    @setMode: (dimensions, id, flags) ->
+    @setMode: (dimensions, id) ->
       canvasId = id || CANVAS_ID
       gameContainer = document.getElementById(CONTAINER_ID)
       gameContainer.style.width = dimensions[0] + "px"
@@ -88,7 +79,6 @@ define (require) ->
         
       canvas.width  = dimensions[0]
       canvas.height = dimensions[1]
-      _SURFACE_SMOOTHING = (flags != DISABLE_SMOOTHING)
       return @getSurface(canvasId)
 
     ###*

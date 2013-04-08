@@ -16,7 +16,7 @@
     */
 
     return Display = (function() {
-      var CANVAS_ID, CONTAINER_ID, DISABLE_SMOOTHING, LOADER_ID, getCanvas, layers, _SURFACE_SMOOTHING;
+      var CANVAS_ID, CONTAINER_ID, LOADER_ID, getCanvas, layers;
 
       function Display() {}
 
@@ -27,17 +27,6 @@
       LOADER_ID = "gcs-loader";
 
       layers = {};
-
-      /**
-      * Pass this flag to `gamecs.display.setMode(resolution, flags)` to disable
-      * pixel smoothing; this is, for example, useful for retro-style, low resolution graphics
-      * where you don't want the browser to smooth them when scaling & drawing.
-      */
-
-
-      DISABLE_SMOOTHING = 2;
-
-      _SURFACE_SMOOTHING = true;
 
       /**
       * @param {String} [id] id of the canvas dom element
@@ -96,7 +85,7 @@
       */
 
 
-      Display.setMode = function(dimensions, id, flags) {
+      Display.setMode = function(dimensions, id) {
         var canvas, canvasId, gameContainer;
         canvasId = id || CANVAS_ID;
         gameContainer = document.getElementById(CONTAINER_ID);
@@ -114,7 +103,6 @@
         }
         canvas.width = dimensions[0];
         canvas.height = dimensions[1];
-        _SURFACE_SMOOTHING = flags !== DISABLE_SMOOTHING;
         return this.getSurface(canvasId);
       };
 
