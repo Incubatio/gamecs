@@ -106,7 +106,7 @@
           req.onreadystatechange = function() {
           if (req.readyState == 4 && req.status == 200) {
               e = document.getElementById('code').firstChild.firstChild;
-              e.innerHTML = req.response;
+              e.innerHTML = req.response.replace(/</g, '&lt;');
               hljs.highlightBlock(e)
             }
           }

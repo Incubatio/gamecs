@@ -1,5 +1,6 @@
-importScripts('assets/js/require.js')
-importScripts('assets/js/gamecs.min.js')
+# you might need to change inclusion paths below
+importScripts('/assets/js/require.js')
+importScripts('/assets/js/gamecs.min.js')
 requirejs.config({baseUrl: '/gamecs/build/lib/'})
 
 require ['rect'], (Rect) ->
