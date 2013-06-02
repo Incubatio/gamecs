@@ -34,27 +34,24 @@
           var component;
           if (entity.components.Animated) {
             component = entity.components.Animated;
-            if (!component.animation.currentAnimation) {
-              return component.image = component.animation.entitySheet.get(0);
+            if (!component.currentAnimation && component.entitySheet) {
+              entity.image = component.entitySheet.get(0);
+              return component.currentAnimation = true;
             }
           }
         };
 
         _Class.prototype.draw = function(entity, surface) {
-          var component;
-          if (entity.dirty && entity.components.Visible) {
-            component = entity.components.Visible;
-            if (component.image) {
-              surface.clear(entity.oldRect);
-              surface.fill('#fff', entity.rect);
-              surface.blit(component.image, entity.rect);
-            } else {
-              if (entity.oldRect) {
-                entity.oldRect.topleft = [entity.oldRect.left - 1, entity.oldRect.top - 1];
-                surface.clear(entity.oldRect);
-              }
-              gamecs.Draw.circle(surface, '#fff', entity.rect.topleft, 1, 0);
-            }
+          if (entity.image) {
+            surface.clear(entity.oldRect);
+            surface.blit(entity.image, entity.rect);
+            /*else
+              if entity.oldRect
+                entity.oldRect.topleft = [entity.oldRect.left - 1, entity.oldRect.top - 1]
+                surface.clear(entity.oldRect)
+              gamecs.Draw.circle(surface, '#fff', entity.rect.topleft, 1, 0)
+            */
+
             return entity.dirty = false;
           }
         };

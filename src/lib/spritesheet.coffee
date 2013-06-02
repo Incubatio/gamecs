@@ -4,13 +4,12 @@ define (require) ->
 
   class SpriteSheet
     
-    _images = []
-
     constructor: () ->
+      @_images = []
 
     #sheet is an instance of gamecs.image
     get: (id) ->
-       return _images[id]
+       return @_images[id]
 
     # sheet is an imageset, size is the size of each image in the set
     load: (sheet, size) ->
@@ -28,4 +27,4 @@ define (require) ->
           surface = new Surface(size)
           rect = new Rect((x*width), (y*height), width, height)
           surface.blit(sheet, imgSize, rect)
-          _images.push(surface)
+          @_images.push(surface)

@@ -24,6 +24,14 @@ define (require) ->
       pos = @getRandPos(options.x, options.y)
       star = new Entity(pos, v, {name: k, rect: new gamecs.Rect(pos, v.Visible.size), dirty: true})
       star.components.Mobile.speed = Math.round(v.Mobile.speed * Math.random()) + 1
+
+      v = @data.sprites['Star']
+      #@starImage = new gamecs.Surface(v.Visible.size)
+      star.image = new gamecs.Surface(v.Visible.size)
+      radius = Math.floor(Math.random() * 1.2) + Math.floor(Math.random() * 1.1) + 1
+      gamecs.Draw[v.Visible.shape](star.image, '#fff', [radius,radius], radius, 0)
+
+      #star.image = @starImage
       return star
 
     createMeteor: (options = {}) ->
@@ -32,6 +40,7 @@ define (require) ->
       pos = @getRandPos(options.x, - v.Visible.size[1])
       star = new Entity(pos, v, {name: k, rect: new gamecs.Rect(pos, v.Visible.size), dirty: true})
       star.components.Mobile.speed = Math.round(v.Mobile.speed * Math.random()) + 1
+      star.image = v.Visible.image
       return star
 
 
@@ -40,6 +49,7 @@ define (require) ->
 
       @display.bg1.fill('#000')
       @display.fg.blit((new gamecs.Font('45px Sans-serif')).render('Hello World'))
+
 
       # Bind resource on Sprites data
       for k, v of @data.sprites
@@ -55,10 +65,13 @@ define (require) ->
         v = @data.sprites[k]
         entity = new Entity(pos, v, {name: k, rect: new gamecs.Rect(pos, v.Visible.size), dirty: true})
         entity.oldRect = entity.rect.clone()
+        entity.image = entity.components.Visible.image if entity.components.Visible
         @groups.sprites.push entity
         @player = entity if entity.name == "Player"
       @player.score = 0
       @blitScore(0)
+
+
       # Init stars for background
       for i in [0..@data.stars.number] then @groups.stars.push @createStar()
 
@@ -113,7 +126,9 @@ define (require) ->
         if @player.firing
           v = @data.sprites.RLazer
           pos = [@player.rect.left + 45, @player.rect.top - 50]
-          @groups.sprites.push new Entity(pos, v, {name: 'RLazer', rect: new gamecs.Rect(pos, v.Visible.size), dirty: true})
+          lazer = new Entity(pos, v, {name: 'RLazer', rect: new gamecs.Rect(pos, v.Visible.size), dirty: true})
+          lazer.image = lazer.components.Visible.image
+          @groups.sprites.push lazer
           @playSound('laser1')
           @player.cooldown = 100
       else @player.cooldown -= 30

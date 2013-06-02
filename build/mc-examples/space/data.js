@@ -7,7 +7,7 @@
         size: [600, 800]
       },
       prefixs: {
-        image: 'assets/images/',
+        image: 'assets/images/space/',
         sfx: 'assets/sfx/'
       },
       stars: {
@@ -94,7 +94,7 @@
           Visible: {
             shape: "circle",
             radius: 1,
-            size: [3, 3]
+            size: [10, 10]
           }
         }
       },

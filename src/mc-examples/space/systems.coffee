@@ -17,12 +17,14 @@ define (require) ->
       update: (entity, ms) ->
         if(entity.components.Animated)
           component = entity.components.Animated
-          if(!component.animation.currentAnimation)
-            component.image = component.animation.entitySheet.get(0)
+          if(!component.currentAnimation && component.entitySheet)
+            #console.log component.entitySheet.name, entity.name
+            entity.image = component.entitySheet.get(0)
+            component.currentAnimation = true
 
       draw: (entity, surface) ->
-        if(entity.dirty && entity.components.Visible)
-          component = entity.components.Visible
+        #if(entity.dirty && entity.components.Visible)
+          #component = entity.components.Visible
 
           # offset = [0, 0]
           #rect = entity.rect.move(camera.getOffset())
@@ -36,16 +38,17 @@ define (require) ->
           #entity.components.Visible.image.clear()
         
           #entity.rect.topleft = entity.pos
-          if(component.image)
-            surface.clear(entity.oldRect)
-            surface.fill('#fff', entity.rect)
-            surface.blit(component.image, entity.rect)
-          else
-            #gamecs.Draw.circle(surface, '#fff', entity.oldRect.topleft, 1, 0)
+        if(entity.image)
+          surface.clear(entity.oldRect)
+#          surface.fill('#F00', entity.rect)
+          surface.blit(entity.image, entity.rect)
+          ###else
             if entity.oldRect
               entity.oldRect.topleft = [entity.oldRect.left - 1, entity.oldRect.top - 1]
               surface.clear(entity.oldRect)
             gamecs.Draw.circle(surface, '#fff', entity.rect.topleft, 1, 0)
+          ###
+          
 
           entity.dirty = false
 

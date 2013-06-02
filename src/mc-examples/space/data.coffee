@@ -4,7 +4,7 @@ define (require) ->
       size: [600, 800]
 
     prefixs:
-      image: 'assets/images/'
+      image: 'assets/images/space/'
       sfx: 'assets/sfx/'
 
     stars:
@@ -95,7 +95,7 @@ define (require) ->
         Visible:
           shape: "circle"
           radius: 1
-          size: [3, 3]
+          size: [10, 10]
 
     scene:
       actors: [

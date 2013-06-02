@@ -111,9 +111,12 @@
 
 
       Objects.accessors = function(object, props) {
-        return Objects.keys(props).forEach(function(propInput) {
-          return Objects.accessor(object, propInput, props[propInput].get, props[propInput].set);
-        });
+        var propInput, _results;
+        _results = [];
+        for (propInput in props) {
+          _results.push(Objects.accessor(object, propInput, props[propInput].get, props[propInput].set));
+        }
+        return _results;
       };
 
       return Objects;

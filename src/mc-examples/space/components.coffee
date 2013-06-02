@@ -47,6 +47,8 @@ define (require) ->
       imageset: false
       frameset: false
       animation: false
+      entitySheet: false
+      options: false
 
     #class Traversable
 

@@ -6,14 +6,13 @@
     Surface = require('surface');
     Rect = require('rect');
     return SpriteSheet = (function() {
-      var _images;
 
-      _images = [];
-
-      function SpriteSheet() {}
+      function SpriteSheet() {
+        this._images = [];
+      }
 
       SpriteSheet.prototype.get = function(id) {
-        return _images[id];
+        return this._images[id];
       };
 
       SpriteSheet.prototype.load = function(sheet, size) {
@@ -32,10 +31,10 @@
               surface = new Surface(size);
               rect = new Rect(x * width, y * height, width, height);
               surface.blit(sheet, imgSize, rect);
-              _results1.push(_images.push(surface));
+              _results1.push(this._images.push(surface));
             }
             return _results1;
-          })());
+          }).call(this));
         }
         return _results;
       };

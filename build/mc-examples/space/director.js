@@ -38,7 +38,7 @@
       };
 
       Director.prototype.createStar = function(options) {
-        var k, pos, star, v;
+        var k, pos, radius, star, v;
         if (options == null) {
           options = {};
         }
@@ -51,6 +51,10 @@
           dirty: true
         });
         star.components.Mobile.speed = Math.round(v.Mobile.speed * Math.random()) + 1;
+        v = this.data.sprites['Star'];
+        star.image = new gamecs.Surface(v.Visible.size);
+        radius = Math.floor(Math.random() * 1.2) + Math.floor(Math.random() * 1.1) + 1;
+        gamecs.Draw[v.Visible.shape](star.image, '#fff', [radius, radius], radius, 0);
         return star;
       };
 
@@ -68,6 +72,7 @@
           dirty: true
         });
         star.components.Mobile.speed = Math.round(v.Mobile.speed * Math.random()) + 1;
+        star.image = v.Visible.image;
         return star;
       };
 
@@ -101,6 +106,9 @@
             dirty: true
           });
           entity.oldRect = entity.rect.clone();
+          if (entity.components.Visible) {
+            entity.image = entity.components.Visible.image;
+          }
           this.groups.sprites.push(entity);
           if (entity.name === "Player") {
             this.player = entity;
@@ -181,7 +189,7 @@
       };
 
       Director.prototype.update = function() {
-        var entity, group, h, i, k, pos, v, w, w2, _i, _len, _ref, _ref1, _results;
+        var entity, group, h, i, k, lazer, pos, v, w, w2, _i, _len, _ref, _ref1, _results;
         _ref = this.groups;
         for (k in _ref) {
           group = _ref[k];
@@ -219,11 +227,13 @@
           if (this.player.firing) {
             v = this.data.sprites.RLazer;
             pos = [this.player.rect.left + 45, this.player.rect.top - 50];
-            this.groups.sprites.push(new Entity(pos, v, {
+            lazer = new Entity(pos, v, {
               name: 'RLazer',
               rect: new gamecs.Rect(pos, v.Visible.size),
               dirty: true
-            }));
+            });
+            lazer.image = lazer.components.Visible.image;
+            this.groups.sprites.push(lazer);
             this.playSound('laser1');
             this.player.cooldown = 100;
           }

@@ -103,6 +103,10 @@
 
         _Class.prototype.animation = false;
 
+        _Class.prototype.entitySheet = false;
+
+        _Class.prototype.options = false;
+
         return _Class;
 
       })(),

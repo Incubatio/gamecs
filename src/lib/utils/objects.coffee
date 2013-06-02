@@ -80,6 +80,5 @@ define (require) ->
     * @see https:#developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object/defineProperties
     ###
     @accessors: (object, props) ->
-      Objects.keys(props).forEach((propInput) ->
+      for propInput of props
         Objects.accessor(object, propInput, props[propInput].get, props[propInput].set)
-      )
