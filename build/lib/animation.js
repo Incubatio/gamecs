@@ -2,59 +2,120 @@
 (function() {
 
   define(function(require) {
-    var Transform, options, start, update;
+    var Animation, Transform;
     Transform = require('transform');
-    classs(Animation({
-      constructor: function(spriteSheet, animPatterns, options) {}
-    }, options = options || {}, this.fps = options.fps || 6, this.xflip = options.xflip || {}, this.yflip = options.yflip || {}, this.frameDuration = 1000 / this.fps, this.patterns = animPatterns, this.currentFrame = null, this.currentFrameDuration = 0, this.currentAnimation = null, this.spriteSheet = spriteSheet, this.finished = true, this.image = null));
-    start = function(animName) {
-      this.currentAnimation = animName;
-      this.finished = false;
-      this.currentFrame = this.patterns[animName][0];
-      this.currentFrameDuration = 0;
-      return this.update(0);
-    };
-    return update = function(ms) {
-      var anim, image, xflip, yflip;
-      if (!this.currentAnimation) {
-        throw new Error('No animation started. Start("an animation") before updating');
-      }
-      xflip = false;
-      yflip = false;
-      this.currentFrameDuration += ms;
-      if (this.currentFrameDuration >= this.frameDuration) {
-        this.currentFrameDuration = 0;
-        anim = this.patterns[this.currentAnimation];
-        /* start = anim[0],
-         * end       = anim[1],
-         * isLooping = anim[2]
-        */
+    return Animation = (function() {
 
-        if (anim.length === 1 || this.currentFrame === anim[1]) {
-          this.finished = true;
-          if (anim[2] !== false) {
-            this.currentFrame = anim[0];
-          }
-        } else {
-          if (anim[0] < anim[1]) {
-            this.currentFrame++;
+      function Animation(spriteSheet, patterns, options) {
+        this.spriteSheet = spriteSheet;
+        this.patterns = patterns;
+        options = options || {};
+        this.fps = options.fps || 20;
+        this.xflip = options.xflip || {};
+        this.yflip = options.yflip || {};
+        this.frameDuration = 1000 / this.fps;
+        this.currentFrame = null;
+        this.currentFrameDuration = 0;
+        this.currentAnimation = null;
+        this.image = this.spriteSheet.get(0);
+        this.running = false;
+      }
+
+      Animation.prototype.open = function(currentAnimation) {
+        this.currentAnimation = currentAnimation;
+      };
+
+      Animation.prototype.start = function(animName) {
+        this.open(animName);
+        this.reset(true);
+        return this;
+      };
+
+      Animation.prototype.reset = function(running) {
+        this.running = running != null ? running : false;
+        if (this.patterns[this.currentAnimation]) {
+          this.currentFrame = this.patterns[this.currentAnimation][0];
+          this.currentFrameDuration = 0;
+          this._update(0);
+        }
+        return this;
+      };
+
+      Animation.prototype.pause = function() {
+        this.running = false;
+        return this;
+      };
+
+      Animation.prototype.play = function() {
+        this.running = true;
+        return this;
+      };
+
+      /*
+          backward: (x) ->
+            @currentFrame -= x
+            @
+      
+          forward: (x) ->
+            @currentFrame += x
+            @
+      */
+
+
+      Animation.prototype.update = function(ms) {
+        if (ms == null) {
+          ms = 30;
+        }
+        if (this.running) {
+          this._update(ms);
+        }
+        return this.image;
+      };
+
+      Animation.prototype._update = function(ms) {
+        var anim, image, xflip, yflip;
+        if (!this.currentAnimation) {
+          throw new Error('No animation started. open("an animation") or start("an animation") before updating');
+        }
+        xflip = false;
+        yflip = false;
+        this.currentFrameDuration += ms;
+        if (this.currentFrameDuration >= this.frameDuration) {
+          this.currentFrameDuration = 0;
+          anim = this.patterns[this.currentAnimation];
+          /* start = anim[0],
+           * end       = anim[1],
+           * isLooping = anim[2]
+          */
+
+          if (anim.length === 1 || this.currentFrame === anim[1]) {
+            if (anim[2] !== false) {
+              this.currentFrame = anim[0];
+            }
           } else {
-            this.currentFrame--;
+            if (anim[0] < anim[1]) {
+              this.currentFrame++;
+            } else {
+              this.currentFrame--;
+            }
           }
         }
-      }
-      image = this.spriteSheet.get(this.currentFrame);
-      if (this.xflip[this.currentAnimation]) {
-        xflip = true;
-      }
-      if (this.yflip[this.currentAnimation]) {
-        yflip = true;
-      }
-      if (xflip || yflip) {
-        image = gamejs.transform.flip(image, xflip, yflip);
-      }
-      return image;
-    };
+        image = this.spriteSheet.get(this.currentFrame);
+        if (this.xflip[this.currentAnimation]) {
+          xflip = true;
+        }
+        if (this.yflip[this.currentAnimation]) {
+          yflip = true;
+        }
+        if (xflip || yflip) {
+          image = Transform.flip(image, xflip, yflip);
+        }
+        return this.image = image;
+      };
+
+      return Animation;
+
+    })();
   });
 
 }).call(this);

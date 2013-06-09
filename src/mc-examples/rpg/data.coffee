@@ -42,7 +42,7 @@ define (require) ->
         Visible:
           size: [64, 64]
         Animated:
-          frameset: { "down": [56, 59], "left": [11, 8], "right": [8, 11], "up": [34, 39], "pause": [63, 64] }
+          frameset: { "down": [56, 59], "left": [8, 11], "right": [8, 11], "up": [34, 39], "pause": [64, 65] }
           imageset: "frameset/firefox.png"
           options:
             xflip: {"left" : true}
@@ -53,7 +53,7 @@ define (require) ->
 
       Octocat:
         Animated:
-          frameset: { "down": [0, 3], "left": [4, 7], "right": [8, 11], "up": [12, 15], "pause": [0] }
+          frameset: { "wave": [0, 3], "pause": [0] }
           imageset: "frameset/octocat.png"
         Mobile:
           speed: 0

@@ -1,60 +1,96 @@
 define (require) ->
   Transform = require('transform')
 
-  classs Animation
-    constructor: (spriteSheet, animPatterns, options) ->
-    options  = options || {}
-    this.fps = options.fps || 6
-    this.xflip = options.xflip || {}
-    this.yflip = options.yflip || {}
-    this.frameDuration = 1000 / this.fps
-    this.patterns = animPatterns
+  class Animation
+    constructor: (@spriteSheet, @patterns, options) ->
+      options  = options || {}
+      @fps = options.fps || 20
+      @xflip = options.xflip || {}
+      @yflip = options.yflip || {}
+      @frameDuration = 1000 / @fps
 
-    this.currentFrame = null
-    this.currentFrameDuration = 0
-    this.currentAnimation = null
+      @currentFrame = null
+      @currentFrameDuration = 0
+      @currentAnimation = null
+      #@nextAnimation = null
 
-    this.spriteSheet = spriteSheet
-    this.finished = true
-    this.image = null
+      #@image = null
+      @image = @spriteSheet.get(0)
+      @running = false
 
-  start = (animName) ->
-    this.currentAnimation = animName
-    this.finished = false
-    this.currentFrame = this.patterns[animName][0]
-    this.currentFrameDuration = 0
-    this.update(0)
 
-  update = (ms) ->
-    if (!this.currentAnimation)
-      throw new Error('No animation started. Start("an animation") before updating')
-    xflip = false
-    yflip = false
+    open: (@currentAnimation) ->
 
-    this.currentFrameDuration += ms
-    if (this.currentFrameDuration >= this.frameDuration)
-      this.currentFrameDuration = 0
+    start: (animName) ->
+      @open(animName)
+      @reset(true)
+      @
 
-      # Animation pattern Params
-      anim = this.patterns[this.currentAnimation]
-      ### start = anim[0],
-       * end       = anim[1],
-       * isLooping = anim[2] ###
+    reset: (@running = false) ->
+      if @patterns[@currentAnimation]
+        @currentFrame = @patterns[@currentAnimation][0]
+        @currentFrameDuration = 0
+        @_update(0)
+      @
 
-      # if Animation finished
-      if (anim.length == 1 || this.currentFrame == anim[1])
-        this.finished = true
-        # looping is considered as true if null (animation loop by default)
-        if (anim[2] != false) then this.currentFrame = anim[0]
-      else
-          if anim[0] < anim[1] then this.currentFrame++ else this.currentFrame--
+    pause: () ->
+      @running = false
+      @
 
-    image = this.spriteSheet.get(this.currentFrame)
+    play: () ->
+      @running = true
+      @
 
-    # TODO: put flipped images in cache
-    if(this.xflip[this.currentAnimation]) then xflip = true
-    if(this.yflip[this.currentAnimation]) then yflip = true
-    if(xflip || yflip) then image = gamejs.transform.flip(image, xflip, yflip)
+    ###
+    backward: (x) ->
+      @currentFrame -= x
+      @
 
-    return image
+    forward: (x) ->
+      @currentFrame += x
+      @
+    ###
 
+
+    update: (ms = 30) ->
+      if @running then @_update(ms)
+      return @image
+          
+      #if @nextAnimation
+      #  entity.animation.start(entity.animation.nextAnimation)
+      #  entity.image = entity.animation.update(0)
+      #if entity.animation.nextAnimation == false
+      #  entity.animation.start(entity.animation.currentAnimation)
+      
+      #else if entity.animation.currentAnimation then entity.image = entity.animation.update(30)
+
+    _update: (ms) ->
+      if (!@currentAnimation)
+        throw new Error('No animation started. open("an animation") or start("an animation") before updating')
+      xflip = false
+      yflip = false
+
+      @currentFrameDuration += ms
+      if (@currentFrameDuration >= @frameDuration)
+        @currentFrameDuration = 0
+
+        # Animation pattern Params
+        anim = @patterns[@currentAnimation]
+        ### start = anim[0],
+         * end       = anim[1],
+         * isLooping = anim[2] ###
+
+        # if Animation finished
+        if (anim.length == 1 || @currentFrame == anim[1])
+          # looping is considered as true if null (animation loops by default)
+          if (anim[2] != false) then @currentFrame = anim[0]
+        else
+          if anim[0] < anim[1] then @currentFrame++ else @currentFrame--
+
+      image = @spriteSheet.get(@currentFrame)
+
+      # TODO: put flipped images in cache
+      if(@xflip[@currentAnimation]) then xflip = true
+      if(@yflip[@currentAnimation]) then yflip = true
+      if(xflip || yflip) then image = Transform.flip(image, xflip, yflip)
+      @image = image

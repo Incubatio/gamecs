@@ -29,35 +29,39 @@ require ['gamecs'], (gamecs) ->
 
       gamecs.ready () ->
 
+        # Init screen layers
         display = {
           bg: gamecs.Display.setMode(data.screen.size, 'background')
           fg:  gamecs.Display.setMode(data.screen.size, 'sprites')
           fg2: gamecs.Display.setMode(data.screen.size, 'foreground')
         }
 
+        # Init director
         myDirector = new Director(display, data)
+        console.log myDirector.groups
+        myDirector.groups.sprites[2].animation.start 'active'
+        myDirector.groups.sprites[3].animation.start 'wave'
 
         # Init systems
         for k in data.systems
           mySystems[k] = new systems[k]({ entities: myDirector.groups.sprites, data: data })
 
+
         tick = () ->
 
+          # 1. Handle input and A.I.
           myDirector.handleInput(gamecs.Input.get())
+          myDirector.handleAI()
 
-
-          # Update
+          # 2. Update
           for k, group of myDirector.groups then for entity in group
             for k2, system of mySystems then system.update(entity, 30)
 
-
-
-          # Draw
+          # 3. Draw
           #for entity in myDirector.groups.stars then mySystems.Rendering.draw(entity, display.bg2)
           for entity in myDirector.groups.sprites then mySystems.Rendering.draw(entity, display.fg)
 
-          #myDirector.update()
-        
+          # 4. Game Over condition
           if myDirector.player.killed && !myDirector.isGameOver then myDirector.gameOver()
 
         gamecs.Time.interval(tick, 36)

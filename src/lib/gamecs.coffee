@@ -47,7 +47,7 @@ define (require) ->
 
   Display = exports.Display = require('display')
   Draw    = exports.Draw    = require('draw')
-  Input     = exports.Input     = require('input')
+  Input   = exports.Input     = require('input')
   Font    = exports.Font    = require('font')
   Http    = exports.Http    = require('http')
   Img     = exports.Img     = require('img')
@@ -63,6 +63,7 @@ define (require) ->
   Simplex = exports.Simplex = require('simplex')
   Surface = exports.Surface = require('surface')
   TileMap = exports.TileMap = require('tilemap')
+  Animation = exports.Animation = require('animation')
     #tmx',
     #noise'
     #Surfacearray',

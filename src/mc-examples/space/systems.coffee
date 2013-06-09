@@ -15,12 +15,14 @@ define (require) ->
         this.scaleRate = 1.5
 
       update: (entity, ms) ->
-        if(entity.components.Animated)
+        #if(entity.components.Animated)
+        if(entity.animation)
           component = entity.components.Animated
-          if(!component.currentAnimation && component.entitySheet)
-            #console.log component.entitySheet.name, entity.name
-            entity.image = component.entitySheet.get(0)
-            component.currentAnimation = true
+
+          entity.image = entity.animation.update(ms)
+          #else if component.entitySheet then entity.image = component.entitySheet.get(0)
+
+
 
       draw: (entity, surface) ->
         #if(entity.dirty && entity.components.Visible)
@@ -154,22 +156,6 @@ define (require) ->
         if entity.components.Mobile
           component = entity.components.Mobile
           if component.moveX != 0 || component.moveY != 0
-            # Handle animations that depends on moves
-            #if(entity.Animated)
-              #&& entity.animation.currentAnimation != 'pause') {
-              # TODO: seperate animation from orientation ?
-              #animation = switch
-              #  when entity.moveX < 0 then "left"
-              #  when entity.moveX > 0 then "right"
-              #  when entity.moveY < 0 then "up"
-              #  when entity.moveY > 0 then "down"
-              #  else "pause"
-
-              #if(animation && animation != entity.animation.currentAnimation)
-              #  entity.animation.start(animation)
-
-              #entity.image = entity.animation.update(30)
-
 
             entity.oldRect = entity.rect.clone()
 

@@ -2,9 +2,10 @@
 (function() {
 
   define(function(require) {
-    var Camera, Director, Entity, SpriteSheet, components, gamecs, systems;
+    var Animation, Camera, Director, Entity, SpriteSheet, components, gamecs, systems;
     gamecs = require('gamecs');
     Entity = require('entity');
+    Animation = require('animation');
     components = require('components');
     systems = require('systems');
     SpriteSheet = require('spritesheet');
@@ -121,6 +122,9 @@
           if (entity.components.Visible) {
             entity.image = entity.components.Visible.image;
           }
+          if (v.Animated && v.Animated.imageset) {
+            entity.animation = new Animation(v.Animated.entitySheet, v.Animated.frameset, v.Animated.options);
+          }
           this.groups.sprites.push(entity);
           if (entity.name === "Player") {
             this.player = entity;
@@ -130,7 +134,7 @@
       }
 
       Director.prototype.handleInput = function(events) {
-        var component, event, x, y, _i, _len, _results;
+        var animation, component, event, x, y, _i, _len, _results;
         component = this.player.components.Mobile;
         if (!this.isGameOver) {
           _results = [];
@@ -193,11 +197,33 @@
               }
             }
             component.moveX = x;
-            _results.push(component.moveY = y);
+            component.moveY = y;
+            animation = (function() {
+              switch (false) {
+                case !(x < 0):
+                  return "left";
+                case !(x > 0):
+                  return "right";
+                case !(y < 0):
+                  return "up";
+                case !(y > 0):
+                  return "down";
+                default:
+                  this.player.animation.reset();
+                  return false;
+              }
+            }).call(this);
+            if (animation && !(animation === this.player.animation.currentAnimation && this.player.animation.running)) {
+              _results.push(this.player.animation.start(animation));
+            } else {
+              _results.push(void 0);
+            }
           }
           return _results;
         }
       };
+
+      Director.prototype.handleAI = function() {};
 
       Director.prototype.test = function() {
         var entity, _i, _len, _ref, _results;
@@ -391,61 +417,6 @@
               }
             }
             return _results;
-          },
-          handleInput: function(event) {
-            var player;
-            if (this.status === this.RUNNING && this.scene.sprites.Player) {
-              player = this.scene.sprites.Player;
-              if (event.type === gamecs.event.KEY_DOWN) {
-                switch (event.key) {
-                  case gamecs.event.K_w:
-                  case gamecs.event.K_UP:
-                    player.moveY = -1;
-                    break;
-                  case gamecs.event.K_s:
-                  case gamecs.event.K_DOWN:
-                    player.moveY = 1;
-                    break;
-                  case gamecs.event.K_a:
-                  case gamecs.event.K_LEFT:
-                    player.moveX = -1;
-                    break;
-                  case gamecs.event.K_d:
-                  case gamecs.event.K_RIGHT:
-                    player.moveX = 1;
-                }
-                if (event.key === gamecs.event.K_e) {
-                  this.scene.sprites.Player.attacking = true;
-                }
-              }
-              if (event.type === gamecs.event.KEY_UP) {
-                switch (event.key) {
-                  case gamecs.event.K_w:
-                  case gamecs.event.K_UP:
-                    if (player.moveY < 0) {
-                      return player.moveY = 0;
-                    }
-                    break;
-                  case gamecs.event.K_s:
-                  case gamecs.event.K_DOWN:
-                    if (player.moveY > 0) {
-                      return player.moveY = 0;
-                    }
-                    break;
-                  case gamecs.event.K_a:
-                  case gamecs.event.K_LEFT:
-                    if (player.moveX < 0) {
-                      return player.moveX = 0;
-                    }
-                    break;
-                  case gamecs.event.K_d:
-                  case gamecs.event.K_RIGHT:
-                    if (player.moveX > 0) {
-                      return player.moveX = 0;
-                    }
-                }
-              }
-            }
           },
           finish: function() {
             this.status = this.LOADING;

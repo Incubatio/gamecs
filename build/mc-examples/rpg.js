@@ -47,6 +47,9 @@
             fg2: gamecs.Display.setMode(data.screen.size, 'foreground')
           };
           myDirector = new Director(display, data);
+          console.log(myDirector.groups);
+          myDirector.groups.sprites[2].animation.start('active');
+          myDirector.groups.sprites[3].animation.start('wave');
           _ref3 = data.systems;
           for (_k = 0, _len2 = _ref3.length; _k < _len2; _k++) {
             k = _ref3[_k];
@@ -58,6 +61,7 @@
           tick = function() {
             var entity, group, k2, system, _l, _len3, _len4, _m, _ref4, _ref5;
             myDirector.handleInput(gamecs.Input.get());
+            myDirector.handleAI();
             _ref4 = myDirector.groups;
             for (k in _ref4) {
               group = _ref4[k];

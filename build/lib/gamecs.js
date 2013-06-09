@@ -9,7 +9,7 @@
        * the most important as it kickstarts your app.
     */
 
-    var Base64, DEBUG_LEVELS, Display, Draw, Font, Group, Http, Img, Input, Mask, Mixer, RESOURCES, Rect, Simplex, Sprite, Surface, TileMap, Time, Transform, Xml, debugLevel, exports, init, preload, resourceBaseHref;
+    var Animation, Base64, DEBUG_LEVELS, Display, Draw, Font, Group, Http, Img, Input, Mask, Mixer, RESOURCES, Rect, Simplex, Sprite, Surface, TileMap, Time, Transform, Xml, debugLevel, exports, init, preload, resourceBaseHref;
     DEBUG_LEVELS = ['info', 'warn', 'error', 'fatal'];
     debugLevel = 2;
     exports = {};
@@ -82,6 +82,7 @@
     Simplex = exports.Simplex = require('simplex');
     Surface = exports.Surface = require('surface');
     TileMap = exports.TileMap = require('tilemap');
+    Animation = exports.Animation = require('animation');
     /*
       * ReadyFn is called once all modules and assets are loaded.
       * @param {Function} readyFn the function to be called once gamecs finished loading

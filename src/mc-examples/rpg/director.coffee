@@ -1,7 +1,7 @@
 define (require) ->
   gamecs      = require('gamecs')
   Entity = require('entity')
-  #animation   = require('animation')
+  Animation   = require('animation')
   components  = require('components')
   systems     = require('systems')
   SpriteSheet = require('spritesheet')
@@ -94,7 +94,10 @@ define (require) ->
         v = @data.sprites[k]
         entity = new Entity(pos, v, {name: k, rect: new gamecs.Rect(pos, v.Visible.size), dirty: true})
         entity.oldRect = entity.rect.clone()
-        entity.image = entity.components.Visible.image if entity.components.Visible
+        if entity.components.Visible then entity.image = entity.components.Visible.image
+        if v.Animated && v.Animated.imageset
+          entity.animation = new Animation(v.Animated.entitySheet, v.Animated.frameset, v.Animated.options)
+        
         @groups.sprites.push entity
         @player = entity if entity.name == "Player"
       @player.score = 0
@@ -123,6 +126,20 @@ define (require) ->
               when gamecs.Input.K_SPACE then @player.firing = false
           component.moveX = x
           component.moveY = y
+
+          animation = switch
+            when x < 0 then "left"
+            when x > 0 then "right"
+            when y < 0 then "up"
+            when y > 0 then "down"
+            #else "pause"
+            else @player.animation.reset(); false
+          if animation && !(animation == @player.animation.currentAnimation && @player.animation.running)
+            @player.animation.start(animation)
+            #@player.dirty = true
+
+    handleAI: () ->
+
 
     test: () ->
       console.log 'test'
@@ -293,41 +310,6 @@ define (require) ->
           ## TOTHINK: define empty methods vs test if method exists
           ## TODO: an event base application would be more proper: cf Incube_Events
         #@testDraw()
-
-      #TOTHINK: Manage input in scenes ?
-      handleInput: (event) ->
-        #if (event.type == gamecs.event.KEY_DOWN)
-          #if(event.key == gamecs.event.K_t)
-            #@test()
-
-        if(@status == @RUNNING && @scene.sprites.Player)
-          player = @scene.sprites.Player
-          if (event.type == gamecs.event.KEY_DOWN)
-            switch(event.key)
-              when gamecs.event.K_w, gamecs.event.K_UP
-                player.moveY = -1
-              when gamecs.event.K_s, gamecs.event.K_DOWN
-                player.moveY = 1
-              when gamecs.event.K_a, gamecs.event.K_LEFT
-                player.moveX = -1
-              when gamecs.event.K_d, gamecs.event.K_RIGHT
-                player.moveX = 1
-
-            if(event.key == gamecs.event.K_e)
-              @scene.sprites.Player.attacking = true
-            #if(event.key == gamecs.event.K_q)
-              #@_dialog('john do', 'message')
-          if (event.type == gamecs.event.KEY_UP)
-            switch(event.key)
-              when gamecs.event.K_w, gamecs.event.K_UP
-                if(player.moveY < 0) then player.moveY = 0
-              when gamecs.event.K_s, gamecs.event.K_DOWN
-                if(player.moveY > 0) then player.moveY = 0
-
-              when gamecs.event.K_a, gamecs.event.K_LEFT
-                if(player.moveX < 0) then player.moveX = 0
-              when gamecs.event.K_d, gamecs.event.K_RIGHT
-                if(player.moveX > 0) then player.moveX = 0
 
       finish: () ->
         @status = @LOADING

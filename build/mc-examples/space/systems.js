@@ -32,12 +32,9 @@
 
         _Class.prototype.update = function(entity, ms) {
           var component;
-          if (entity.components.Animated) {
+          if (entity.animation) {
             component = entity.components.Animated;
-            if (!component.currentAnimation && component.entitySheet) {
-              entity.image = component.entitySheet.get(0);
-              return component.currentAnimation = true;
-            }
+            return entity.image = entity.animation.update(ms);
           }
         };
 

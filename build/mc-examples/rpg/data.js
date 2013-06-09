@@ -31,10 +31,10 @@
           Animated: {
             frameset: {
               "down": [56, 59],
-              "left": [11, 8],
+              "left": [8, 11],
               "right": [8, 11],
               "up": [34, 39],
-              "pause": [63, 64]
+              "pause": [64, 65]
             },
             imageset: "frameset/firefox.png",
             options: {
@@ -53,10 +53,7 @@
         Octocat: {
           Animated: {
             frameset: {
-              "down": [0, 3],
-              "left": [4, 7],
-              "right": [8, 11],
-              "up": [12, 15],
+              "wave": [0, 3],
               "pause": [0]
             },
             imageset: "frameset/octocat.png"
