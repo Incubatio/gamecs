@@ -26,6 +26,8 @@
 
         __extends(_Class, _super);
 
+        _Class.prototype.offset = [0, 0];
+
         function _Class() {
           this.scaleRate = 1.5;
         }
@@ -40,8 +42,8 @@
 
         _Class.prototype.draw = function(entity, surface) {
           if (entity.image) {
-            surface.clear(entity.oldRect);
-            surface.blit(entity.image, entity.rect);
+            surface.clear(entity.oldRect.move(this.offset));
+            surface.blit(entity.image, entity.rect.move(this.offset));
             /*else
               if entity.oldRect
                 entity.oldRect.topleft = [entity.oldRect.left - 1, entity.oldRect.top - 1]
@@ -183,13 +185,14 @@
         }
 
         _Class.prototype.update = function(entity, ms) {
-          var component, x, y;
+          var component, multiplier, x, y;
           if (entity.components.Mobile) {
             component = entity.components.Mobile;
             if (component.moveX !== 0 || component.moveY !== 0) {
               entity.oldRect = entity.rect.clone();
-              x = component.moveX * component.speed;
-              y = component.moveY * component.speed;
+              multiplier = component.moveX !== 0 && component.moveY !== 0 ? 1 : 1.41;
+              x = Math.round(component.moveX * component.speed * multiplier);
+              y = Math.round(component.moveY * component.speed * multiplier);
               entity.dirty = true;
               return entity.rect.moveIp(x, y);
             }

@@ -9,7 +9,9 @@ define (require) ->
   # Render
   systems =
     Rendering: class extends System
-    
+
+      offset: [0, 0]
+
       constructor: () ->
         # TODO: use an option param to param scale
         this.scaleRate = 1.5
@@ -21,8 +23,6 @@ define (require) ->
 
           entity.image = entity.animation.update(ms)
           #else if component.entitySheet then entity.image = component.entitySheet.get(0)
-
-
 
       draw: (entity, surface) ->
         #if(entity.dirty && entity.components.Visible)
@@ -41,9 +41,9 @@ define (require) ->
         
           #entity.rect.topleft = entity.pos
         if(entity.image)
-          surface.clear(entity.oldRect)
+          surface.clear(entity.oldRect.move(@offset))
 #          surface.fill('#F00', entity.rect)
-          surface.blit(entity.image, entity.rect)
+          surface.blit(entity.image, entity.rect.move(@offset))
           ###else
             if entity.oldRect
               entity.oldRect.topleft = [entity.oldRect.left - 1, entity.oldRect.top - 1]
@@ -160,8 +160,11 @@ define (require) ->
             entity.oldRect = entity.rect.clone()
 
             # TODO: Maybe manage mobile object while pressing a key that will put the user in a pushing/pulling position
-            x = component.moveX * component.speed
-            y = component.moveY * component.speed
+            # 1 straight move = ~1.41 diagonal move, possible optimization ratio:  3/~4.25 and 5/~7.07
+            multiplier = if(component.moveX != 0 && component.moveY != 0) then 1 else 1.41
+
+            x = Math.round(component.moveX * component.speed * multiplier)
+            y = Math.round(component.moveY * component.speed * multiplier)
 
             entity.dirty = true
             entity.rect.moveIp(x, y)

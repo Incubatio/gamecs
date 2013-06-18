@@ -6,23 +6,16 @@
       screen: {
         size: [600, 800]
       },
+      map: {
+        url: 'assets/data/rpg/example.json',
+        tilesheet: 'tilesheet.png'
+      },
       prefixs: {
         image: 'assets/images/rpg/',
         sfx: 'assets/sfx/'
       },
-      stars: {
-        number: 25
-      },
-      ennemies: {
-        cooldown: 3000,
-        spawnRate: 1000
-      },
-      meteors: {
-        cooldown: 1000,
-        spawnRate: 4000
-      },
       systems: ['Movement', 'Rotation', 'Collision', 'Rendering'],
-      sfx: ['laser1'],
+      sfx: [],
       sprites: {
         Player: {
           Visible: {
@@ -44,10 +37,13 @@
             }
           },
           Mobile: {
-            speed: 4
+            speed: 3
           },
           Weaponized: {
             weapon: 'sword'
+          },
+          Collidable: {
+            shape: "rect"
           }
         },
         Octocat: {
@@ -56,13 +52,19 @@
               "wave": [0, 3],
               "pause": [0]
             },
-            imageset: "frameset/octocat.png"
+            imageset: "frameset/octocat.png",
+            options: {
+              start: 'wave'
+            }
           },
           Mobile: {
             speed: 0
           },
           Visible: {
             size: [32, 32]
+          },
+          Collidable: {
+            shape: "rect"
           }
         },
         Stargate: {
@@ -75,10 +77,16 @@
             frameset: {
               'active': [0, 14]
             },
-            imageset: "frameset/vortex.png"
+            imageset: "frameset/vortex.png",
+            options: {
+              start: 'active'
+            }
           },
           Visible: {
             size: [64, 64]
+          },
+          Collidable: {
+            shape: "rect"
           }
         },
         Sword: {
@@ -106,7 +114,8 @@
         }
       },
       scene: {
-        actors: [['Player', [100, 100]], ['Sword', [-100, 100]], ['Vortex', [267, 17]], ['Octocat', [180, 90]]]
+        actors: [['Player', [100, 100]], ['Sword', [-100, 100]], ['Vortex', [267, 17]], ['Octocat', [180, 90]]],
+        decors: [['text', 'Hello World', [220, 250]], ['image', 'stargate.png', [250, 1]], ['text', 'Hello World 2', [820, 250]]]
       }
     };
   });

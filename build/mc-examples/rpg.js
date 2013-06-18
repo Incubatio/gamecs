@@ -5,12 +5,12 @@
     requirejs.config({
       baseUrl: 'build/mc-examples/space'
     });
-    return require(['systems', 'entity'], function(systems, Entity) {
+    return require(['systems', 'entity', 'camera'], function(systems, Entity) {
       requirejs.config({
         baseUrl: 'build/mc-examples/rpg'
       });
-      return require(['director', 'data'], function(Director, data) {
-        var k, myEntities, mySystems, resources, v, _i, _j, _len, _len1, _ref, _ref1, _ref2;
+      return require(['director', 'data', 'http', 'tilemap'], function(Director, data, Http, TileMap) {
+        var k, myEntities, mySystems, req, resources, v, _i, _j, _len, _len1, _ref, _ref1, _ref2;
         resources = [];
         myEntities = [];
         mySystems = {};
@@ -24,6 +24,7 @@
             resources.push(data.prefixs.image + v.Animated.imageset);
           }
         }
+        resources.push(data.prefixs.image + data.map.tilesheet);
         gamecs.Mixer.sfxType = false;
         _ref1 = ['mp3', 'wav', 'ogg', 'm4a'];
         for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
@@ -38,18 +39,23 @@
           k = _ref2[_j];
           resources.push(data.prefixs.sfx + k + '.' + gamecs.Mixer.sfxType);
         }
+        req = Http.get(data.map.url);
         gamecs.preload(resources);
         return gamecs.ready(function() {
-          var display, myDirector, tick, _k, _len2, _ref3;
+          var display, map, mapData, myDirector, tick, _k, _len2, _ref3;
+          mapData = JSON.parse(req.response);
+          mapData.tilesets[0].image = data.prefixs.image + data.map.tilesheet;
+          map = new TileMap(mapData);
+          map.prepareLayers();
           display = {
             bg: gamecs.Display.setMode(data.screen.size, 'background'),
             fg: gamecs.Display.setMode(data.screen.size, 'sprites'),
             fg2: gamecs.Display.setMode(data.screen.size, 'foreground')
           };
-          myDirector = new Director(display, data);
-          console.log(myDirector.groups);
-          myDirector.groups.sprites[2].animation.start('active');
-          myDirector.groups.sprites[3].animation.start('wave');
+          myDirector = new Director(display, {
+            data: data,
+            map: map
+          });
           _ref3 = data.systems;
           for (_k = 0, _len2 = _ref3.length; _k < _len2; _k++) {
             k = _ref3[_k];
@@ -73,6 +79,7 @@
                 }
               }
             }
+            myDirector.setOffset(mySystems.Rendering);
             _ref5 = myDirector.groups.sprites;
             for (_m = 0, _len4 = _ref5.length; _m < _len4; _m++) {
               entity = _ref5[_m];

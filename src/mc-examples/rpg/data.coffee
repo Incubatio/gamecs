@@ -3,21 +3,13 @@ define (require) ->
     screen:
       size: [600, 800]
 
+    map:
+      url: 'assets/data/rpg/example.json'
+      tilesheet: 'tilesheet.png'
+
     prefixs:
       image: 'assets/images/rpg/'
       sfx: 'assets/sfx/'
-
-    stars:
-      number: 25
-
-    ennemies:
-      cooldown: 3000
-      spawnRate: 1000
-    
-    meteors:
-      cooldown: 1000
-      spawnRate: 4000
-
 
     # TOTHINK: add params to system init
     systems: [
@@ -32,7 +24,6 @@ define (require) ->
     ]
 
     sfx: [
-      'laser1'
     ]
       
 
@@ -47,18 +38,28 @@ define (require) ->
           options:
             xflip: {"left" : true}
         Mobile:
-          speed: 4
+          speed: 3
         Weaponized:
           weapon: 'sword'
+        Collidable:
+          shape: "rect"
+          # TODO: maybe allow to define a collision mask / also PNPOLY could solve this without overcoding
+          # mask:
+            #offset: [20, 10]
+            #size: [24, 44]
 
       Octocat:
         Animated:
           frameset: { "wave": [0, 3], "pause": [0] }
           imageset: "frameset/octocat.png"
+          options:
+            start: 'wave'
         Mobile:
           speed: 0
         Visible:
           size: [32, 32]
+        Collidable:
+          shape: "rect"
         #Movable:
       
       Stargate:
@@ -69,8 +70,12 @@ define (require) ->
         Animated:
           frameset: { 'active': [0, 14] }
           imageset: "frameset/vortex.png"
+          options:
+            start: 'active'
         Visible:
           size: [64, 64]
+        Collidable:
+          shape: "rect"
 
       Sword:
         Visible:
@@ -90,5 +95,10 @@ define (require) ->
 #        ['Stargate', [250, 1]]
         ['Vortex', [267, 17]]
         ['Octocat', [180, 90]]
+      ]
+      decors: [
+        ['text', 'Hello World', [220, 250]]
+        ['image', 'stargate.png', [250, 1]]
+        ['text', 'Hello World 2', [820, 250]]
       ]
   }

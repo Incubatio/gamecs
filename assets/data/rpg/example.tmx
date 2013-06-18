@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="60" height="36" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="set_rules" tilewidth="32" tileheight="32">
+  <image source="../set_rules.png" width="128" height="64"/>
+ </tileset>
+ <layer name="collision" width="60" height="36">
+  <data encoding="base64" compression="zlib">
+   eJztldsOwyAMQxH//9F7moQqEtsk0AtEQmshs3M2ArWUUjcbKJickVyUr2oxXoc35otyo1poX3rrT+StzjNbr5XP9rPS/54+42k9ZwSql9Ww3nvsSOPtvGhfobzMmM3r6TFcX+Jlct7Kq5xxkVpQoHOXPbtRjaN3lFrPKINSl3KfKbq9tWp8ovXrucjGjF5E91SUN/v/ZXPQ3rDWehos73VuhBfdkyyvusfb/JW8ynM7l3kPvIE3Gr0zx+P1erl05pR9u5rX0kVn24r+zWBtdVbyKnVZ71Hdw9t/V3itPmaHVUOWvuelfic7GP3ZNbQ+K3iRx5d4GZ+v8f69RtbanNH+va6vCM/rCTXM8suYj/gf3nmheh3euP+OvLuNXeLu3/mO8QMJFwS7
+  </data>
+ </layer>
+ <layer name="decor" width="60" height="36" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20MH6AAAAAAAAAAAHgaIcAAAQ==
+  </data>
+ </layer>
+ <layer name="boxes" width="60" height="36">
+  <data encoding="base64" compression="zlib">
+   eJzt1bEKACAIBUDH/v+L2yPIaHnQHYhL0PBQqwAAAEgxNgX0nGbGTEEut+9fY+mv78iSnq+905ec5frnbUe+AEkm11IBgQ==
+  </data>
+ </layer>
+</map>

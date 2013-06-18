@@ -1,19 +1,20 @@
 require ['gamecs'], (gamecs) ->
   requirejs.config({baseUrl: 'build/mc-examples/space'})
-  require ['systems', 'entity'], (systems, Entity) ->
+  require ['systems', 'entity', 'camera'], (systems, Entity) ->
     requirejs.config({baseUrl: 'build/mc-examples/rpg'})
-    require ['director', 'data'], (Director, data) ->
+    require ['director', 'data', 'http', 'tilemap'], (Director, data, Http, TileMap) ->
 
       resources = []
       myEntities = []
       mySystems = {}
 
-      # Load resources from Data
+      # Load images from Data
       for k, v of data.sprites
         if v.Visible && v.Visible.image
           resources.push data.prefixs.image + v.Visible.image
         if v.Animated && v.Animated.frameset
           resources.push data.prefixs.image + v.Animated.imageset
+      resources.push data.prefixs.image + data.map.tilesheet
 
       # Load sound from data
       gamecs.Mixer.sfxType = false
@@ -25,9 +26,19 @@ require ['gamecs'], (gamecs) ->
       for k in data.sfx
         resources.push data.prefixs.sfx + k + '.' + gamecs.Mixer.sfxType
 
+      # Load map TODO: preload other thing than image and sfx ?
+      req = Http.get(data.map.url)
+
+      # Load resources
       gamecs.preload(resources)
 
       gamecs.ready () ->
+
+        # prepare map
+        mapData = JSON.parse(req.response)
+        mapData.tilesets[0].image = data.prefixs.image + data.map.tilesheet
+        map = new TileMap(mapData)
+        map.prepareLayers()
 
         # Init screen layers
         display = {
@@ -37,10 +48,9 @@ require ['gamecs'], (gamecs) ->
         }
 
         # Init director
-        myDirector = new Director(display, data)
-        console.log myDirector.groups
-        myDirector.groups.sprites[2].animation.start 'active'
-        myDirector.groups.sprites[3].animation.start 'wave'
+        myDirector = new Director(display, {data: data, map: map})
+        #myDirector.groups.sprites[2].animation.start 'active'
+        #myDirector.groups.sprites[3].animation.start 'wave'
 
         # Init systems
         for k in data.systems
@@ -56,6 +66,8 @@ require ['gamecs'], (gamecs) ->
           # 2. Update
           for k, group of myDirector.groups then for entity in group
             for k2, system of mySystems then system.update(entity, 30)
+          
+          myDirector.setOffset(mySystems.Rendering)
 
           # 3. Draw
           #for entity in myDirector.groups.stars then mySystems.Rendering.draw(entity, display.bg2)
