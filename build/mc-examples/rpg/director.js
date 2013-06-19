@@ -23,7 +23,6 @@
         this.options = options;
         this.font = new gamecs.Font('40px monospace');
         this.camera = new Camera(this.options.data.screen.size);
-        this.camera.dirty = true;
         _ref = this.options.data.sprites;
         for (k in _ref) {
           v = _ref[k];
@@ -136,10 +135,7 @@
         var offset;
         this.camera.follow(this.groups.sprites[0]);
         if (this.camera.dirty) {
-          this.display.bg.clear();
-          this.display.fg.clear();
           offset = this.camera.getOffset();
-          this.display.bg.blit(this.options.map.layers.collision.image, offset);
           this.init();
           system.offset = offset;
           return this.camera.dirty = false;
@@ -147,20 +143,29 @@
       };
 
       Director.prototype.init = function() {
-        var entity, i, image, k, pos, rect, v, _i, _len, _ref, _ref1, _ref2, _results;
+        var entity, i, image, k, offset, pos, rect, size, v, _i, _len, _ref, _ref1, _ref2, _results;
+        this.display.bg.clear();
+        this.display.fg.clear();
+        offset = this.camera.getOffset();
+        this.display.bg.blit(this.options.map.layers.collision.image, offset);
+        rect = new gamecs.Rect([0, 0]);
         _ref = this.options.data.scene.decors;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           v = _ref[_i];
           image = (function() {
             switch (v[0]) {
               case 'text':
-                return this.font.render(v[1], v[2]);
+                return this.font.render(v[1]);
               case 'image':
                 return this.loadImage(v[1]);
             }
           }).call(this);
-          if (this.camera.isVisible(image)) {
-            this.display.bg.blit(image, v[2]);
+          size = image.getSize();
+          rect.init(v[2][0], v[2][1], size[0], size[1]);
+          if (this.camera.isVisible({
+            rect: rect
+          })) {
+            this.display.bg.blit(image, rect.move(offset));
           }
         }
         this.groups = {
@@ -169,7 +174,6 @@
         if (this.player) {
           this.groups.sprites.push(this.player);
         }
-        window.rect = rect = new gamecs.Rect([0, 0]);
         _ref1 = this.options.data.scene.actors;
         _results = [];
         for (i in _ref1) {
@@ -195,7 +199,6 @@
               }
             }
             this.groups.sprites.push(entity);
-            console.log(entity.name, this.options.data.scene.actors, k, i);
             if (entity.name === "Player") {
               this.player = entity;
               _results.push(delete this.options.data.scene.actors[i]);

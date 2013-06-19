@@ -92,13 +92,12 @@ define (require) ->
       actors: [
         ['Player', [100, 100]]
         ['Sword', [-100, 100]]
-#        ['Stargate', [250, 1]]
         ['Vortex', [267, 17]]
         ['Octocat', [180, 90]]
       ]
       decors: [
-        ['text', 'Hello World', [220, 250]]
+        ['text', 'Hello World', [200, 250]]
         ['image', 'stargate.png', [250, 1]]
-        ['text', 'Hello World 2', [820, 250]]
+        ['text', 'Da Big Boss', [1450, 280]]
       ]
   }

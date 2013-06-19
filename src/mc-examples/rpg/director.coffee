@@ -23,7 +23,6 @@ define (require) ->
       @font = new gamecs.Font('40px monospace')
 
       @camera = new Camera(@options.data.screen.size)
-      @camera.dirty = true
 
       # Bind resource on Sprites data
       for k, v of @options.data.sprites
@@ -36,6 +35,8 @@ define (require) ->
           v.Animated.entitySheet.load(@loadImage(v.Animated.imageset), v.Visible.size)
 
       @init()
+
+      #@init()
 
     handleInput: (events) ->
       # Handle Input
@@ -79,46 +80,53 @@ define (require) ->
       @camera.follow(@groups.sprites[0])
       #if(@camera.dirty) this.everyoneIsDirty()
       if @camera.dirty
-        @display.bg.clear()
-        @display.fg.clear()
         offset = @camera.getOffset()
-        @display.bg.blit(@options.map.layers.collision.image, offset)
         @init()
 
         system.offset = offset
         @camera.dirty = false
 
     init: () ->
-        for v in @options.data.scene.decors
-          image = switch v[0]
-            when 'text' then @font.render(v[1], v[2])
-            when 'image' then @loadImage(v[1])
-          if @camera.isVisible image
-            @display.bg.blit(image, v[2])
+      # init background
+      @display.bg.clear()
+      @display.fg.clear()
+      offset = @camera.getOffset()
+      @display.bg.blit(@options.map.layers.collision.image, offset)
 
-        # TODO: entities or groups[] = sprites + stars
-        # Init sprites
-        @groups = { sprites: []}
-        @groups.sprites.push @player if @player
-        window.rect = rect = new gamecs.Rect([0,0])
-        for i, [k, pos] of @options.data.scene.actors
-          v = @options.data.sprites[k]
-          rect.init(pos[0], pos[1], v.Visible.size[0], v.Visible.size[1])
-          if @camera.isVisible {rect: rect}
-            entity = new Entity(pos, v, {name: k, rect: new gamecs.Rect(pos, v.Visible.size), dirty: true})
-            entity.oldRect = entity.rect.clone()
-            if entity.components.Visible then entity.image = entity.components.Visible.image
-            if v.Animated && v.Animated.imageset
-              entity.animation = new Animation(v.Animated.entitySheet, v.Animated.frameset, v.Animated.options)
-              entity.animation.start v.Animated.options.start if v.Animated.options && v.Animated.options.start
-        #myDirector.groups.sprites[2].animation.start 'active'
-        #myDirector.groups.sprites[3].animation.start 'wave'
-          
-            @groups.sprites.push entity
-            console.log entity.name, @options.data.scene.actors, k, i
-            if entity.name == "Player"
-              @player = entity
-              delete @options.data.scene.actors[i]
+      rect = new gamecs.Rect([0,0])
+
+      # init decors
+      for v in @options.data.scene.decors
+        image = switch v[0]
+          when 'text' then @font.render(v[1])
+          when 'image' then @loadImage(v[1])
+        size = image.getSize()
+        rect.init(v[2][0], v[2][1], size[0], size[1])
+        if @camera.isVisible { rect: rect}
+          @display.bg.blit(image, rect.move(offset))
+
+      # TODO: entities or groups[] = sprites + stars
+      # Init sprites
+      @groups = { sprites: []}
+      @groups.sprites.push @player if @player
+      for i, [k, pos] of @options.data.scene.actors
+        v = @options.data.sprites[k]
+        rect.init(pos[0], pos[1], v.Visible.size[0], v.Visible.size[1])
+        if @camera.isVisible {rect: rect}
+          entity = new Entity(pos, v, {name: k, rect: new gamecs.Rect(pos, v.Visible.size), dirty: true})
+          entity.oldRect = entity.rect.clone()
+          if entity.components.Visible then entity.image = entity.components.Visible.image
+          if v.Animated && v.Animated.imageset
+            entity.animation = new Animation(v.Animated.entitySheet, v.Animated.frameset, v.Animated.options)
+            entity.animation.start v.Animated.options.start if v.Animated.options && v.Animated.options.start
+      #myDirector.groups.sprites[2].animation.start 'active'
+      #myDirector.groups.sprites[3].animation.start 'wave'
+        
+          @groups.sprites.push entity
+          #console.log entity.name, @options.data.scene.actors, k, i
+          if entity.name == "Player"
+            @player = entity
+            delete @options.data.scene.actors[i]
 
 
     test: () ->
