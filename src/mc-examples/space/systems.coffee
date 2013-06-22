@@ -97,6 +97,17 @@ define (require) ->
             break
         return res
       ###
+      
+      ###* function used to detect the collision 
+      * @param {Object} entity
+      * @param {Array} entities
+      * @return {Array}
+      ###
+      spriteCollide: () -> return []
+
+      constructor: () ->
+        super
+        @spriteCollide = @_spriteCollide
 
       # entity.components.Collidable ?
       _spriteCollide: (entity, entities) ->
@@ -107,7 +118,6 @@ define (require) ->
               collisions.push entity2
         return collisions
 
-      spriteCollide: @_spriteCollide
         
 
       update: (entity, ms) ->

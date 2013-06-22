@@ -93,10 +93,6 @@
 
         __extends(_Class, _super);
 
-        function _Class() {
-          return _Class.__super__.constructor.apply(this, arguments);
-        }
-
         /*
               _isColliding: (entity, entities) ->
                 res = false
@@ -107,6 +103,22 @@
                 return res
         */
 
+
+        /** function used to detect the collision 
+        * @param {Object} entity
+        * @param {Array} entities
+        * @return {Array}
+        */
+
+
+        _Class.prototype.spriteCollide = function() {
+          return [];
+        };
+
+        function _Class() {
+          _Class.__super__.constructor.apply(this, arguments);
+          this.spriteCollide = this._spriteCollide;
+        }
 
         _Class.prototype._spriteCollide = function(entity, entities) {
           var collisions, entity2, _i, _len;
@@ -121,8 +133,6 @@
           }
           return collisions;
         };
-
-        _Class.prototype.spriteCollide = _Class._spriteCollide;
 
         _Class.prototype.update = function(entity, ms) {
           var collisions, component, entity2, weapon, x, y, _i, _len;
