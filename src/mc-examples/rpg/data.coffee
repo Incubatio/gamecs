@@ -90,7 +90,7 @@ define (require) ->
 
     scene:
       actors: [
-        ['Player', [100, 100]]
+        ['Player', [60, 60]]
         ['Sword', [-100, 100]]
         ['Vortex', [267, 17]]
         ['Octocat', [180, 90]]

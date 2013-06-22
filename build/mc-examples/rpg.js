@@ -61,9 +61,20 @@
             k = _ref3[_k];
             mySystems[k] = new systems[k]({
               entities: myDirector.groups.sprites,
-              data: data
+              map: map
             });
           }
+          mySystems['Collision'].spriteCollide = function(e, es) {
+            if (this.map.isColliding(e.rect)) {
+              return [
+                {
+                  components: {}
+                }
+              ];
+            } else {
+              return this._spriteCollide(e, es);
+            }
+          };
           tick = function() {
             var entity, group, k2, system, _l, _len3, _len4, _m, _ref4, _ref5;
             myDirector.handleInput(gamecs.Input.get());

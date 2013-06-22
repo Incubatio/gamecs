@@ -114,7 +114,7 @@
         }
       },
       scene: {
-        actors: [['Player', [100, 100]], ['Sword', [-100, 100]], ['Vortex', [267, 17]], ['Octocat', [180, 90]]],
+        actors: [['Player', [60, 60]], ['Sword', [-100, 100]], ['Vortex', [267, 17]], ['Octocat', [180, 90]]],
         decors: [['text', 'Hello World', [200, 250]], ['image', 'stargate.png', [250, 1]], ['text', 'Da Big Boss', [1450, 280]]]
       }
     };

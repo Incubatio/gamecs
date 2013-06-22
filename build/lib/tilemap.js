@@ -31,7 +31,7 @@
       * @type integer
       */
 
-      var height, size, tileHeight, tileSheet, tileWidth, width, _isColliding;
+      var height, size, tileHeight, tileSheet, tileWidth, width;
 
       width = null;
 
@@ -185,7 +185,7 @@
       */
 
 
-      _isColliding = function(x, y, collisionLayerName) {
+      TileMap.prototype._isColliding = function(x, y, collisionLayerName) {
         if (collisionLayerName === void 0) {
           collisionLayerName = this.collisionLayerName;
         }
@@ -202,7 +202,7 @@
 
 
       TileMap.prototype.isColliding = function(rect) {
-        return _isColliding(rect.left, rect.top) || _isColliding(rect.left + rect.width, rect.top) || _isColliding(rect.left, rect.top + rect.height) || _isColliding(rect.left + rect.width, rect.top + rect.height);
+        return this._isColliding(rect.left, rect.top) || this._isColliding(rect.left + rect.width, rect.top) || this._isColliding(rect.left, rect.top + rect.height) || this._isColliding(rect.left + rect.width, rect.top + rect.height);
       };
 
       /**

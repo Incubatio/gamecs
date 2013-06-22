@@ -54,8 +54,9 @@ require ['gamecs'], (gamecs) ->
 
         # Init systems
         for k in data.systems
-          mySystems[k] = new systems[k]({ entities: myDirector.groups.sprites, data: data })
-
+          mySystems[k] = new systems[k]({ entities: myDirector.groups.sprites, map: map })
+        mySystems['Collision'].spriteCollide = (e, es) ->
+          return if @map.isColliding(e.rect) then [{components: {}}] else @_spriteCollide(e, es)
 
         tick = () ->
 

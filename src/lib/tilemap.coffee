@@ -68,33 +68,33 @@ define (require) ->
     ###
     constructor: (data, options) ->
       options = options || {}
-      this.width = data.width
-      this.height = data.height
+      @width = data.width
+      @height = data.height
 
-      this.tileWidth = data.tilewidth
-      this.tileHeight = data.tileheight
-      this.size = [this.width * this.tileWidth, this.height * this.tileHeight]
+      @tileWidth = data.tilewidth
+      @tileHeight = data.tileheight
+      @size = [@width * @tileWidth, @height * @tileHeight]
       
 
       if data.tilesets
-        this.tileSheet = new SpriteSheet()
+        @tileSheet = new SpriteSheet()
         # by default tmx count image from 1
-        this.tileSheet.firstgid = data.tilesets[0].firstgid
+        @tileSheet.firstgid = data.tilesets[0].firstgid
 
         # Init tileset in the main tileSheet
         for tileset in data.tilesets
           imageset = Img.load(tileset.image)
-          this.tileSheet.load(imageset, [tileset.tilewidth, tileset.tileheight])
+          @tileSheet.load(imageset, [tileset.tilewidth, tileset.tileheight])
 
 
       # Init layers, names have to be unique
       if data.layers
         # TODO: change options management 
-        this.collisionLayerName = options.collisionLayerName || 'collision'
+        @collisionLayerName = options.collisionLayerName || 'collision'
 
-        this.layers = {}
+        @layers = {}
         for i in [0...data.layers.length]
-          this.layers[data.layers[i].name] = data.layers[i]
+          @layers[data.layers[i].name] = data.layers[i]
       
     ###*
     * @param {interger} gid
@@ -105,17 +105,17 @@ define (require) ->
       getX = (i, width) ->
         return if(i % width == 0) then width - 1 else (i % width) - 1
 
-      x = if(gid == 0) then 0 else getX(gid + 1, this.width)
-      y = Math.floor(gid / this.width)
+      x = if(gid == 0) then 0 else getX(gid + 1, @width)
+      y = Math.floor(gid / @width)
 
-      return [x * this.tileWidth, y * this.tileHeight]
+      return [x * @tileWidth, y * @tileHeight]
 
     ###*
     * @param {integer} gid
     * @return {Rect}
     ###
     gid2rect: (gid) ->
-      return new gamecs.Rect(this.gid2pos(gid), [this.tileWidth, this.tileHeight])
+      return new gamecs.Rect(@gid2pos(gid), [@tileWidth, @tileHeight])
 
     ###*
     * @param {integer} x
@@ -123,9 +123,9 @@ define (require) ->
     * @return {integer}
     ###
     pos2gid: (x, y) ->
-      x = Math.floor(x / this.tileWidth)
-      y = Math.floor(y / this.tileHeight)
-      return (y * this.width) + x #+ 1;
+      x = Math.floor(x / @tileWidth)
+      y = Math.floor(y / @tileHeight)
+      return (y * @width) + x #+ 1;
 
 
     ###*
@@ -133,7 +133,7 @@ define (require) ->
     * @return {Img}
     ###
     getTile: (gid) ->
-      return this.tileSheet.get(gid - this.tileSheet.firstgid)
+      return @tileSheet.get(gid - @tileSheet.firstgid)
 
     ###*
     * @param {integer} x
@@ -141,7 +141,7 @@ define (require) ->
     * @return {boolean}
     ###
     isOutOfBounds: (x, y) ->
-      return x <= 0 || x >= this.size[0] || y <= 0 || y >= this.size[1]
+      return x <= 0 || x >= @size[0] || y <= 0 || y >= @size[1]
 
     ###*
     * For collision layer
@@ -150,20 +150,20 @@ define (require) ->
     * @param {integer} y
     * @return {boolean}
     ###
-    _isColliding = (x, y, collisionLayerName) ->
-      collisionLayerName = this.collisionLayerName if(collisionLayerName == undefined)
-      return true if(this.isOutOfBounds(x, y))
-      return !!this.layers[this.collisionLayerName].data[this.pos2gid(x, y)]
+    _isColliding: (x, y, collisionLayerName) ->
+      collisionLayerName = @collisionLayerName if(collisionLayerName == undefined)
+      return true if(@isOutOfBounds(x, y))
+      return !!@layers[@collisionLayerName].data[@pos2gid(x, y)]
 
     ###*
     * @param {Rect}
     * @return boolean
     ###
     isColliding: (rect) ->
-      return  _isColliding(rect.left, rect.top) ||
-        _isColliding(rect.left + rect.width, rect.top) ||
-        _isColliding(rect.left, rect.top + rect.height) ||
-        _isColliding(rect.left + rect.width, rect.top + rect.height)
+      return  @_isColliding(rect.left, rect.top) ||
+        @_isColliding(rect.left + rect.width, rect.top) ||
+        @_isColliding(rect.left, rect.top + rect.height) ||
+        @_isColliding(rect.left + rect.width, rect.top + rect.height)
 
     ###*
     * For Sprite layer, return each tile as object: {pos: [x, y], card: [a, b], gid: i, image: "path/to/image"}
@@ -172,9 +172,9 @@ define (require) ->
     ###
     getTiles: () ->
       result = []
-      #for i in [this.tileSheet.firstgid...(this.visibleLayers['boxes'].length - this.tileSheet.firstgid)]
-      #  if(this.visibleLayers['boxes'][i])
-      #    result.push(this.gid2pos(i))
+      #for i in [@tileSheet.firstgid...(@visibleLayers['boxes'].length - @tileSheet.firstgid)]
+      #  if(@visibleLayers['boxes'][i])
+      #    result.push(@gid2pos(i))
       return result
 
     ###*
@@ -183,25 +183,25 @@ define (require) ->
     prepareLayers: () ->
       # TOTHINK: managing layer by layer level would more dynamics and less trivial than using names.
       # TODO: store int array of layer key in visibleLayers
-      for key of this.layers
-        layer = this.layers[key]
+      for key of @layers
+        layer = @layers[key]
         if layer.properties == undefined || layer.properties.visible != false
-          surface = new Surface(this.size[0], this.size[1])
+          surface = new Surface(@size[0], @size[1])
           # TODO: think about the best manner to set opacity
-          #this.surface.setAlpha(layer.opacity)
+          #@surface.setAlpha(layer.opacity)
 
           #extract images from a frameset
-          for y in [0...this.height]
-            for x in [0...this.width]
-              rect = new Rect(x * this.tileWidth, y * this.tileHeight, this.tileWidth, this.tileHeight)
-              #console.log(y, this.width, x)
-              gid = layer.data[(y * this.width) + x] # + 1]
-              #gid = this.tileSheet.get((y * this.width) + x) # + 1]
+          for y in [0...@height]
+            for x in [0...@width]
+              rect = new Rect(x * @tileWidth, y * @tileHeight, @tileWidth, @tileHeight)
+              #console.log(y, @width, x)
+              gid = layer.data[(y * @width) + x] # + 1]
+              #gid = @tileSheet.get((y * @width) + x) # + 1]
               if(gid != 0)
                 if(gid)
-                  image = this.getTile(gid)
+                  image = @getTile(gid)
                   #console.log(gid, image)
                   surface.blit(image, rect)
                 else
                   console.log('bug', x, y, gid)
-          this.layers[key].image = surface
+          @layers[key].image = surface

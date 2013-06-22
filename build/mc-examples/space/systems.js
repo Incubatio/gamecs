@@ -90,7 +90,6 @@
 
       })(System),
       Collision: (function(_super) {
-        var _isColliding, _spriteCollide;
 
         __extends(_Class, _super);
 
@@ -98,7 +97,18 @@
           return _Class.__super__.constructor.apply(this, arguments);
         }
 
-        _spriteCollide = function(entity, entities) {
+        /*
+              _isColliding: (entity, entities) ->
+                res = false
+                for entity2 in entities
+                  if entity.rect.collideRect(entity2.rect)
+                    res = true
+                    break
+                return res
+        */
+
+
+        _Class.prototype._spriteCollide = function(entity, entities) {
           var collisions, entity2, _i, _len;
           collisions = [];
           for (_i = 0, _len = entities.length; _i < _len; _i++) {
@@ -112,18 +122,7 @@
           return collisions;
         };
 
-        _isColliding = function(entity, entities) {
-          var entity2, res, _i, _len;
-          res = false;
-          for (_i = 0, _len = entities.length; _i < _len; _i++) {
-            entity2 = entities[_i];
-            if (entity.rect.collideRect(entity2.rect)) {
-              res = true;
-              break;
-            }
-          }
-          return res;
-        };
+        _Class.prototype.spriteCollide = _Class._spriteCollide;
 
         _Class.prototype.update = function(entity, ms) {
           var collisions, component, entity2, weapon, x, y, _i, _len;
@@ -132,7 +131,7 @@
             if (component.moveX !== 0 || component.moveY !== 0) {
               x = component.moveX * component.speed;
               y = component.moveY * component.speed;
-              collisions = _spriteCollide(entity, this.entities);
+              collisions = this.spriteCollide(entity, this.entities);
               if (collisions.length > 0) {
                 weapon = false;
                 for (_i = 0, _len = collisions.length; _i < _len; _i++) {
@@ -150,13 +149,13 @@
                 if (!weapon) {
                   entity.rect = entity.oldRect.clone();
                   entity.rect.moveIp(x, 0);
-                  collisions = _spriteCollide(entity, this.entities);
+                  collisions = this.spriteCollide(entity, this.entities);
                   if (collisions.length > 0) {
                     x = 0;
                     entity.rect = entity.oldRect.clone();
                   }
                   entity.rect.moveIp(0, y);
-                  collisions = _spriteCollide(entity, this.entities);
+                  collisions = this.spriteCollide(entity, this.entities);
                   if (collisions.length > 0) {
                     y = 0;
                     entity.rect = entity.oldRect.clone();

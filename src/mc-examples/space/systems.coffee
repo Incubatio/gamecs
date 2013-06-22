@@ -88,8 +88,18 @@ define (require) ->
 
 
     Collision: class extends System
+      ###
+      _isColliding: (entity, entities) ->
+        res = false
+        for entity2 in entities
+          if entity.rect.collideRect(entity2.rect)
+            res = true
+            break
+        return res
+      ###
+
       # entity.components.Collidable ?
-      _spriteCollide = (entity, entities) ->
+      _spriteCollide: (entity, entities) ->
         collisions = []
         for entity2 in entities
           if entity.uid != entity2.uid
@@ -97,13 +107,8 @@ define (require) ->
               collisions.push entity2
         return collisions
 
-      _isColliding = (entity, entities) ->
-        res = false
-        for entity2 in entities
-          if entity.rect.collideRect(entity2.rect)
-            res = true
-            break
-        return res
+      spriteCollide: @_spriteCollide
+        
 
       update: (entity, ms) ->
         if entity.components.Collidable && entity.components.Mobile
@@ -112,7 +117,7 @@ define (require) ->
             x = component.moveX * component.speed
             y = component.moveY * component.speed
             
-            collisions = _spriteCollide(entity, @entities)
+            collisions = @spriteCollide(entity, @entities)
             #console.log collisions
             if(collisions.length > 0)
 
@@ -131,13 +136,13 @@ define (require) ->
                 entity.rect.moveIp(x, 0)
 
                 # TODO: manage collision post movement
-                collisions = _spriteCollide(entity, @entities)
+                collisions = @spriteCollide(entity, @entities)
                 if(collisions.length > 0)
                    x = 0
                    entity.rect = entity.oldRect.clone()
 
                 entity.rect.moveIp(0, y)
-                collisions = _spriteCollide(entity, @entities)
+                collisions = @spriteCollide(entity, @entities)
 
                 if(collisions.length > 0)
                   y = 0
