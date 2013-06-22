@@ -11,9 +11,9 @@ define (require) ->
   class Group
     constructor: () ->
       ###* @ignore ###
-      this._sprites = []
+      @_sprites = []
 
-      this.add(arguments[0]) if (arguments[0] instanceof Sprite ||
+      @add(arguments[0]) if (arguments[0] instanceof Sprite ||
         (arguments[0] instanceof Array &&
           arguments[0].length &&
           arguments[0][0] instanceof Sprite))
@@ -25,7 +25,7 @@ define (require) ->
     update: () ->
       updateArgs = arguments
 
-      this._sprites.forEach((sp) ->
+      @_sprites.forEach((sp) ->
         sp.update.apply(sp, updateArgs)
       , this)
 
@@ -38,7 +38,7 @@ define (require) ->
       sprites = [sprites] if (!(sprites instanceof Array))
 
       sprites.forEach((sprite) ->
-        this._sprites.push(sprite)
+        @_sprites.push(sprite)
         sprite._groups.push(this)
       , this)
 
@@ -51,7 +51,7 @@ define (require) ->
       sprites = [sprites] if (!(sprites instanceof Array))
 
       sprites.forEach((sp) ->
-        Arrays.remove(sp, this._sprites)
+        Arrays.remove(sp, @_sprites)
         Arrays.remove(this, sp._groups)
       , this)
       return
@@ -66,7 +66,7 @@ define (require) ->
       sprites = [sprites] if (!(sprites instanceof Array))
 
       return sprites.every((sp) ->
-        return this._sprites.indexOf(sp) != -1
+        return @_sprites.indexOf(sp) != -1
       , this)
 
     ###*
@@ -74,7 +74,7 @@ define (require) ->
     * @returns {Array} An array of `gamecs.sprite.Sprite` instances
     ###
     sprites: () ->
-      return this._sprites
+      return @_sprites
 
     ###
     * Draw all the sprites in this group. This is equivalent to calling each
@@ -82,7 +82,7 @@ define (require) ->
     ###
     draw: () ->
        args = arguments
-       this._sprites.forEach((sprite) ->
+       @_sprites.forEach((sprite) ->
           sprite.draw.apply(sprite, args)
        , this)
        return
@@ -99,7 +99,7 @@ define (require) ->
     * @param {gamecs.Surface} source surface
     ###
     clear: (destination, source) ->
-      this._sprites.forEach((sprite) ->
+      @_sprites.forEach((sprite) ->
         destination.blit(source, sprite.rect)
       , this)
 
@@ -107,7 +107,7 @@ define (require) ->
     * Remove all sprites from this group
     ###
     empty: () ->
-      this._sprites = []
+      @_sprites = []
       return
 
     ###*
@@ -115,7 +115,7 @@ define (require) ->
     ###
     collidePoint: () ->
       args = Array.prototype.slice.apply(arguments)
-      return this._sprites.filter((sprite) ->
+      return @_sprites.filter((sprite) ->
         return sprite.rect.collidePoint.apply(sprite.rect, args)
       , this)
 
@@ -124,14 +124,14 @@ define (require) ->
     * `group.sprites().forEach(...)`.
     ###
     forEach: (callback, thisArg) ->
-      return this._sprites.forEach(callback, thisArg)
+      return @_sprites.forEach(callback, thisArg)
 
     ###*
     * Check whether some sprite in this group passes a test. This is a shortcut
     * for `group.sprites().some(...)`.
     ###
     some: (callback, thisArg) ->
-      return this._sprites.some(callback, thisArg)
+      return @_sprites.some(callback, thisArg)
 
 
     ###*

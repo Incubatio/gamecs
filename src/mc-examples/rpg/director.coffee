@@ -78,7 +78,7 @@ define (require) ->
 
     setOffset: (system) ->
       @camera.follow(@groups.sprites[0])
-      #if(@camera.dirty) this.everyoneIsDirty()
+      #if(@camera.dirty) @everyoneIsDirty()
       if @camera.dirty
         offset = @camera.getOffset()
         @init()

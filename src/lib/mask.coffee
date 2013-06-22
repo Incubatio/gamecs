@@ -37,17 +37,17 @@ define (require) ->
     ###
     constructor: (dims) ->
       ### @ignore ###
-      this.width = dims[0]
+      @width = dims[0]
       ### @ignore ###
-      this.height = dims[1]
+      @height = dims[1]
       ### @ignore ###
-      this._bits = []
-      #for (i=0; i<this.width; i++)
-      for i in [0...this.width]
-        this._bits[i] = []
-        #for (j=0;j<this.height; j++)
-        for j in [0...this.height]
-          this._bits[i][j] = false
+      @_bits = []
+      #for (i=0; i<@width; i++)
+      for i in [0...@width]
+        @_bits[i] = []
+        #for (j=0;j<@height; j++)
+        for j in [0...@height]
+          @_bits[i][j] = false
       return
 
     ###*
@@ -56,7 +56,7 @@ define (require) ->
     * @returns the overlapping rectangle or null if there is no overlap
     ###
     overlapRect: (otherMask, offset) ->
-      arect = this.rect
+      arect = @rect
       brect = otherMask.rect
 
       brect.moveIp(offset) if (offset)
@@ -78,10 +78,10 @@ define (require) ->
     * @param {Array} offset
     ###
     overlap: (otherMask, offset) ->
-      overlapRect = this.overlapRect(otherMask, offset)
+      overlapRect = @overlapRect(otherMask, offset)
       return false if (overlapRect == null)
 
-      arect = this.rect
+      arect = @rect
       brect = otherMask.rect
       
       brect.moveIp(offset) if (offset)
@@ -91,7 +91,7 @@ define (require) ->
       for y in [overlapRect.top..overlapRect.bottom]
         #for (x=overlapRect.left; x<=overlapRect.right; x++)
         for x in [overlapRect.left..overlapRect.right]
-          return true if (this.getAt(x - arect.left, y - arect.top) &&
+          return true if (@getAt(x - arect.left, y - arect.top) &&
             otherMask.getAt(x - brect.left, y - brect.top))
             ###*
             * NOTE this should not happen because either we bailed out
@@ -107,10 +107,10 @@ define (require) ->
     * @returns the number of overlapping pixels
     ###
     overlapArea: (otherMask, offset) ->
-      overlapRect = this.overlapRect(otherMask, offset)
+      overlapRect = @overlapRect(otherMask, offset)
       return 0 if (overlapRect == null)
 
-      arect = this.rect
+      arect = @rect
       brect = otherMask.rect
      
       brect.moveIp(offset) if (offset)
@@ -120,7 +120,7 @@ define (require) ->
       for y in [overlapRect.top..overlapRect.bottom]
       #  for (x=overlapRect.left; x<=overlapRect.right; x++)
         for x in [overlapRect.left..overlapRect.right]
-          count++ if (this.getAt(x - arect.left, y - arect.top) &&
+          count++ if (@getAt(x - arect.left, y - arect.top) &&
             otherMask.getAt(x - brect.left, y - brect.top))
       return count
 
@@ -130,10 +130,10 @@ define (require) ->
     * @returns a mask of the overlapping pixels
     ###
     overlapMask: (otherMask, offset) ->
-      overlapRect = this.overlapRect(otherMask, offset)
+      overlapRect = @overlapRect(otherMask, offset)
       return 0 if (overlapRect == null)
 
-      arect = this.rect
+      arect = @rect
       brect = otherMask.rect
      
       brect.moveIp(offset) if (offset)
@@ -143,7 +143,7 @@ define (require) ->
       for y in [overlapRect.top..overlapRect.bottom]
         #for (x=overlapRect.left x<=overlapRect.right x++)
         for x in [overlapRect.left..overlapRect.right]
-          mask.setAt(x, y) if (this.getAt(x - arect.left, y - arect.top) &&
+          mask.setAt(x, y) if (@getAt(x - arect.left, y - arect.top) &&
           otherMask.getAt(x - brect.left, y - brect.top))
                 
       return mask
@@ -154,7 +154,7 @@ define (require) ->
     * @param {Number} y
     ###
     setAt: (x, y) ->
-      this._bits[x][y] = true
+      @_bits[x][y] = true
 
     ###*
     * Get bit at position.
@@ -165,15 +165,15 @@ define (require) ->
     getAt: (x, y) ->
       x = parseInt(x, 10)
       y = parseInt(y, 10)
-      return false if (x < 0 || y < 0 || x >= this.width || y >= this.height)
-      return this._bits[x][y]
+      return false if (x < 0 || y < 0 || x >= @width || y >= @height)
+      return @_bits[x][y]
 
 
     ###*
     * Flip the bits in this map.
     ###
     invert: () ->
-      this._bits = this._bits.map((row) ->
+      @_bits = @_bits.map((row) ->
         return row.map((b) ->
           return !b
         )
@@ -183,7 +183,7 @@ define (require) ->
     * @returns {Array} the dimensions of the map
     ###
     getSize = () ->
-      return [this.width, this.height]
+      return [@width, @height]
 
     Objects.accessors(Mask.prototype,
       ###*
@@ -191,7 +191,7 @@ define (require) ->
       ###
       rect:
         get: () ->
-          return new Rect([0, 0], [this.width, this.height])
+          return new Rect([0, 0], [@width, @height])
       ,
       ###*
       * @returns {Number} number of set pixels in this mask.
@@ -199,7 +199,7 @@ define (require) ->
       length:
         get: () ->
           c = 0
-          this._bits.forEach((row) ->
+          @_bits.forEach((row) ->
             row.forEach((b) ->
               c++ if (b)
             )

@@ -48,10 +48,10 @@ define (require) ->
         * @type Number
         ###
         bottom:
-          get: () -> return this.top + this.height
+          get: () -> return @top + @height
 
           set: (newValue) ->
-            this.top = newValue - this.height
+            @top = newValue - @height
             return
 
         ###*
@@ -60,10 +60,10 @@ define (require) ->
         * @type Number
         ###
         right:
-          get: () -> return this.left + this.width
+          get: () -> return @left + @width
 
           set: (newValue) ->
-            this.left = newValue - this.width
+            @left = newValue - @width
             return
 
         ###*
@@ -73,12 +73,12 @@ define (require) ->
         ###
         center:
           get: () ->
-            return [this.left + (this.width / 2) | 0, this.top + (this.height / 2) | 0]
+            return [@left + (@width / 2) | 0, @top + (@height / 2) | 0]
 
           set: (args...) ->
             args = Rect.normalizeArguments.apply(this, args)
-            this.left = args.left - (this.width / 2) | 0
-            this.top = args.top - (this.height / 2) | 0
+            @left = args.left - (@width / 2) | 0
+            @top = args.top - (@height / 2) | 0
             return
 
         ###*
@@ -88,11 +88,11 @@ define (require) ->
         ###
         topleft:
           get: () ->
-            return [this.left, this.top]
+            return [@left, @top]
           set: (args...) ->
             args = Rect.normalizeArguments.apply(this, args)
-            this.left = args.left
-            this.top = args.top
+            @left = args.left
+            @top = args.top
             return
 
         ###*
@@ -102,12 +102,12 @@ define (require) ->
         ###
         bottomleft:
           get: () ->
-            return [this.left, this.bottom]
+            return [@left, @bottom]
 
           set: (args...) ->
             args = Rect.normalizeArguments.apply(this, args)
-            this.left = args.left
-            this.bottom = args.top
+            @left = args.left
+            @bottom = args.top
             return
 
         ###*
@@ -117,12 +117,12 @@ define (require) ->
         ###
         topright:
           get: () ->
-            return [this.right, this.top]
+            return [@right, @top]
 
           set: (args...) ->
             args = Rect.normalizeArguments.apply(this, args)
-            this.right = args.left
-            this.top = args.top
+            @right = args.left
+            @top = args.top
             return
 
         ###*
@@ -132,12 +132,12 @@ define (require) ->
         ###
         bottomright:
           get: () ->
-            return [this.right, this.bottom]
+            return [@right, @bottom]
 
           set: (args...) ->
             args = Rect.normalizeArguments.apply(this, args)
-            this.right = args.left
-            this.bottom = args.top
+            @right = args.left
+            @bottom = args.top
             return
 
         ###*
@@ -147,9 +147,9 @@ define (require) ->
         ###
         x:
           get: () ->
-            return this.left
+            return @left
           set: (newValue) ->
-            this.left = newValue
+            @left = newValue
             return
 
         ###*
@@ -159,9 +159,9 @@ define (require) ->
         ###
         y:
           get: () ->
-            return this.top
+            return @top
           set: (newValue) ->
-            this.top = newValue
+            @top = newValue
             return
 
 
@@ -169,7 +169,7 @@ define (require) ->
   class Rect
     constructor: (args...) ->
       args = Rect.normalizeArguments.apply(this, args)
-      this.init(args.left, args.top, args.width, args.height)
+      @init(args.left, args.top, args.width, args.height)
       initAccessor()
 
     ###*
@@ -217,7 +217,7 @@ define (require) ->
     ###
     move: (args...) ->
       args = Rect.normalizeArguments.apply(this, args)
-      return new Rect(this.left + args.left, this.top + args.top, this.width, this.height)
+      return new Rect(@left + args.left, @top + args.top, @width, @height)
 
     ###*
     * Move this Rect in place - not returning a new Rect like `move(x, y)` would.
@@ -229,8 +229,8 @@ define (require) ->
     ###
     moveIp: (args...) ->
       args = Rect.normalizeArguments.apply(this, args)
-      this.left += args.left
-      this.top += args.top
+      @left += args.left
+      @top += args.top
 
     ###*
     * Return the area in which this Rect and argument Rect overlap.
@@ -240,30 +240,30 @@ define (require) ->
     * zero sized Rect if the two rectangles do not overlap
     ###
     clip: (rect) ->
-      return new Rect(0,0,0,0) if (!this.collideRect(rect))
+      return new Rect(0,0,0,0) if (!@collideRect(rect))
 
       ### Left ###
-      if ((this.left >= rect.left) && (this.left < rect.right))
-        x = this.left
-      else if ((rect.left >= this.left) && (rect.left < this.right))
+      if ((@left >= rect.left) && (@left < rect.right))
+        x = @left
+      else if ((rect.left >= @left) && (rect.left < @right))
         x = rect.left
 
       ### Right ###
-      if ((this.right > rect.left) && (this.right <= rect.right))
-        width = this.right - x
-      else if ((rect.right > this.left) && (rect.right <= this.right))
+      if ((@right > rect.left) && (@right <= rect.right))
+        width = @right - x
+      else if ((rect.right > @left) && (rect.right <= @right))
         width = rect.right - x
 
       ### Top ###
-      if ((this.top >= rect.top) && (this.top < rect.bottom))
-         y = this.top
-      else if ((rect.top >= this.top) && (rect.top < this.bottom))
+      if ((@top >= rect.top) && (@top < rect.bottom))
+         y = @top
+      else if ((rect.top >= @top) && (rect.top < @bottom))
          y = rect.top
 
       ### Bottom ###
-      if ((this.bottom > rect.top) && (this.bottom <= rect.bottom))
-        height = this.bottom - y
-      else if ((rect.bottom > this.top) && (rect.bottom <= this.bottom))
+      if ((@bottom > rect.top) && (@bottom <= rect.bottom))
+        height = @bottom - y
+      else if ((rect.bottom > @top) && (rect.bottom <= @bottom))
         height = rect.bottom - y
 
       return new Rect(x, y, width, height)
@@ -275,10 +275,10 @@ define (require) ->
     * @returns {gamecs.Rect} rectangle containing area of both rectangles
     ###
     union: (rect) ->
-       x = Math.min(this.left, rect.left)
-       y = Math.min(this.top, rect.top)
-       width  = Math.max(this.right, rect.right) - x
-       height = Math.max(this.bottom, rect.bottom) - y
+       x = Math.min(@left, rect.left)
+       y = Math.min(@top, rect.top)
+       width  = Math.max(@right, rect.right) - x
+       height = Math.max(@bottom, rect.bottom) - y
        return new Rect(x, y, width, height)
 
     ###
@@ -289,7 +289,7 @@ define (require) ->
      * @returns {gamecs.Rect} inflated rectangle centered on the original rectangle's center
     ###
     inflate: (x, y) ->
-      copy = this.clone()
+      copy = @clone()
       #copy = clone(this)
 
       copy.inflateIp(x, y)
@@ -305,10 +305,10 @@ define (require) ->
     inflateIp: (x, y) ->
       # Use Math.floor here to deal with rounding of negative numbers the
       # way this relies on.
-      this.left -= Math.floor(x / 2)
-      this.top -= Math.floor(y / 2)
-      this.width += x
-      this.height += y
+      @left -= Math.floor(x / 2)
+      @top -= Math.floor(y / 2)
+      @width += x
+      @height += y
 
     ###
      * Check for collision with a point.
@@ -320,8 +320,8 @@ define (require) ->
     ###
     collidePoint: (args...) ->
      args = Rect.normalizeArguments.apply(this, args)
-     return (this.left <= args.left && args.left <= this.right) &&
-       (this.top <= args.top && args.top <= this.bottom)
+     return (@left <= args.left && args.left <= @right) &&
+       (@top <= args.top && args.top <= @bottom)
 
     ###
      * Check for collision with a Rect.
@@ -329,8 +329,8 @@ define (require) ->
      * @returns {Boolean} true if the given Rect collides with this Rect
     ###
     collideRect: (rect) ->
-      return !(this.left > rect.right || this.right < rect.left ||
-        this.top > rect.bottom || this.bottom < rect.top)
+      return !(@left > rect.right || @right < rect.left ||
+        @top > rect.bottom || @bottom < rect.top)
 
     ###
      * @param {Array} pointA start point of the line
@@ -349,10 +349,10 @@ define (require) ->
         y = point[1]
         return (y2 - y1) * x + (x1 - x2) * y + (x2 * y1 - x1 * y2)
 
-      relPoses = [[this.left, this.top],
-        [this.left, this.bottom],
-        [this.right, this.top],
-        [this.right, this.bottom]
+      relPoses = [[@left, @top],
+        [@left, @bottom],
+        [@right, @top],
+        [@right, @bottom]
       ].map(linePosition)
 
       noNegative = true
@@ -369,16 +369,16 @@ define (require) ->
 
       return false if ((noNegative || noPositive) && noZero)
 
-      return !((x1 > this.right && x2 > this.right) ||
-        (x1 < this.left && x2 < this.left) ||
-        (y1 < this.top && y2 < this.top) ||
-        (y1 > this.bottom && y2 > this.bottom))
+      return !((x1 > @right && x2 > @right) ||
+        (x1 < @left && x2 < @left) ||
+        (y1 < @top && y2 < @top) ||
+        (y1 > @bottom && y2 > @bottom))
 
     ###
       @returns {String} Like "[x, y][w, h]"
     ###
     toString: () ->
-      return ["[", this.left, ",", this.top, "]"," [",this.width, ",", this.height, "]"].join("")
+      return ["[", @left, ",", @top, "]"," [",@width, ",", @height, "]"].join("")
 
     ###
       @returns {gamecs.Rect} A new copy of this rect

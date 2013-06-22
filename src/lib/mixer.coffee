@@ -78,7 +78,7 @@ define (require) ->
 
       errorHandler = () ->
         incrementLoaded()
-        throw new Error('Error loading ' + this.src)
+        throw new Error('Error loading ' + @src)
 
       for key of audioUrls
         continue if (key.indexOf('wav') == -1 && key.indexOf('ogg') == -1 && key.indexOf('webm') == -1 && key.indexOf('mp3') == -1 && key.indexOf('m4a') == -1 && key.indexOf('mpeg') == -1)

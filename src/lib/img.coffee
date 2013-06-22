@@ -98,7 +98,7 @@ define (require) ->
 
       errorHandler = () ->
         incrementLoaded()
-        throw new Error('Error loading ' + this.src)
+        throw new Error('Error loading ' + @src)
 
       for key of imgIdents
         lowerInput = key.toLowerCase()

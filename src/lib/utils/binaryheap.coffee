@@ -7,17 +7,17 @@ define (require) ->
   class BinaryHeap
     constructor: (scoreFunction) ->
       ### @ignore ###
-      this.content = []
+      @content = []
       ### @ignore ###
-      this.scoreFunction = scoreFunction
+      @scoreFunction = scoreFunction
 
     ###*
     * Add element to heap.
     * @param {Object} element
     ###
     push: (element) ->
-      this.content.push(element)
-      this.sinkDown(this.content.length - 1)
+      @content.push(element)
+      @sinkDown(@content.length - 1)
 
     ###*
     * Return first element from heap.
@@ -26,14 +26,14 @@ define (require) ->
     ###
     pop: () ->
       # Store the first element so we can return it later.
-      result = this.content[0]
+      result = @content[0]
       # Get the element at the end of the array.
-      end = this.content.pop()
+      end = @content.pop()
       # If there are any elements left, put the end element at the
       # start, and let it bubble up.
-      if (this.content.length > 0)
-        this.content[0] = end
-        this.bubbleUp(0)
+      if (@content.length > 0)
+        @content[0] = end
+        @bubbleUp(0)
       return result
 
     ###*
@@ -44,15 +44,15 @@ define (require) ->
     remove: (node) ->
       # To remove a value, we must search through the array to find
       # it.
-      isFound = this.content.some((cNode, idx) ->
+      isFound = @content.some((cNode, idx) ->
         if (cNode == node)
-          end = this.content.pop()
-          if (idx != this.content.length)
-            this.content[idx] = end
-            if (this.scoreFunction(end) < this.scoreFunction(node))
-              this.sinkDown(idx)
+          end = @content.pop()
+          if (idx != @content.length)
+            @content[idx] = end
+            if (@scoreFunction(end) < @scoreFunction(node))
+              @sinkDown(idx)
             else
-              this.bubbleUp(idx)
+              @bubbleUp(idx)
           return true
         return false
       , this)
@@ -61,21 +61,21 @@ define (require) ->
 
     ###* Number of elements in heap.  ###
     size: () ->
-      return this.content.length
+      return @content.length
 
     ###* @ignore ###
     sinkDown: (idx) ->
       # Fetch the element that has to be sunk
-      element = this.content[idx]
+      element = @content[idx]
       # When at 0, an element can not sink any further.
       while (idx > 0)
         # Compute the parent element's index, and fetch it.
         parentIdx = Math.floor((idx + 1) / 2) - 1
-        parent = this.content[parentIdx]
+        parent = @content[parentIdx]
         # Swap the elements if the parent is greater.
-        if (this.scoreFunction(element) < this.scoreFunction(parent))
-          this.content[parentIdx] = element
-          this.content[idx] = parent
+        if (@scoreFunction(element) < @scoreFunction(parent))
+          @content[parentIdx] = element
+          @content[idx] = parent
           # Update 'n' to continue at the new position.
           idx = parentIdx
         # Found a parent that is less, no need to sink any further.
@@ -86,9 +86,9 @@ define (require) ->
     ###* @ignore ###
     bubbleUp: (idx) ->
       # Look up the target element and its score.
-      length = this.content.length
-      element = this.content[idx]
-      elemScore = this.scoreFunction(element)
+      length = @content.length
+      element = @content[idx]
+      elemScore = @scoreFunction(element)
 
       while(true)
         # Compute the indices of the child elements.
@@ -100,22 +100,22 @@ define (require) ->
         # If the first child exists (is inside the array)...
         if (child1Idx < length)
           # Look it up and compute its score.
-          child1 = this.content[child1Idx]
-          child1Score = this.scoreFunction(child1)
+          child1 = @content[child1Idx]
+          child1Score = @scoreFunction(child1)
           # If the score is less than our element's, we need to swap.
           swapIdx = child1Idx if (child1Score < elemScore)
            
         # Do the same checks for the other child.
         if (child2Idx < length)
-          child2 = this.content[child2Idx]
-          child2Score = this.scoreFunction(child2)
+          child2 = @content[child2Idx]
+          child2Score = @scoreFunction(child2)
           if (child2Score < (if swapIdx == null then elemScore else child1Score))
             swapIdx = child2Idx
 
         # If the element needs to be moved, swap it, and continue.
         if (swapIdx != null)
-          this.content[idx] = this.content[swapIdx]
-          this.content[swapIdx] = element
+          @content[idx] = @content[swapIdx]
+          @content[swapIdx] = element
           idx = swapIdx
         # Otherwise, we are done.
         else

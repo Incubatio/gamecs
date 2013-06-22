@@ -23,12 +23,12 @@ var BinaryHeap = require('../utils/binaryheap').BinaryHeap;
 function ReachedList(hashFn) {
    var list = {};
 
-   this.store = function(point, route) {
+   @store = function(point, route) {
       list[hashFn(point)] = route;
       return;
    };
 
-   this.find = function(point) {
+   @find = function(point) {
       return list[hashFn(point)];
    };
    return this;

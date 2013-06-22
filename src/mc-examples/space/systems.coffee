@@ -14,7 +14,7 @@ define (require) ->
 
       constructor: () ->
         # TODO: use an option param to param scale
-        this.scaleRate = 1.5
+        @scaleRate = 1.5
 
       update: (entity, ms) ->
         #if(entity.components.Animated)

@@ -14,7 +14,7 @@ define (require) ->
   class Mash
     constructor: () ->
       n = 0xefc8249d
-      this.hash = (data) ->
+      @hash = (data) ->
         data = data.toString()
         for i in [0...data.length]
           n += data.charCodeAt(i)
@@ -27,7 +27,7 @@ define (require) ->
           n += h * 0x100000000 # 2^32
         return (n >>> 0) * 2.3283064365386963e-10 # 2^-32
 
-      this.version = 'Mash 0.9'
+      @version = 'Mash 0.9'
 
   ###
    * A seedable pseudo-random number generator.
@@ -73,7 +73,7 @@ define (require) ->
       ###
        * @returns {Number} the next random number as determined by the seed
        ###
-      this.random = () ->
+      @random = () ->
         t = 2091639 * s0 + c * 2.3283064365386963e-10 # 2^-32
         s0 = s1
         s1 = s2

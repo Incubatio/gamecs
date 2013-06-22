@@ -155,15 +155,15 @@ define (require) ->
     ###
     @Event: () ->
       ### The type of the event. e.g., gamecs.event.T_QUIT, T_KEY_DOWN, T_MOUSE_UP. ###
-      this.type = null
+      @type = null
       ### key the keyCode of the key. compare with gamecs.event.K_a, gamecs.event.K_b,... ###
-      this.key = null
+      @key = null
       ### relative movement for a mousemove event ###
-      this.rel = null
+      @rel = null
       ### the number of the mousebutton pressed ###
-      this.button = null
+      @button = null
       ### pos the position of the event for mouse events ###
-      this.pos = null
+      @pos = null
 
     _getContainer = () ->
       return document.getElementById('gcs-container')
@@ -178,20 +178,20 @@ define (require) ->
       * IEFIX does not support addEventListener on document itself
       * MOZFIX but in moz & opera events don't reach body if mouse outside window or on menubar
       ###
-      document.addEventListener('mousedown', this.onMouseDown, false)
-      document.addEventListener('mouseup', this.onMouseUp, false)
-      document.addEventListener('keydown', this.onInputDown, false)
-      document.addEventListener('keyup', this.onInputUp, false)
+      document.addEventListener('mousedown', @onMouseDown, false)
+      document.addEventListener('mouseup', @onMouseUp, false)
+      document.addEventListener('keydown', @onInputDown, false)
+      document.addEventListener('keyup', @onInputUp, false)
 
       container = _getContainer()
-      container.addEventListener('mousemove', this.onMouseMove, false)
-      container.addEventListener('mousewheel', this.onMouseScroll, false)
+      container.addEventListener('mousemove', @onMouseMove, false)
+      container.addEventListener('mousewheel', @onMouseScroll, false)
       ###* 
       * MOZFIX
       * https://developer.mozilla.org/en/Code_snippets/Miscellaneous#Detecting_mouse_wheel_events
       ###
-      container.addEventListener('DOMMouseScroll', this.onMouseScroll, false)
-      container.addEventListener('beforeunload', this.onBeforeUnload, false)
+      container.addEventListener('DOMMouseScroll', @onMouseScroll, false)
+      container.addEventListener('beforeunload', @onBeforeUnload, false)
 
       ### anonymous functions as event handlers = memory leak, see MDC:elementAddEventListener ###
 

@@ -33,16 +33,16 @@ define (require) ->
           ### @type gamecs.Rect ###
           rect:
             get: () ->
-              return this.getRect()
+              return @getRect()
 
           ### @ignore ###
           context:
             get: () ->
-              return this._context
+              return @_context
 
           canvas:
             get: () ->
-              return this._canvas
+              return @_canvas
         )
 
       args2 = Rect.normalizeArguments.apply(this, args)
@@ -54,23 +54,23 @@ define (require) ->
         height = args[0].height
       # only for rotatation & scale
       ### @ignore ###
-      #this._matrix = Matrix.identity()
-      this._matrix = [1, 0, 0, 1, 0, 0]
+      #@_matrix = Matrix.identity()
+      @_matrix = [1, 0, 0, 1, 0, 0]
       ### @ignore ###
-      this._canvas = document.createElement("canvas")
-      this._canvas.width = width
-      this._canvas.height = height
+      @_canvas = document.createElement("canvas")
+      @_canvas.width = width
+      @_canvas.height = height
       ### @ignore ###
-      this._blitAlpha = 1.0
+      @_blitAlpha = 1.0
 
       ### @ignore ###
-      this._context = this._canvas.getContext('2d')
+      @_context = @_canvas.getContext('2d')
 
 
       # using exports is weird but avoids circular require
       # TODO: it's not weird it's retarded, architecture and IOC are solution for fuck sake.
-      if Surface.SURFACE_SMOOTHING then this._smooth() else this._noSmooth()
-      #this._noSmooth()
+      if Surface.SURFACE_SMOOTHING then @_smooth() else @_noSmooth()
+      #@_noSmooth()
 
     ###* @ignore ###
     _noSmooth: () ->
@@ -79,14 +79,14 @@ define (require) ->
         see https:#developer.mozilla.org/en/Canvas_tutorial/Using_images#Controlling_image_scaling_behavior
         and https:#github.com/jbuck/processing-js/commit/65de16a8340c694cee471a2db7634733370b941c
       ###
-      this.context.mozImageSmoothingEnabled = false
-      this.context.webkitImageSmoothingEnabled = false
+      @context.mozImageSmoothingEnabled = false
+      @context.webkitImageSmoothingEnabled = false
       return
 
     ###* @ignore ###
     _smooth: () ->
-      this.context.mozImageSmoothingEnabled = true
-      this.context.webkitImageSmoothingEnabled = true
+      @context.mozImageSmoothingEnabled = true
+      @context.webkitImageSmoothingEnabled = true
 
     ###*
     * Blits another Surface on this Surface. The destination where to blit to
@@ -151,22 +151,22 @@ define (require) ->
         throw new Error('[blit] bad parameters, destination is ' + rDest)
      
 
-      this.context.save()
-      this.context.globalCompositeOperation = compositeOperation
+      @context.save()
+      @context.globalCompositeOperation = compositeOperation
       ### first translate, then rotate ###
-      #this.context.translate(rDest.left, rDest.top)
+      #@context.translate(rDest.left, rDest.top)
       m = Matrix.translate(Matrix.identity(), rDest.left, rDest.top)
       m = Matrix.multiply(m, src._matrix)
-      this.context.transform(m[0], m[1], m[2], m[3], m[4], m[5])
+      @context.transform(m[0], m[1], m[2], m[3], m[4], m[5])
       ### drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) ###
-      this.context.globalAlpha = src._blitAlpha
-      this.context.drawImage(src.canvas, rArea.left, rArea.top, rArea.width, rArea.height, 0, 0, rDest.width, rDest.height)
-      this.context.restore()
+      @context.globalAlpha = src._blitAlpha
+      @context.drawImage(src.canvas, rArea.left, rArea.top, rArea.width, rArea.height, 0, 0, rDest.width, rDest.height)
+      @context.restore()
       return
 
     ###* @returns {Number[]} the width and height of the Surface ###
     getSize: () ->
-      return [this.canvas.width, this.canvas.height]
+      return [@canvas.width, @canvas.height]
 
     ###*
     * Obsolte, only here for compatibility.
@@ -175,7 +175,7 @@ define (require) ->
     * @returns {gamecs.Rect} a Rect of the size of this Surface
     ###
     getRect: () ->
-      return new Rect([0,0], this.getSize())
+      return new Rect([0,0], @getSize())
 
     ###*
     * Fills the whole Surface with a color. Usefull for erasing a Surface.
@@ -183,31 +183,31 @@ define (require) ->
     * @param {gamecs.Rect} a Rect of the area to fill (defauts to entire surface if not specified)
     ###
     fill: (color, rect) ->
-      this.context.save()
-      this.context.fillStyle = color || "#000000"
+      @context.save()
+      @context.fillStyle = color || "#000000"
       if ( rect == undefined )
-        rect = new Rect(0, 0, this.canvas.width, this.canvas.height)
+        rect = new Rect(0, 0, @canvas.width, @canvas.height)
 
-      this.context.fillRect(rect.left, rect.top, rect.width, rect.height)
-      this.context.restore()
+      @context.fillRect(rect.left, rect.top, rect.width, rect.height)
+      @context.restore()
       return
 
     ### Clear the surface.  ###
     clear: (rect) ->
-      size = this.getSize()
+      size = @getSize()
       rect = rect || new Rect(0, 0, size[0], size[1])
-      this.context.clearRect(rect.left, rect.top, rect.width, rect.height)
+      @context.clearRect(rect.left, rect.top, rect.width, rect.height)
       return
 
     ###* @returns {gamecs.Surface} a clone of this surface ###
     clone: () ->
-      newSurface = new Surface(this.getRect().clone())
+      newSurface = new Surface(@getRect().clone())
       newSurface.blit(this)
       return newSurface
 
     ###* @returns {Number} current alpha value ###
     getAlpha: () ->
-      return (1 - this._blitAlpha)
+      return (1 - @_blitAlpha)
 
     ###*
     * Set the alpha value for the whole Surface. When blitting the Surface on
@@ -218,8 +218,8 @@ define (require) ->
     setAlpha: (alpha) ->
        return if (isNaN(alpha) || alpha < 0 || alpha > 1)
 
-       this._blitAlpha = (1 - alpha)
-       return (1 - this._blitAlpha)
+       @_blitAlpha = (1 - alpha)
+       return (1 - @_blitAlpha)
 
     ###*
     * The data must be represented in left-to-right order, row by row top to bottom,
@@ -229,6 +229,6 @@ define (require) ->
     * @returns {ImageData} an object holding the pixel image data {data, width, height}
     ###
     getImageData: () ->
-      size = this.getSize()
-      return this.context.getImageData(0, 0, size[0], size[1])
+      size = @getSize()
+      return @context.getImageData(0, 0, size[0], size[1])
 

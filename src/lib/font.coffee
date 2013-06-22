@@ -27,12 +27,12 @@ define (require) ->
     ###
     constructor: (fontSettings, backgroundColor) ->
       ###* @ignore ###
-      this.sampleSurface = new Surface([10,10])
-      this.sampleSurface.context.font = fontSettings
-      this.sampleSurface.context.textAlign = 'start'
+      @sampleSurface = new Surface([10,10])
+      @sampleSurface.context.font = fontSettings
+      @sampleSurface.context.textAlign = 'start'
       ###* http://diveintohtml5.org/canvas.html#text ###
-      this.sampleSurface.context.textBaseline = 'bottom'
-      this.backgroundColor = backgroundColor || false
+      @sampleSurface.context.textBaseline = 'bottom'
+      @backgroundColor = backgroundColor || false
       return this
 
     ###*
@@ -42,17 +42,17 @@ define (require) ->
     * @returns {gamecs.Surface} Surface with the rendered text on it.
     ###
     render: (text, color) ->
-      dims = this.size(text)
+      dims = @size(text)
       surface = new Surface(dims)
       ctx = surface.context
       ctx.save()
-      if ( this.backgroundColor )
-        ctx.fillStyle = this.backgroundColor
+      if ( @backgroundColor )
+        ctx.fillStyle = @backgroundColor
         ctx.fillRect(0, 0, surface.rect.width, surface.rect.height)
 
-      ctx.font = this.sampleSurface.context.font
-      ctx.textBaseline = this.sampleSurface.context.textBaseline
-      ctx.textAlign = this.sampleSurface.context.textAlign
+      ctx.font = @sampleSurface.context.font
+      ctx.textBaseline = @sampleSurface.context.textBaseline
+      ctx.textAlign = @sampleSurface.context.textAlign
       ctx.fillStyle = ctx.strokeStyle = color || "#000000"
       ctx.fillText(text, 0, surface.rect.height, surface.rect.width)
       ctx.restore()
@@ -65,9 +65,9 @@ define (require) ->
     * @returns {Array} the [width, height] of the text if rendered with this Font
     ###
     size: (text) ->
-      metrics = this.sampleSurface.context.measureText(text)
+      metrics = @sampleSurface.context.measureText(text)
       ###* FIXME measuretext is buggy, make extra wide ###
-      return [metrics.width, this.fontHeight]
+      return [metrics.width, @fontHeight]
 
     ###* Height of the font in pixels.  ###
     Objects.accessors(Font.prototype,
@@ -79,5 +79,5 @@ define (require) ->
       ###
       fontHeight:
         get: () ->
-          return this.sampleSurface.context.measureText('M').width * 1.5
+          return @sampleSurface.context.measureText('M').width * 1.5
     )

@@ -34,27 +34,27 @@ define (require) ->
     constructor: (r) ->
       r = Math if (r == undefined)
       ###* @ignore ###
-      this.grad3 = [[1,1,0],[-1,1,0],[1,-1,0],[-1,-1,0],
+      @grad3 = [[1,1,0],[-1,1,0],[1,-1,0],[-1,-1,0],
                    [1,0,1],[-1,0,1],[1,0,-1],[-1,0,-1],
                    [0,1,1],[0,-1,1],[0,1,-1],[0,-1,-1]]
       ###* @ignore ###
-      this.p = []
+      @p = []
       #for (i=0 i<256 i++)
       for i in [0...256]
-        this.p[i] = Math.floor(r.random()*256)
+        @p[i] = Math.floor(r.random()*256)
       ###* To remove the need for index wrapping, double the permutation table length ###
       ###* @ignore ###
-      this.perm = []
+      @perm = []
       #for(i=0 i<512 i++)
       for i in [0...512]
-        this.perm[i]=this.p[i & 255]
+        @perm[i]=@p[i & 255]
 
       ###*
       * A lookup table to traverse the simplex around a given point in 4D.
       * Details can be found where this table is used, in the 4D noise method.
       ###
       ###* @ignore ###
-      this.simplex = [
+      @simplex = [
         [0,1,2,3],[0,1,3,2],[0,0,0,0],[0,2,3,1],[0,0,0,0],[0,0,0,0],[0,0,0,0],[1,2,3,0],
         [0,2,1,3],[0,0,0,0],[0,3,1,2],[0,3,2,1],[0,0,0,0],[0,0,0,0],[0,0,0,0],[1,3,2,0],
         [0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],
@@ -105,29 +105,29 @@ define (require) ->
       # Work out the hashed gradient indices of the three simplex corners
       ii = i & 255
       jj = j & 255
-      gi0 = this.perm[ii+this.perm[jj]] % 12
-      gi1 = this.perm[ii+i1+this.perm[jj+j1]] % 12
-      gi2 = this.perm[ii+1+this.perm[jj+1]] % 12
+      gi0 = @perm[ii+@perm[jj]] % 12
+      gi1 = @perm[ii+i1+@perm[jj+j1]] % 12
+      gi2 = @perm[ii+1+@perm[jj+1]] % 12
       # Calculate the contribution from the three corners
       t0 = 0.5 - x0*x0-y0*y0
       if(t0<0)
         n0 = 0.0
       else
         t0 *= t0
-        n0 = t0 * t0 * this.dot(this.grad3[gi0], x0, y0) # (x,y) of grad3 used for 2D gradient
+        n0 = t0 * t0 * @dot(@grad3[gi0], x0, y0) # (x,y) of grad3 used for 2D gradient
       t1 = 0.5 - x1*x1-y1*y1
       if(t1<0)
         n1 = 0.0
       else
         t1 *= t1
-        n1 = t1 * t1 * this.dot(this.grad3[gi1], x1, y1)
+        n1 = t1 * t1 * @dot(@grad3[gi1], x1, y1)
       
       t2 = 0.5 - x2*x2-y2*y2
       if(t2<0)
         n2 = 0.0
       else
         t2 *= t2
-        n2 = t2 * t2 * this.dot(this.grad3[gi2], x2, y2)
+        n2 = t2 * t2 * @dot(@grad3[gi2], x2, y2)
       
       # Add contributions from each corner to get the final noise value.
       # The result is scaled to return values in the interval [-1,1].
@@ -221,38 +221,38 @@ define (require) ->
       ii = i & 255
       jj = j & 255
       kk = k & 255
-      gi0 = this.perm[ii+this.perm[jj+this.perm[kk]]] % 12
-      gi1 = this.perm[ii+i1+this.perm[jj+j1+this.perm[kk+k1]]] % 12
-      gi2 = this.perm[ii+i2+this.perm[jj+j2+this.perm[kk+k2]]] % 12
-      gi3 = this.perm[ii+1+this.perm[jj+1+this.perm[kk+1]]] % 12
+      gi0 = @perm[ii+@perm[jj+@perm[kk]]] % 12
+      gi1 = @perm[ii+i1+@perm[jj+j1+@perm[kk+k1]]] % 12
+      gi2 = @perm[ii+i2+@perm[jj+j2+@perm[kk+k2]]] % 12
+      gi3 = @perm[ii+1+@perm[jj+1+@perm[kk+1]]] % 12
       # Calculate the contribution from the four corners
       t0 = 0.6 - x0*x0 - y0*y0 - z0*z0
       if(t0<0)
         n0 = 0.0
       else
         t0 *= t0
-        n0 = t0 * t0 * this.dot(this.grad3[gi0], x0, y0, z0)
+        n0 = t0 * t0 * @dot(@grad3[gi0], x0, y0, z0)
 
       t1 = 0.6 - x1*x1 - y1*y1 - z1*z1
       if(t1<0)
         n1 = 0.0
       else
         t1 *= t1
-        n1 = t1 * t1 * this.dot(this.grad3[gi1], x1, y1, z1)
+        n1 = t1 * t1 * @dot(@grad3[gi1], x1, y1, z1)
 
       t2 = 0.6 - x2*x2 - y2*y2 - z2*z2
       if(t2<0)
         n2 = 0.0
       else
         t2 *= t2
-        n2 = t2 * t2 * this.dot(this.grad3[gi2], x2, y2, z2)
+        n2 = t2 * t2 * @dot(@grad3[gi2], x2, y2, z2)
 
       t3 = 0.6 - x3*x3 - y3*y3 - z3*z3
       if(t3<0)
         n3 = 0.0
       else
         t3 *= t3
-        n3 = t3 * t3 * this.dot(this.grad3[gi3], x3, y3, z3)
+        n3 = t3 * t3 * @dot(@grad3[gi3], x3, y3, z3)
      
       # Add contributions from each corner to get the final noise value.
       # The result is scaled to stay just inside [-1,1]

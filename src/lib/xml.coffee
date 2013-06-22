@@ -25,7 +25,7 @@ define (require) ->
       xmlDoc = null
       parser = new DOMParser()
       
-      this.parseFromString = (xmlString) ->
+      @parseFromString = (xmlString) ->
         xmlDoc = parser.parseFromString(xmlString, 'text/xml')
         return xmlDoc
       
@@ -38,7 +38,7 @@ define (require) ->
         if (!xmlDocument || (!xmlDocument instanceof XMLDocument) )
           throw new Error('Need a valid xmlDocument.')
         ### @ignore *###
-        this._xmlDocument = xmlDocument
+        @_xmlDocument = xmlDocument
         return this
 
       ###*
@@ -47,7 +47,7 @@ define (require) ->
       * @returns gamecs.xml.Document
       ###
       element: (name) ->
-        elem = this._xmlDocument.getElementsByTagName(name)[0]
+        elem = @_xmlDocument.getElementsByTagName(name)[0]
         return elem && new Document(elem) || null
 
       ###*
@@ -56,7 +56,7 @@ define (require) ->
       * @returns an Array of gamecs.xml.Document
       ###
       elements: (name) ->
-        elems = this._xmlDocument.getElementsByTagName(name)
+        elems = @_xmlDocument.getElementsByTagName(name)
         return Array.prototype.slice.apply(elems, [0]).map((elem) ->
           return new Document(elem)
         )
@@ -67,7 +67,7 @@ define (require) ->
       * @returns String
       ###
       attribute: (name) ->
-        attributeValue = this._xmlDocument.getAttribute(name)
+        attributeValue = @_xmlDocument.getAttribute(name)
         attributeValue = if attributeValue then attributeValue.trim() else null
         return null if (attributeValue == null)
 
@@ -88,14 +88,14 @@ define (require) ->
       * @returns String
       ###
       value: () ->
-         return this._xmlDocument.nodeValue
+         return @_xmlDocument.nodeValue
 
       ###*
       * Returns all children of this xml document
       * @returns Array of gamecs.xml.Document
       ###
       children: () ->
-        return Array.prototype.slice.apply(this._xmlDocument.childNodes, [0]).map((cNode) ->
+        return Array.prototype.slice.apply(@_xmlDocument.childNodes, [0]).map((cNode) ->
           return new Document(cNode)
         )
 

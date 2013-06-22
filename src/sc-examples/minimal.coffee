@@ -21,28 +21,28 @@ require ['gamecs'], (gamecs) ->
     @COLORS = ['#ff0000', '#00ff00', '#0000cc']
 
     constructor: (center) ->
-      this.center = center
-      this.growPerSec = Ball.GROW_PER_SEC
-      this.radius = this.growPerSec * 2
-      this.color = 0
+      @center = center
+      @growPerSec = Ball.GROW_PER_SEC
+      @radius = @growPerSec * 2
+      @color = 0
       return this
 
 
     nextColor: () ->
-      this.color += 1
-      if (this.color >= Ball.COLORS.length)
-         this.color = 0
+      @color += 1
+      if (@color >= Ball.COLORS.length)
+         @color = 0
 
     draw: (display) ->
-      rgbColor = Ball.COLORS[this.color]
+      rgbColor = Ball.COLORS[@color]
       lineWidth = 0 # lineWidth zero fills the circle
-      gamecs.Draw.circle(display, rgbColor, this.center, this.radius, lineWidth)
+      gamecs.Draw.circle(display, rgbColor, @center, @radius, lineWidth)
     
     update: (msDuration) ->
-      this.radius += this.growPerSec * (msDuration / 1000)
-      if (this.radius > Ball.MAX_SIZE || this.radius < Math.abs(this.growPerSec))
-        this.radius = if(this.radius > Ball.MAX_SIZE) then Ball.MAX_SIZE else Math.abs(this.growPerSec)
-        this.growPerSec = -this.growPerSec
+      @radius += @growPerSec * (msDuration / 1000)
+      if (@radius > Ball.MAX_SIZE || @radius < Math.abs(@growPerSec))
+        @radius = if(@radius > Ball.MAX_SIZE) then Ball.MAX_SIZE else Math.abs(@growPerSec)
+        @growPerSec = -@growPerSec
 
   main = () ->
     # ball changes color on mouse up

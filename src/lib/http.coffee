@@ -37,7 +37,7 @@ define (require) ->
     ###
     @Response: () ->
       ###* @param {String} header ###
-      this.getResponseHeader = (header) ->
+      @getResponseHeader = (header) ->
       # TODO: check why empty func above ?
       throw new Error('response class not instantiable')
 

@@ -13,25 +13,25 @@ require ['gamecs'], (gamecs) ->
     constructor: (rect) ->
       # call superconstructor
       super()
-      this.speed = 20 + (40 * Math.random())
+      @speed = 20 + (40 * Math.random())
       # ever ship has its own scale
-      this.originalImage = gamecs.Img.load("assets/images/ship.png")
-      dims = this.originalImage.getSize()
+      @originalImage = gamecs.Img.load("assets/images/ship.png")
+      dims = @originalImage.getSize()
       newDims = [Math.round(dims[0] * (0.5 + Math.random())), Math.round(dims[1] *  (0.5 + Math.random()))]
-      this.originalImage = gamecs.Transform.scale(this.originalImage, newDims)
-      this.rotation = 50 + parseInt(120 * Math.random())
-      this.image = gamecs.Transform.rotate(this.originalImage, this.rotation)
-      this.rect = new gamecs.Rect(rect)
+      @originalImage = gamecs.Transform.scale(@originalImage, newDims)
+      @rotation = 50 + parseInt(120 * Math.random())
+      @image = gamecs.Transform.rotate(@originalImage, @rotation)
+      @rect = new gamecs.Rect(rect)
 
     update: (msDuration) ->
       # moveIp = move in place
-      this.rect.moveIp(0, this.speed * (msDuration/1000))
-      if (this.rect.top > 600)
-        this.speed *= -1
-        this.image = gamecs.Transform.rotate(this.originalImage, this.rotation + 180)
-      else if (this.rect.top < 0 )
-        this.speed *= -1
-        this.image = gamecs.Transform.rotate(this.originalImage, this.rotation)
+      @rect.moveIp(0, @speed * (msDuration/1000))
+      if (@rect.top > 600)
+        @speed *= -1
+        @image = gamecs.Transform.rotate(@originalImage, @rotation + 180)
+      else if (@rect.top < 0 )
+        @speed *= -1
+        @image = gamecs.Transform.rotate(@originalImage, @rotation)
 
   main = () ->
     # screen setup

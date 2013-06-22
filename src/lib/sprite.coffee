@@ -22,13 +22,13 @@ define (require) ->
     * Image to be rendered for this Sprite.
     * @type gamecs.Surface
     ###
-    this.image = null
+    @image = null
 
     ###*
     * Rect describing the position of this sprite on the display.
     * @type gamecs.Rect
     ###
-    this.rect = null
+    @rect = null
 
     ###*
     * Your visible game objects will typically subclass Sprite. By setting it's image
@@ -43,7 +43,7 @@ define (require) ->
     constructor: () ->
       ###* List of all groups that contain this sprite.  ###
       Objects.accessor(this, 'groups', () ->
-        return this._groups
+        return @_groups
       )
 
     ###*
@@ -51,8 +51,8 @@ define (require) ->
     * makes future calls to `Sprite.isDead()` return `true`
     ###
     kill: () ->
-      this._alive = false
-      this._groups.forEach((group) ->
+      @_alive = false
+      @_groups.forEach((group) ->
         group.remove(this)
       , this)
 
@@ -88,7 +88,7 @@ define (require) ->
     * @returns {Array} an array of groups
     ###
     groups: () ->
-      return this._groups.slice(0)
+      return @_groups.slice(0)
 
     ###*
     * Draw this sprite onto the given surface. The position is defined by this
@@ -96,7 +96,7 @@ define (require) ->
     * @param {gamecs.Surface} surface The surface to draw on
     ###
     draw: (surface) ->
-      surface.blit(this.image, this.rect)
+      surface.blit(@image, @rect)
 
     ###*
     * Update this sprite. You **should** override this method with your own to
@@ -109,5 +109,5 @@ define (require) ->
     * previously, otherwise false
     ###
     isDead: () ->
-      return !this._alive
+      return !@_alive
 
