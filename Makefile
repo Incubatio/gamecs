@@ -16,7 +16,7 @@ doc:
 
 
 server: 
-	@python -m SimpleHTTPServer 2>/dev/null
+	@python -um SimpleHTTPServer 2>&1| grep -v KeyboardInterrupt
 
 deploy: 
 	git push -f origin HEAD:gh-pages
