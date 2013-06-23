@@ -7,14 +7,18 @@ GameJs is a JavaScript library for writing 2D games or other interactive
 graphic applications for the HTML Canvas <http://gamejs.org>.
 
 
+
 ### Examples
 
 You can check simple canvas gamecs examples online [here](http://incubatio.github.com/gamecs/sc-examples.html) 
 and multi-canvas example [here](http://incubatio.github.com/gamecs/mc-examples.html).  
 Examples are also available in the repository in the `src/sc-examples/` and `src/mc-examples` directory.
 
+
 ###### http:// vs file://
+
 Every example works in file:// except worker-require that uses WebWorker's ImportScript function which require http://
+
 
 
 ### Usage
@@ -24,8 +28,17 @@ OR
 compile it yourself by:  
 
 1. cloning repository
-2. ``coffee --compile --watch --output build src``
-3. ``sh ./bin/build.sh`` (this will replace assets/js/gamecs.min.js file)
+2. ``make``
+3. ``make install``
+4. Get your file from assets/js/gamecs.min.js
+
+
+
+### Dev
+
+start simple http server: ``make server`` (server available on http://localhost:8000 )
+recompile on file change: ``make watch``
+
 
 
 ### More Help
@@ -33,6 +46,7 @@ compile it yourself by:
 See the [GameJs Website](http://gamecs.org) for more help or drop us
 an email in the [Mailing List](http://groups.google.com/group/gamecs).  
 Irc channel #gamejs (on irc.freenode.net)
+
 
 
 ###### Unit Tests
@@ -47,13 +61,21 @@ For now please use http://docs.gamejs.org/
 
 ### TODO
 
-Architecture refarctoring, Separate whole project into smaller modules, my actual proposition is:  
+1. Multi-Canvas example development
+2. Solid implementation of the Entity-Component-System architecture
+3. Polygon collision detection (PNPoly)
+4. Polygon collision mask rotation
+5. Polygon mask graphic editor (as a gamecs example)
+6. Architecture refarctoring: 
+
+Maybe rename the project as g-spot (g.)
+Separate whole project into smaller modules, my actual proposition is:  
 
 - Audio: 
   * mixer
   * sound
   * midi
-- Sprite (2d):
+- 2d:
   * rect
   * circle
   * polygon (or pnpoly)
@@ -78,7 +100,7 @@ Architecture refarctoring, Separate whole project into smaller modules, my actua
   * XHttp (formerly http)
   * Input (formerly events)
   * Uri
-- Algorithm
+- Algorithm (maybe put algorithm in Utils)
   * Astar
   * MinMax (AlphaBeta pruning)
   * prng
@@ -94,4 +116,5 @@ Architecture refarctoring, Separate whole project into smaller modules, my actua
 - Parser
   * xml
 
-- Feature refatoring 
+- Feature refatoring (if needed)
+- Write proper unit tests for each module
