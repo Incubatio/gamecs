@@ -24,9 +24,8 @@ OR
 compile it yourself by:  
 
 1. cloning repository
-2. ``make``
-3. ``make install``
-4. Get your minimized file from assets/js/gamecs.min.js
+2. ``make && make install``
+3. Get your minimized file from assets/js/gamecs.min.js
 
 
 
