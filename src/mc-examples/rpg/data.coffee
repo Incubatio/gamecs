@@ -93,7 +93,7 @@ define (require) ->
         ['Player', [60, 60]]
         ['Sword', [-100, 100]]
         ['Vortex', [267, 17]]
-        ['Octocat', [180, 90]]
+        ['Octocat', [380, 90]]
       ]
       decors: [
         ['text', 'Hello World', [200, 250]]

@@ -2,7 +2,7 @@
 (function() {
 
   define(function(require) {
-    var Animation, Camera, Director, Entity, SpriteSheet, Tilemap, components, gamecs, systems;
+    var Animation, Camera, Director, Entity, SpriteSheet, components, gamecs, systems;
     gamecs = require('gamecs');
     Entity = require('entity');
     Animation = require('animation');
@@ -10,7 +10,6 @@
     systems = require('systems');
     SpriteSheet = require('spritesheet');
     Camera = require('camera');
-    Tilemap = require('tilemap');
     return Director = (function() {
 
       Director.prototype.loadImage = function(suffix) {

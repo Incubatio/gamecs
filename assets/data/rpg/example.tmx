@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="60" height="36" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="set_rules" tilewidth="32" tileheight="32">
-  <image source="../set_rules.png" width="128" height="64"/>
+  <image source="../../../../../../Documents/games/gameoff/set_rules.png" width="128" height="64"/>
  </tileset>
  <layer name="collision" width="60" height="36">
   <data encoding="base64" compression="zlib">
-   eJztldsOwyAMQxH//9F7moQqEtsk0AtEQmshs3M2ArWUUjcbKJickVyUr2oxXoc35otyo1poX3rrT+StzjNbr5XP9rPS/54+42k9ZwSql9Ww3nvsSOPtvGhfobzMmM3r6TFcX+Jlct7Kq5xxkVpQoHOXPbtRjaN3lFrPKINSl3KfKbq9tWp8ovXrucjGjF5E91SUN/v/ZXPQ3rDWehos73VuhBfdkyyvusfb/JW8ynM7l3kPvIE3Gr0zx+P1erl05pR9u5rX0kVn24r+zWBtdVbyKnVZ71Hdw9t/V3itPmaHVUOWvuelfic7GP3ZNbQ+K3iRx5d4GZ+v8f69RtbanNH+va6vCM/rCTXM8suYj/gf3nmheh3euP+OvLuNXeLu3/mO8QMJFwS7
+   eJztleEOhCAMgw3v/9D3y4QQ1nZjoCcsIeeN2e4T0HJdV9lssFBqIrWs3quleB3eMV9WO6rF9iWafyNvAddqv1a9ep495x/pK57WdUawflUN63+PnWn8Oy/bV6wuM2bzIj2F66286nlGGp58NDJ4e5o9j8gzmcXrGYqmklPmvf1kMah9WzXMR50rxi+bb9+Lasw4i+w7Ncr7xPpaedQDOucqb5uL8LL71Lx3j9f1K3mtflA+4zuA9jXKI16236Pr62VDur11Vmoi6+vpi+WiumiPsXfbCt4s/cN7eKO81ntLHVYPWfrIy3tPdij6s3uofVbwMo8v8So+X+O9vSJzdU30/LbzKwJ5vaGHWX4Z+RH/wzsvvF6Hd9x/R97dxi7x9HN+YvwAcFEEow==
   </data>
  </layer>
  <layer name="decor" width="60" height="36" visible="0">
@@ -15,7 +15,7 @@
  </layer>
  <layer name="boxes" width="60" height="36">
   <data encoding="base64" compression="zlib">
-   eJzt1bEKACAIBUDH/v+L2yPIaHnQHYhL0PBQqwAAAEgxNgX0nGbGTEEut+9fY+mv78iSnq+905ec5frnbUe+AEkm11IBgQ==
+   eJzt1TkKACAMBEBL//9i+yB4NQvOQEgjWGxIWgMAACBFnxTcWs2QGQNSuH3/6qW/viNLer72zr7kLOufpx35AiQZ9VIBgQ==
   </data>
  </layer>
 </map>

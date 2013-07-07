@@ -7,7 +7,6 @@ define (require) ->
   SpriteSheet = require('spritesheet')
 
   Camera      = require('camera')
-  Tilemap     = require('tilemap')
   #particles   = require('particles')
   #Dismantle   = require('effects').Dismantle
 
