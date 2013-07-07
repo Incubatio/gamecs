@@ -1,4 +1,5 @@
 define (require) ->
+  "use strict"
   #Display = require('display')
   #gamecs = require('../gamecs')
 

@@ -1,5 +1,6 @@
 # TODO: this should be a dependancy of gamecs but not part of it
 define (require) ->
+  "use strict"
   ###*
   * @fileoverview Utility functions for working with Objects
   ###
@@ -46,12 +47,11 @@ define (require) ->
     * @see https:#developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object/keys
     ###
     @keys: (obj) ->
-       return Object.keys(obj) if (Object.keys)
-
-       ret = []
-       for p of obj
-         ret.push(p) if(Object.prototype.hasOwnProperty.call(obj, p))
-       return ret
+      if (Object.keys) then ret = Object.keys(obj)
+      else
+        ret = []
+        for p of obj then ret.push(p) if(Object.prototype.hasOwnProperty.call(obj, p))
+      return ret
 
     ###*
     * Create object accessors

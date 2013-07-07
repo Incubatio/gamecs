@@ -10,6 +10,8 @@
 (function() {
 
   define(function(require) {
+    "use strict";
+
     var Matrix;
     return Matrix = (function() {
 

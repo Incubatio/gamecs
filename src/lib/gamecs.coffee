@@ -1,4 +1,5 @@
 define (require) ->
+  "use strict"
   ###
    * @fileoverview This module holds the essential `Rect` and `Surface` classes as
    * well as static methods for preloading assets. `gamecs.ready()` is maybe

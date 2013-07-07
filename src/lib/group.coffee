@@ -1,4 +1,5 @@
 define (require) ->
+  "use strict"
   Sprite = require('sprite')
   ###*
   * Sprites are often grouped. That makes collision detection more efficient and

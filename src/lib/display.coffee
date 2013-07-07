@@ -1,4 +1,5 @@
 define (require) ->
+  "use strict"
   # TOTHINK: merge display with surface
   Surface = require('surface')
 

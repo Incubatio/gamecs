@@ -2,6 +2,8 @@
 (function() {
 
   define(function(require) {
+    "use strict";
+
     var Strings;
     return Strings = (function() {
       /*

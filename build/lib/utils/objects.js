@@ -3,6 +3,8 @@
   var __slice = [].slice;
 
   define(function(require) {
+    "use strict";
+
     /**
     * @fileoverview Utility functions for working with Objects
     */
@@ -68,12 +70,13 @@
       Objects.keys = function(obj) {
         var p, ret;
         if (Object.keys) {
-          return Object.keys(obj);
-        }
-        ret = [];
-        for (p in obj) {
-          if (Object.prototype.hasOwnProperty.call(obj, p)) {
-            ret.push(p);
+          ret = Object.keys(obj);
+        } else {
+          ret = [];
+          for (p in obj) {
+            if (Object.prototype.hasOwnProperty.call(obj, p)) {
+              ret.push(p);
+            }
           }
         }
         return ret;

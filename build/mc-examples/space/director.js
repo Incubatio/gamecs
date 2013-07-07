@@ -2,9 +2,30 @@
 (function() {
 
   define(function(require) {
-    var Director, Entity, gamecs;
+    var Collider, Director, Entity, gamecs;
     gamecs = require('gamecs');
     Entity = require('entity');
+    Collider = (function() {
+
+      function Collider() {}
+
+      Collider.kill = function(e) {
+        var entity, entity2;
+        entity = e.ctx;
+        entity2 = e.params.to;
+        if (entity2.components.Weaponized) {
+          entity.killed = true;
+          entity.killer = entity2.name;
+        }
+        if (entity.components.Weaponized) {
+          entity2.killed = true;
+          return entity2.killer = entity.name;
+        }
+      };
+
+      return Collider;
+
+    })();
     return Director = (function() {
 
       Director.prototype.isGameOver = false;
@@ -72,6 +93,7 @@
           dirty: true
         });
         star.components.Mobile.speed = Math.round(v.Mobile.speed * Math.random()) + 1;
+        star.on('collision', Collider.kill);
         star.image = v.Visible.image;
         return star;
       };
@@ -108,6 +130,9 @@
           entity.oldRect = entity.rect.clone();
           if (entity.components.Visible) {
             entity.image = entity.components.Visible.image;
+          }
+          if (entity.components.Collidable) {
+            entity.on('collision', Collider.kill);
           }
           this.groups.sprites.push(entity);
           if (entity.name === "Player") {
@@ -233,6 +258,7 @@
               dirty: true
             });
             lazer.image = lazer.components.Visible.image;
+            lazer.on('collision', Collider.kill);
             this.groups.sprites.push(lazer);
             this.playSound('laser1');
             this.player.cooldown = 100;

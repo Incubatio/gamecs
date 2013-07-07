@@ -2,6 +2,8 @@
 (function() {
 
   define(function(require) {
+    "use strict";
+
     /**
     * @fileoverview Methods for polling mouse and keyboard.
     *

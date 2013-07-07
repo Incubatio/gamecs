@@ -2,7 +2,7 @@ build: clean
 	coffee --compile --output build src
 
 watch:
-	coffee --compile --watch --output build src
+	coffee --compile --watch --lint --output build src
 
 install:
 	r.js -o baseUrl=build/lib/ name=gamecs out=assets/js/gamecs.min.js

@@ -36,8 +36,6 @@ define (require) ->
 
       @init()
 
-      #@init()
-
     handleInput: (events) ->
       # Handle Input
       component = @player.components.Mobile

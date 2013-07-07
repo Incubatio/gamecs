@@ -1,4 +1,5 @@
 define (require) ->
+  "use strict"
   class Arrays
     ###*
     * @fileoverview Utility functions for working with Obiects

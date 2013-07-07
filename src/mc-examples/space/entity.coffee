@@ -1,7 +1,21 @@
 define (require) ->
   components = require('components')
 
-  class Entity
+  class Events
+
+    on: (name, cb) ->
+      if(!@_events) then @_events = {}
+      if(!@_events[name]) then @_events[name] = []
+      @_events[name].push cb
+
+    off: (name) -> if(@_events) then delete @_events[name]
+
+    trigger: (name, argv = {}, callback = null) ->
+      if @_events && @_events[name]
+        for cb in @_events[name]
+          cb({name: name, ctx: @, params: argv})
+
+  class Entity extends Events
     UID = 1
 
     constructor: (@pos, componentsData, options = {}) ->

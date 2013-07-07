@@ -22,7 +22,6 @@
     })();
     return systems = {
       Rendering: (function(_super) {
-        var clear;
 
         __extends(_Class, _super);
 
@@ -44,18 +43,9 @@
           if (entity.image) {
             surface.clear(entity.oldRect.move(this.offset));
             surface.blit(entity.image, entity.rect.move(this.offset));
-            /*else
-              if entity.oldRect
-                entity.oldRect.topleft = [entity.oldRect.left - 1, entity.oldRect.top - 1]
-                surface.clear(entity.oldRect)
-              gamecs.Draw.circle(surface, '#fff', entity.rect.topleft, 1, 0)
-            */
-
             return entity.dirty = false;
           }
         };
-
-        clear = function(sprite, surface, camera) {};
 
         return _Class;
 
@@ -135,7 +125,7 @@
         };
 
         _Class.prototype.update = function(entity, ms) {
-          var collisions, component, entity2, weapon, x, y, _i, _len;
+          var collisions, component, entity2, x, y, _i, _len;
           if (entity.components.Collidable && entity.components.Mobile) {
             component = entity.components.Mobile;
             if (component.moveX !== 0 || component.moveY !== 0) {
@@ -143,39 +133,30 @@
               y = component.moveY * component.speed;
               collisions = this.spriteCollide(entity, this.entities);
               if (collisions.length > 0) {
-                weapon = false;
                 for (_i = 0, _len = collisions.length; _i < _len; _i++) {
                   entity2 = collisions[_i];
-                  if (entity2.components.Weaponized) {
-                    weapon = true;
-                    entity.killed = true;
-                    entity.killer = entity2.name;
-                  }
-                  if (entity.components.Weaponized) {
-                    entity2.killed = true;
-                    entity2.killer = entity.name;
-                  }
+                  entity.trigger('collision', {
+                    to: entity2
+                  });
                 }
-                if (!weapon) {
+                entity.rect = entity.oldRect.clone();
+                entity.rect.moveIp(x, 0);
+                collisions = this.spriteCollide(entity, this.entities);
+                if (collisions.length > 0) {
+                  x = 0;
                   entity.rect = entity.oldRect.clone();
-                  entity.rect.moveIp(x, 0);
-                  collisions = this.spriteCollide(entity, this.entities);
-                  if (collisions.length > 0) {
-                    x = 0;
-                    entity.rect = entity.oldRect.clone();
-                  }
-                  entity.rect.moveIp(0, y);
-                  collisions = this.spriteCollide(entity, this.entities);
-                  if (collisions.length > 0) {
-                    y = 0;
-                    entity.rect = entity.oldRect.clone();
-                  }
+                }
+                entity.rect.moveIp(0, y);
+                collisions = this.spriteCollide(entity, this.entities);
+                if (collisions.length > 0) {
+                  y = 0;
                   entity.rect = entity.oldRect.clone();
-                  if (x !== 0 || y !== 0) {
-                    return entity.rect.moveIp(x, y);
-                  } else {
-                    return entity.dirty = false;
-                  }
+                }
+                entity.rect = entity.oldRect.clone();
+                if (x !== 0 || y !== 0) {
+                  return entity.rect.moveIp(x, y);
+                } else {
+                  return entity.dirty = false;
                 }
               }
             }

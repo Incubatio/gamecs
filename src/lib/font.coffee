@@ -1,4 +1,5 @@
 define (require) ->
+  "use strict"
   Surface = require('surface')
   Objects = require('utils/objects')
 

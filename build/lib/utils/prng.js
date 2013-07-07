@@ -2,6 +2,8 @@
 (function() {
 
   define(function(require) {
+    "use strict";
+
     /*
        * @fileoverview A seedable random-number generator. Especially
        * useful in conjunction with the noise generator in `gamecs/utils/noise`.

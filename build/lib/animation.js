@@ -2,6 +2,8 @@
 (function() {
 
   define(function(require) {
+    "use strict";
+
     var Animation, Transform;
     Transform = require('transform');
     return Animation = (function() {

@@ -1,4 +1,5 @@
 define (require) ->
+  "use strict"
   class Draw
     ###*
     * @fileoverview Utilities for drawing geometrical objects to Surfaces. If you want to put images on

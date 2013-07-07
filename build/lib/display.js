@@ -2,6 +2,8 @@
 (function() {
 
   define(function(require) {
+    "use strict";
+
     var Display, Surface;
     Surface = require('surface');
     /**

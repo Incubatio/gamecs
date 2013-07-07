@@ -1,4 +1,5 @@
 define (require) ->
+  "use strict"
   Geometry = require('utils/geometry')
 
   class Vector

@@ -9,6 +9,7 @@
 # * this matrix must be applied to the context in Surface.draw()
 
 define (require) ->
+  "use strict"
   class Matrix
     ###* @returns {Array} [1, 0, 0, 1, 0, 0] ###
     @identity: () ->

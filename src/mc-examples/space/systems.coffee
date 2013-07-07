@@ -20,7 +20,6 @@ define (require) ->
         #if(entity.components.Animated)
         if(entity.animation)
           component = entity.components.Animated
-
           entity.image = entity.animation.update(ms)
           #else if component.entitySheet then entity.image = component.entitySheet.get(0)
 
@@ -28,50 +27,12 @@ define (require) ->
         #if(entity.dirty && entity.components.Visible)
           #component = entity.components.Visible
 
-          # offset = [0, 0]
-          #rect = entity.rect.move(camera.getOffset())
-          #rect = entity.rect
-          #if entity.components.Visible.image then surface.blit(entity.image, rect, offset) else surface.fill(entity.color, rect)
-
-          #image = entity.image
-          #entity.components.Visible.image.rect = entity.rect
-          #console.log entity.rect
-          #console.log entity.components.Visible.image.rect
-          #entity.components.Visible.image.clear()
-        
-          #entity.rect.topleft = entity.pos
         if(entity.image)
           surface.clear(entity.oldRect.move(@offset))
 #          surface.fill('#F00', entity.rect)
           surface.blit(entity.image, entity.rect.move(@offset))
-          ###else
-            if entity.oldRect
-              entity.oldRect.topleft = [entity.oldRect.left - 1, entity.oldRect.top - 1]
-              surface.clear(entity.oldRect)
-            gamecs.Draw.circle(surface, '#fff', entity.rect.topleft, 1, 0)
-          ###
-          
 
           entity.dirty = false
-
-      clear = (sprite, surface, camera) ->
-        #offset = camera.getOffset()
-        #if(sprite.oldRect)
-        #  oldRect = sprite.oldRect.move(camera.getOffset())
-        #  surface.clear(oldRect)
-        #    if(sprite.oldImage)
-        #      surface.blit(sprite.oldImage, oldRect)
-        #sprite.oldRect = sprite.rect.clone()
-        #size = sprite.image ? sprite.image.getSize() : [sprite.rect.width, sprite.rect.height]
-          
-        #imgSize = new gamecs.Rect([0,0], size)
-        #mySurface = new gamecs.Surface(size)
-        
-        #rect = sprite.rect.move(camera.getOffset())
-        #size = surface.getSize()
-        #if(rect.left + rect.width < size[0] && rect.top + rect.width < size[1] && rect.left > size[0] && rect.top > size[1])
-        #  mySurface.blit(surface, imgSize, rect)
-        #  sprite.oldImage = mySurface
 
     # Transform Rotation
     Rotation: class extends System
@@ -87,6 +48,9 @@ define (require) ->
           sprite.dirty = true
 
 
+
+    # NOTE: possible perf optimisation: test collision and save position every second (instead of each frame)
+    # if collision, replace sprite the position saved the last second
     Collision: class extends System
       ###
       _isColliding: (entity, entities) ->
@@ -121,6 +85,7 @@ define (require) ->
         
 
       update: (entity, ms) ->
+        # We assume that we need a mobile object to test for collision
         if entity.components.Collidable && entity.components.Mobile
           component = entity.components.Mobile
           if component.moveX != 0 || component.moveY != 0
@@ -128,43 +93,32 @@ define (require) ->
             y = component.moveY * component.speed
             
             collisions = @spriteCollide(entity, @entities)
-            #console.log collisions
             if(collisions.length > 0)
-
-              weapon = false
               for entity2 in collisions
-                if entity2.components.Weaponized
-                  weapon = true
-                  entity.killed = true
-                  entity.killer = entity2.name
-                if entity.components.Weaponized
-                  entity2.killed = true
-                  entity2.killer = entity.name
+                entity.trigger('collision', {to: entity2})
 
-              if !weapon
-                entity.rect = entity.oldRect.clone()
-                entity.rect.moveIp(x, 0)
+              # TOTHINK: (1) possible optimisation: if sprite has been killed during previous event triggering, skip following code
+              # TOTHINK: (2) Should following be placed in an event ? (First thought: I don't think so ...)
+              entity.rect = entity.oldRect.clone()
+              entity.rect.moveIp(x, 0)
 
-                # TODO: manage collision post movement
-                collisions = @spriteCollide(entity, @entities)
-                if(collisions.length > 0)
-                   x = 0
-                   entity.rect = entity.oldRect.clone()
+              # TODO: manage collision post movement
+              collisions = @spriteCollide(entity, @entities)
+              if(collisions.length > 0)
+                 x = 0
+                 entity.rect = entity.oldRect.clone()
 
-                entity.rect.moveIp(0, y)
-                collisions = @spriteCollide(entity, @entities)
+              entity.rect.moveIp(0, y)
+              collisions = @spriteCollide(entity, @entities)
 
-                if(collisions.length > 0)
-                  y = 0
-                  entity.rect = entity.oldRect.clone()
-
+              if(collisions.length > 0)
+                y = 0
                 entity.rect = entity.oldRect.clone()
 
-                if x != 0 || y != 0 then entity.rect.moveIp(x, y)
-                else
-                  entity.dirty = false
-                  #component.moveY = 0
-                  #component.moveX = 0
+              entity.rect = entity.oldRect.clone()
+
+              if x != 0 || y != 0 then entity.rect.moveIp(x, y)
+              else entity.dirty = false
 
     Movement: class extends System
       update: (entity, ms) ->

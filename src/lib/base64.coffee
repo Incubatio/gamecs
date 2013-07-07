@@ -1,4 +1,5 @@
 define (require) ->
+  "use strict"
   ###*
   * @fileoverview
   * Base64 encode / decode

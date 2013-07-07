@@ -1,4 +1,5 @@
 define (require) ->
+  "use strict"
   class Strings
     ###
      * Get the longest common segment that two strings

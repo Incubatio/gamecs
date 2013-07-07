@@ -2,6 +2,8 @@
 (function() {
 
   define(function(require) {
+    "use strict";
+
     var Geometry, Vector;
     Geometry = require('utils/geometry');
     return Vector = (function() {

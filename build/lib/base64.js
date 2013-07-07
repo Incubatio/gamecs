@@ -2,6 +2,8 @@
 (function() {
 
   define(function(require) {
+    "use strict";
+
     /**
     * @fileoverview
     * Base64 encode / decode

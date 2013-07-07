@@ -2,6 +2,8 @@
 (function() {
 
   define(function(require) {
+    "use strict";
+
     var Font, Objects, Surface;
     Surface = require('surface');
     Objects = require('utils/objects');

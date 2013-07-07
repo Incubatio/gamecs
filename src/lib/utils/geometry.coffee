@@ -1,4 +1,5 @@
 define (require) ->
+  "use strict"
   class Geometry
     ###*
     * absolute angle to relative angle, in degrees

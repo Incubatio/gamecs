@@ -1,4 +1,5 @@
 define (require) ->
+  "use strict"
   ###*
   * @fileoverview Make synchronous http requests to your game's serverside component.
   *

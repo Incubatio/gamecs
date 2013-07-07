@@ -2,6 +2,20 @@ define (require) ->
   gamecs = require('gamecs')
   Entity = require('entity')
 
+  class Collider
+    @kill: (e) ->
+      #weapon = false
+      entity = e.ctx
+      entity2 = e.params.to
+
+      if entity2.components.Weaponized
+        #weapon = true
+        entity.killed = true
+        entity.killer = entity2.name
+      if entity.components.Weaponized
+        entity2.killed = true
+        entity2.killer = entity.name
+
   class Director
     isGameOver: false
   
@@ -40,6 +54,7 @@ define (require) ->
       pos = @getRandPos(options.x, - v.Visible.size[1])
       star = new Entity(pos, v, {name: k, rect: new gamecs.Rect(pos, v.Visible.size), dirty: true})
       star.components.Mobile.speed = Math.round(v.Mobile.speed * Math.random()) + 1
+      star.on('collision', Collider.kill) #if star.components.Collidable
       star.image = v.Visible.image
       return star
 
@@ -49,7 +64,6 @@ define (require) ->
 
       @display.bg1.fill('#000')
       @display.fg.blit((new gamecs.Font('45px Sans-serif')).render('Hello World'))
-
 
       # Bind resource on Sprites data
       for k, v of @data.sprites
@@ -66,6 +80,7 @@ define (require) ->
         entity = new Entity(pos, v, {name: k, rect: new gamecs.Rect(pos, v.Visible.size), dirty: true})
         entity.oldRect = entity.rect.clone()
         entity.image = entity.components.Visible.image if entity.components.Visible
+        entity.on('collision', Collider.kill) if entity.components.Collidable
         @groups.sprites.push entity
         @player = entity if entity.name == "Player"
       @player.score = 0
@@ -128,6 +143,7 @@ define (require) ->
           pos = [@player.rect.left + 45, @player.rect.top - 50]
           lazer = new Entity(pos, v, {name: 'RLazer', rect: new gamecs.Rect(pos, v.Visible.size), dirty: true})
           lazer.image = lazer.components.Visible.image
+          lazer.on('collision', Collider.kill) #if star.components.Collidable
           @groups.sprites.push lazer
           @playSound('laser1')
           @player.cooldown = 100
