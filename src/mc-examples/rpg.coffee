@@ -1,6 +1,6 @@
 require ['gamecs'], (gamecs) ->
   requirejs.config({baseUrl: 'build/mc-examples/space'})
-  require ['systems', 'entity', 'camera'], (systems, Entity) ->
+  require ['systems', 'entity', 'camera'], (systems, Entity, Camera) ->
     requirejs.config({baseUrl: 'build/mc-examples/rpg'})
     require ['director', 'data', 'http', 'tilemap'], (Director, data, Http, TileMap) ->
 
@@ -47,8 +47,15 @@ require ['gamecs'], (gamecs) ->
           fg2: gamecs.Display.setMode(data.screen.size, 'foreground')
         }
 
+        scaleRate = 1.5
+        display.fg._context.scale(scaleRate, scaleRate)
+        display.bg._context.scale(scaleRate, scaleRate)
+
+        camera = new Camera(data.screen.size)
+        camera.scale(scaleRate)
+
         # Init director
-        myDirector = new Director(display, {data: data, map: map})
+        myDirector = new Director(display, {data: data, map: map, camera: camera})
         #myDirector.groups.sprites[2].animation.start 'active'
         #myDirector.groups.sprites[3].animation.start 'wave'
 

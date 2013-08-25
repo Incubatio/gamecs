@@ -1,7 +1,7 @@
 define (require) ->
   {
     screen:
-      size: [600, 800]
+      size: [1008, 576]
 
     map:
       url: 'assets/data/rpg/example.json'
@@ -31,8 +31,9 @@ define (require) ->
     sprites:
       Player:
         Visible:
-          size: [64, 64]
+          size: [32, 32]
         Animated:
+          size: [64, 64]
           frameset: { "down": [56, 59], "left": [8, 11], "right": [8, 11], "up": [34, 39], "pause": [64, 65] }
           imageset: "frameset/firefox.png"
           options:
@@ -50,6 +51,7 @@ define (require) ->
 
       Octocat:
         Animated:
+          size: [32, 32]
           frameset: { "wave": [0, 3], "pause": [0] }
           imageset: "frameset/octocat.png"
           options:
@@ -68,6 +70,7 @@ define (require) ->
 
       Vortex:
         Animated:
+          size: [64, 64]
           frameset: { 'active': [0, 14] }
           imageset: "frameset/vortex.png"
           options:
@@ -81,6 +84,7 @@ define (require) ->
         Visible:
           size: [64, 64]
         Animated:
+          size: [64, 64]
           frameset: { "down": [30, 34], "left": [0, 4], "right": [0, 4], "up": [15, 20], "pause": [0] }
           imageset: "frameset/sword.png"
           options:

@@ -2,14 +2,13 @@
 (function() {
 
   define(function(require) {
-    var Animation, Camera, Director, Entity, SpriteSheet, components, gamecs, systems;
+    var Animation, Director, Entity, SpriteSheet, components, gamecs, systems;
     gamecs = require('gamecs');
     Entity = require('entity');
     Animation = require('animation');
     components = require('components');
     systems = require('systems');
     SpriteSheet = require('spritesheet');
-    Camera = require('camera');
     return Director = (function() {
 
       Director.prototype.loadImage = function(suffix) {
@@ -21,7 +20,7 @@
         this.display = display;
         this.options = options;
         this.font = new gamecs.Font('40px monospace');
-        this.camera = new Camera(this.options.data.screen.size);
+        this.camera = this.options.camera;
         _ref = this.options.data.sprites;
         for (k in _ref) {
           v = _ref[k];
@@ -32,7 +31,7 @@
           }
           if (v.Animated && v.Animated.imageset) {
             v.Animated.entitySheet = new SpriteSheet();
-            v.Animated.entitySheet.load(this.loadImage(v.Animated.imageset), v.Visible.size);
+            v.Animated.entitySheet.load(this.loadImage(v.Animated.imageset), v.Animated.size);
           }
         }
         this.init();

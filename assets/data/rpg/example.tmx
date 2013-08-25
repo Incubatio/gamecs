@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="60" height="36" tilewidth="32" tileheight="32">
+<map version="1.0" orientation="orthogonal" width="61" height="34" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="set_rules" tilewidth="32" tileheight="32">
   <image source="../../../../../../Documents/games/gameoff/set_rules.png" width="128" height="64"/>
  </tileset>
- <layer name="collision" width="60" height="36">
+ <layer name="collision" width="61" height="34">
   <data encoding="base64" compression="zlib">
-   eJztleEOhCAMgw3v/9D3y4QQ1nZjoCcsIeeN2e4T0HJdV9lssFBqIrWs3quleB3eMV9WO6rF9iWafyNvAddqv1a9ep495x/pK57WdUawflUN63+PnWn8Oy/bV6wuM2bzIj2F66286nlGGp58NDJ4e5o9j8gzmcXrGYqmklPmvf1kMah9WzXMR50rxi+bb9+Lasw4i+w7Ncr7xPpaedQDOucqb5uL8LL71Lx3j9f1K3mtflA+4zuA9jXKI16236Pr62VDur11Vmoi6+vpi+WiumiPsXfbCt4s/cN7eKO81ntLHVYPWfrIy3tPdij6s3uofVbwMo8v8So+X+O9vSJzdU30/LbzKwJ5vaGHWX4Z+RH/wzsvvF6Hd9x/R97dxi7x9HN+YvwAcFEEow==
+   eJztluEOwyAIhBvf/6H3q4kxwB0IxllJzDq9HnzD2rXnedoHBwpGE9Eyeq8fk+8yz+fNZpD01h5F+3dH5nG9DdeemiUt+3x7zgOtxqbMjR6WX0agmlkP7bvEjzxOYNZ6afV+ph4U1cyWn9XbmXpQZDHP9unfmCVPKUf0d6li9gzGk5lj1731ZHGwtWsalIdda8qnpLe0K5jRfDWz9J5gI5uZ2WuzzOx9Vn5UJzvvPR+kPq1ilq41TT8XfT8wDJqefbatMy7a55n3jfZ8MrkY5oyI7mHkx56/uzBn+F1m3fsyY49eOzO0GrL8rXM0el9mMP7VNYy5VjCjHKcxM3lOZH5zRdZ6DXN2sJoVYeU6tc9vPs98VQ27M1f8f9iBOfse5HeZa2Mn5q+NH+qhBB0=
   </data>
  </layer>
- <layer name="decor" width="60" height="36" visible="0">
+ <layer name="decor" width="61" height="34" visible="0">
   <data encoding="base64" compression="zlib">
-   eJztwTEBAAAAwqD1T20MH6AAAAAAAAAAAHgaIcAAAQ==
+   eJztwYEAAAAAw6D5U1/hAFUBAAAAAAAAAHwGIGgAAQ==
   </data>
  </layer>
- <layer name="boxes" width="60" height="36">
+ <layer name="boxes" width="61" height="34">
   <data encoding="base64" compression="zlib">
-   eJzt1TkKACAMBEBL//9i+yB4NQvOQEgjWGxIWgMAACBFnxTcWs2QGQNSuH3/6qW/viNLer72zr7kLOufpx35AiQZ9VIBgQ==
+   eJzt1bEKACAIBUBH//+LGwOHIloU7kBcgoYnGgEAAMB0eSj4cZsjcwZ05iaSpf++o6fuOdtD7zpnWv987WxyhtkWgUsBkQ==
   </data>
  </layer>
 </map>

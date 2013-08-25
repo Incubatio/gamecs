@@ -6,7 +6,6 @@ define (require) ->
   systems     = require('systems')
   SpriteSheet = require('spritesheet')
 
-  Camera      = require('camera')
   #particles   = require('particles')
   #Dismantle   = require('effects').Dismantle
 
@@ -21,7 +20,7 @@ define (require) ->
 
       @font = new gamecs.Font('40px monospace')
 
-      @camera = new Camera(@options.data.screen.size)
+      @camera = @options.camera
 
       # Bind resource on Sprites data
       for k, v of @options.data.sprites
@@ -31,7 +30,7 @@ define (require) ->
           v.Visible.size = v.Visible.image.getSize()
         if v.Animated && v.Animated.imageset
           v.Animated.entitySheet = new SpriteSheet()
-          v.Animated.entitySheet.load(@loadImage(v.Animated.imageset), v.Visible.size)
+          v.Animated.entitySheet.load(@loadImage(v.Animated.imageset), v.Animated.size)
 
       @init()
 

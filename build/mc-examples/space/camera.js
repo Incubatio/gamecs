@@ -6,6 +6,8 @@
     gamecs = require('gamecs');
     return Camera = (function() {
 
+      Camera.prototype.scaleRate = 1;
+
       function Camera(size, options) {
         this.size = size;
         options = options || {};
@@ -26,15 +28,16 @@
       };
 
       Camera.prototype.getScreenRect = function() {
-        var a, i, left, top,
+        var a, i, left, size, top,
           _this = this;
-        i = this.i;
+        i = Math.round(this.i * this.scaleRate) - this.i;
+        size = [Math.round(this.size[0] / this.scaleRate), Math.round(this.size[1] / this.scaleRate)];
         a = function(n, m) {
           return n * m - (n > 0 ? i * n : 0);
         };
-        left = a(this.x, this.size[0]);
-        top = a(this.y, this.size[1]);
-        return new gamecs.Rect([left, top], this.size);
+        left = a(this.x, size[0]);
+        top = a(this.y, size[1]);
+        return new gamecs.Rect([left, top], size);
       };
 
       Camera.prototype.follow = function(sprite) {
@@ -61,6 +64,10 @@
           this.x = x;
           return this.y = y;
         }
+      };
+
+      Camera.prototype.scale = function(scaleRate) {
+        this.scaleRate = scaleRate;
       };
 
       return Camera;

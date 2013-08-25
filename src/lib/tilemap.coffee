@@ -159,6 +159,7 @@ define (require) ->
     * @param {Rect}
     * @return boolean
     ###
+    # TODO: there is a bug here when sprite is bigger than tile, (collision is actually detected by matchin sprite corners to tiles)
     isColliding: (rect) ->
       return  @_isColliding(rect.left, rect.top) ||
         @_isColliding(rect.left + rect.width, rect.top) ||

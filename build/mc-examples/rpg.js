@@ -5,7 +5,7 @@
     requirejs.config({
       baseUrl: 'build/mc-examples/space'
     });
-    return require(['systems', 'entity', 'camera'], function(systems, Entity) {
+    return require(['systems', 'entity', 'camera'], function(systems, Entity, Camera) {
       requirejs.config({
         baseUrl: 'build/mc-examples/rpg'
       });
@@ -42,7 +42,7 @@
         req = Http.get(data.map.url);
         gamecs.preload(resources);
         return gamecs.ready(function() {
-          var display, map, mapData, myDirector, tick, _k, _len2, _ref3;
+          var camera, display, map, mapData, myDirector, scaleRate, tick, _k, _len2, _ref3;
           mapData = JSON.parse(req.response);
           mapData.tilesets[0].image = data.prefixs.image + data.map.tilesheet;
           map = new TileMap(mapData);
@@ -52,9 +52,15 @@
             fg: gamecs.Display.setMode(data.screen.size, 'sprites'),
             fg2: gamecs.Display.setMode(data.screen.size, 'foreground')
           };
+          scaleRate = 1.5;
+          display.fg._context.scale(scaleRate, scaleRate);
+          display.bg._context.scale(scaleRate, scaleRate);
+          camera = new Camera(data.screen.size);
+          camera.scale(scaleRate);
           myDirector = new Director(display, {
             data: data,
-            map: map
+            map: map,
+            camera: camera
           });
           _ref3 = data.systems;
           for (_k = 0, _len2 = _ref3.length; _k < _len2; _k++) {

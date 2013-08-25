@@ -4,7 +4,7 @@
   define(function(require) {
     return {
       screen: {
-        size: [600, 800]
+        size: [1008, 576]
       },
       map: {
         url: 'assets/data/rpg/example.json',
@@ -19,9 +19,10 @@
       sprites: {
         Player: {
           Visible: {
-            size: [64, 64]
+            size: [32, 32]
           },
           Animated: {
+            size: [64, 64],
             frameset: {
               "down": [56, 59],
               "left": [8, 11],
@@ -48,6 +49,7 @@
         },
         Octocat: {
           Animated: {
+            size: [32, 32],
             frameset: {
               "wave": [0, 3],
               "pause": [0]
@@ -74,6 +76,7 @@
         },
         Vortex: {
           Animated: {
+            size: [64, 64],
             frameset: {
               'active': [0, 14]
             },
@@ -94,6 +97,7 @@
             size: [64, 64]
           },
           Animated: {
+            size: [64, 64],
             frameset: {
               "down": [30, 34],
               "left": [0, 4],
