@@ -36,9 +36,10 @@
       */
 
 
-      getCanvas = function(id) {
-        var canvasId;
-        canvasId = id || CANVAS_ID;
+      getCanvas = function(canvasId) {
+        if (canvasId == null) {
+          canvasId = CANVAS_ID;
+        }
         return document.getElementById(canvasId);
       };
 
@@ -87,9 +88,11 @@
       */
 
 
-      Display.setMode = function(dimensions, id) {
-        var canvas, canvasId, gameContainer;
-        canvasId = id || CANVAS_ID;
+      Display.setMode = function(dimensions, canvasId) {
+        var canvas, gameContainer;
+        if (canvasId == null) {
+          canvasId = CANVAS_ID;
+        }
         gameContainer = document.getElementById(CONTAINER_ID);
         gameContainer.style.width = dimensions[0] + "px";
         gameContainer.style.height = dimensions[1] + "px";
@@ -130,11 +133,13 @@
       */
 
 
-      Display.getSurface = function(id) {
-        var canvas, canvasId, surface;
-        canvasId = id || CANVAS_ID;
+      Display.getSurface = function(canvasId) {
+        var canvas, surface;
+        if (canvasId == null) {
+          canvasId = CANVAS_ID;
+        }
         if (!layers[canvasId]) {
-          canvas = getCanvas(id);
+          canvas = getCanvas(canvasId);
           surface = new Surface([canvas.clientWidth, canvas.clientHeight]);
           surface._canvas = canvas;
           surface._context = canvas.getContext('2d');

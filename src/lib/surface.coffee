@@ -155,6 +155,7 @@ define (require) ->
       @context.globalCompositeOperation = compositeOperation
       ### first translate, then rotate ###
       #@context.translate(rDest.left, rDest.top)
+      # TODO: Is it not 1.Scale, 2.Rotate, 3.Translate ?
       m = Matrix.translate(Matrix.identity(), rDest.left, rDest.top)
       m = Matrix.multiply(m, src._matrix)
       @context.transform(m[0], m[1], m[2], m[3], m[4], m[5])

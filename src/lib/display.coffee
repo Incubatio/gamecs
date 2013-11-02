@@ -26,8 +26,7 @@ define (require) ->
     * @param {String} [id] id of the canvas dom element
     * @returns {document.Element} the canvas dom element
     ###
-    getCanvas = (id) ->
-      canvasId = id || CANVAS_ID
+    getCanvas = (canvasId = CANVAS_ID) ->
       return document.getElementById(canvasId)
 
 
@@ -64,8 +63,7 @@ define (require) ->
     * @param {Array} dimensions [width, height] of the display surface
     * @param {String} [id] id of the canvas dom element
     ###
-    @setMode: (dimensions, id) ->
-      canvasId = id || CANVAS_ID
+    @setMode: (dimensions, canvasId = CANVAS_ID ) ->
       gameContainer = document.getElementById(CONTAINER_ID)
       gameContainer.style.width = dimensions[0] + "px"
       gameContainer.style.height = dimensions[1] + "px"
@@ -98,10 +96,9 @@ define (require) ->
     * @param {String} [id] id of the canvas dom element
     * @returns {gamecs.Surface} the display Surface
     ###
-    @getSurface: (id) ->
-      canvasId = id || CANVAS_ID
+    @getSurface: (canvasId = CANVAS_ID) ->
       if (!layers[canvasId])
-        canvas = getCanvas(id)
+        canvas = getCanvas(canvasId)
         surface = new Surface([canvas.clientWidth, canvas.clientHeight])
         surface._canvas = canvas
         surface._context = canvas.getContext('2d')
