@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="61" height="12" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="set_rules" tilewidth="32" tileheight="32">
+  <image source="../../../../../../Documents/games/gameoff/set_rules.png" width="128" height="64"/>
+ </tileset>
+ <layer name="collision" width="61" height="12">
+  <data encoding="base64" compression="zlib">
+   eJztVjEOACEII/7/0a4XAwWh6OA1cRKBQkWHiIwHFxO7/jLxKzn/nDlg+7NiaDqN6Pe7x9I6+7zFKeJHs73RZ2+mIM5VoJpVeo7OIL1ZNizOq55PwKsF0iIzduZudMzlrDYyb/GJPndwvvVWaTNfyydaexSHiY5/W6YvO3fdyyWS/wS3HwGV
+  </data>
+ </layer>
+ <layer name="decor" width="61" height="12" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20KP6AAAICXAQtwAAE=
+  </data>
+ </layer>
+ <layer name="boxes" width="61" height="12">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20KP6AAAICXAQtwAAE=
+  </data>
+ </layer>
+</map>
