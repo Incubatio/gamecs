@@ -129,8 +129,8 @@
           if (entity.components.Collidable && entity.components.Mobile) {
             component = entity.components.Mobile;
             if (component.moveX !== 0 || component.moveY !== 0) {
-              x = component.moveX * component.speed;
-              y = component.moveY * component.speed;
+              x = component.moveX * component.speedX;
+              y = component.moveY * component.speedY;
               collisions = this.spriteCollide(entity, this.entities);
               if (collisions.length > 0) {
                 for (_i = 0, _len = collisions.length; _i < _len; _i++) {
@@ -181,8 +181,8 @@
             if (component.moveX !== 0 || component.moveY !== 0) {
               entity.oldRect = entity.rect.clone();
               multiplier = component.moveX !== 0 && component.moveY !== 0 ? 1 : 1.41;
-              x = Math.round(component.moveX * component.speed * multiplier);
-              y = Math.round(component.moveY * component.speed * multiplier);
+              x = Math.round(component.moveX * component.speedX * multiplier);
+              y = Math.round(component.moveY * component.speedY * multiplier);
               entity.dirty = true;
               return entity.rect.moveIp(x, y);
             }
@@ -227,6 +227,43 @@
               weapon.dirty = true;
               weapon.rect.moveIp(sprite.rect.left - weapon.rect.left, sprite.rect.top - weapon.rect.top);
               return weapon.image = weapon.animation.update(60);
+            }
+          }
+        };
+
+        return _Class;
+
+      })(System),
+      Jump: (function(_super) {
+
+        __extends(_Class, _super);
+
+        function _Class() {
+          return _Class.__super__.constructor.apply(this, arguments);
+        }
+
+        _Class.prototype.force = 3;
+
+        _Class.prototype.gravity = 2;
+
+        _Class.prototype.update = function(entity, ms) {
+          var component, component2, speed;
+          if (entity.components.Mobile && entity.components.Jumpable) {
+            component = entity.components.Mobile;
+            component2 = entity.components.Jumpable;
+            if (component2.startedAt) {
+              component.moveY = -1;
+              speed = (this.force * component.speedX) - (this.gravity * (new Date() - component2.startedAt) / 100);
+              component.speedY = Math.round(speed);
+              if (speed < 1) {
+                return component2.startedAt = false;
+              }
+            } else {
+              component.moveY = 1;
+              component.speedY = 4;
+              if (entity.rect.top === entity.oldRect.top) {
+                return component2.canJump = true;
+              }
             }
           }
         };

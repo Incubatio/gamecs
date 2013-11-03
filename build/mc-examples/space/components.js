@@ -4,18 +4,18 @@
   define(function(require) {
     var Objects, components;
     Objects = require('utils/objects');
-    return components = {
+    components = {
       Visible: (function() {
 
         function _Class() {}
 
-        _Class.prototype.image_urn = false;
+        _Class.prototype.image_urn = null;
 
-        _Class.prototype.image = false;
+        _Class.prototype.image = null;
 
-        _Class.prototype.originalImage = false;
+        _Class.prototype.originalImage = null;
 
-        _Class.prototype.mask = false;
+        _Class.prototype.mask = null;
 
         _Class.prototype.color = "#f00";
 
@@ -24,11 +24,11 @@
           return this.image = image;
         };
 
-        _Class.prototype.size = false;
+        _Class.prototype.size = null;
 
-        _Class.prototype.radius = false;
+        _Class.prototype.radius = null;
 
-        _Class.prototype.shape = false;
+        _Class.prototype.shape = null;
 
         return _Class;
 
@@ -39,20 +39,21 @@
 
         _Class.prototype.avatar = "question.png";
 
-        _Class.prototype.dialogs = false;
+        _Class.prototype.dialogs = null;
 
         return _Class;
 
       })(),
       Mobile: (function() {
 
-        function _Class() {}
+        _Class.prototype.speed = null;
 
-        _Class.prototype.speed = 0;
+        _Class.prototype.move = null;
 
-        _Class.prototype.moveX = 0;
-
-        _Class.prototype.moveY = 0;
+        function _Class() {
+          this.speed = [0, 0, 0];
+          this.move = [0, 0, 0];
+        }
 
         return _Class;
 
@@ -72,9 +73,9 @@
 
         function _Class() {}
 
-        _Class.prototype.vertical = false;
+        _Class.prototype.vertical = null;
 
-        _Class.prototype.horizontal = false;
+        _Class.prototype.horizontal = null;
 
         return _Class;
 
@@ -97,15 +98,15 @@
 
         function _Class() {}
 
-        _Class.prototype.imageset = false;
+        _Class.prototype.imageset = null;
 
-        _Class.prototype.frameset = false;
+        _Class.prototype.frameset = null;
 
-        _Class.prototype.animation = false;
+        _Class.prototype.animation = null;
 
-        _Class.prototype.entitySheet = false;
+        _Class.prototype.entitySheet = null;
 
-        _Class.prototype.options = false;
+        _Class.prototype.options = null;
 
         return _Class;
 
@@ -129,7 +130,7 @@
 
         _Class.prototype.alorithm = 'kamikaze';
 
-        _Class.prototype.attacking = false;
+        _Class.prototype.attacking = null;
 
         _Class.prototype.weapon = 'sword';
 
@@ -140,7 +141,7 @@
 
         function _Class() {}
 
-        _Class.prototype.triggered = false;
+        _Class.prototype.triggered = null;
 
         return _Class;
 
@@ -149,12 +150,74 @@
 
         function _Class() {}
 
-        _Class.prototype.shape = false;
+        _Class.prototype.shape = null;
+
+        return _Class;
+
+      })(),
+      Jumpable: (function() {
+
+        function _Class() {}
+
+        _Class.prototype.startedAt = null;
+
+        _Class.prototype.canJump = true;
 
         return _Class;
 
       })()
     };
+    Objects.accessors(components.Mobile.prototype, {
+      moveX: {
+        get: function() {
+          return this.move[0];
+        },
+        set: function(move) {
+          return this.move[0] = move;
+        }
+      },
+      moveY: {
+        get: function() {
+          return this.move[1];
+        },
+        set: function(move) {
+          return this.move[1] = move;
+        }
+      },
+      moveZ: {
+        get: function() {
+          return this.move[2];
+        },
+        set: function(move) {
+          return this.move[2] = move;
+        }
+      },
+      speedX: {
+        get: function() {
+          return this.speed[0];
+        },
+        set: function(speed) {
+          return this.speed[0] = speed;
+        }
+      },
+      speedY: {
+        get: function() {
+          return this.speed[1];
+        },
+        set: function(speed) {
+          return this.speed[1] = speed;
+        }
+      },
+      speedZ: {
+        get: function() {
+          return this.speed[2];
+        },
+        set: function(speed) {
+          return this.speed[2] = speed;
+        }
+      }
+    });
+    return components;
   });
 
 }).call(this);

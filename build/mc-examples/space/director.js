@@ -71,7 +71,7 @@
           rect: new gamecs.Rect(pos, v.Visible.size),
           dirty: true
         });
-        star.components.Mobile.speed = Math.round(v.Mobile.speed * Math.random()) + 1;
+        star.components.Mobile.speedY = Math.round(v.Mobile.speedY * Math.random()) + 1;
         v = this.data.sprites['Star'];
         star.image = new gamecs.Surface(v.Visible.size);
         radius = Math.floor(Math.random() * 1.2) + Math.floor(Math.random() * 1.1) + 1;
@@ -92,7 +92,7 @@
           rect: new gamecs.Rect(pos, v.Visible.size),
           dirty: true
         });
-        star.components.Mobile.speed = Math.round(v.Mobile.speed * Math.random()) + 1;
+        star.components.Mobile.speedY = Math.round(v.Mobile.speedY * Math.random()) + 1;
         star.on('collision', Collider.kill);
         star.image = v.Visible.image;
         return star;

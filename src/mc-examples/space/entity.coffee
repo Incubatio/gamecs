@@ -33,9 +33,10 @@ define (require) ->
 
           #init component object, TOTHINK: shouldn't that be the role of Component constructor ?
           for k2, v2 of params
-            if components[k].prototype.hasOwnProperty(k2)
-              @components[k][k2] = v2
-            else console.log 'Warning Component Property "' + k2 + '" Not Found in ' + k + '| current value: ' + v2
+            if !components[k].prototype.hasOwnProperty(k2) then console.log 'Warning Component Property "' + k2 + '" Not Found in ' + k + '| current value: ' + v2
+            if v2 instanceof Array then @components[k][k2] = v2.slice(0)
+            else @components[k][k2] = v2
+            
         else console.log 'Warning Component Class "' + k + '" Not Found.'
 
     toString: () ->

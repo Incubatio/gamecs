@@ -40,7 +40,7 @@ define (require) ->
     sprites:
       Player:
         Mobile:
-          speed: 4
+          speed: [4, 4, 0]
         Visible:
           image: 'player.png'
         Collidable:
@@ -48,8 +48,8 @@ define (require) ->
 
       Meteor:
         Mobile:
-          speed: 4
-          moveY: 1
+          speedY: 4
+          move: [0, 1, 0]
         Visible:
           image: 'meteorBig.png'
         Collidable:
@@ -61,8 +61,8 @@ define (require) ->
 
       Ennemy:
         Mobile:
-          speed: 4
-          moveY: 1
+          speed: [4, 4, 0]
+          move: [0, 1, 0]
         Visible:
           image: 'enemyShip.png'
         Collidable:
@@ -70,8 +70,8 @@ define (require) ->
 
       GLazer:
         Mobile:
-          speed: 16
-          moveY: -1
+          speed: [16, 16, 0]
+          move: [0, -1, 0]
         Visible:
           image: 'laserGreen.png'
         Collidable:
@@ -80,7 +80,7 @@ define (require) ->
 
       RLazer:
         Mobile:
-          speed: 16
+          speed: [16, 16, 0]
           moveY: -1
         Visible:
           image: 'laserRed.png'
@@ -90,8 +90,8 @@ define (require) ->
 
       Star:
         Mobile:
-          speed: 8
-          moveY: 1
+          speedY: 8
+          move: [0, 1, 0]
         Visible:
           shape: "circle"
           radius: 1

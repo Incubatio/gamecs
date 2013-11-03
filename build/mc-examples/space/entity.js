@@ -77,10 +77,13 @@
             this.components[k] = new components[k]();
             for (k2 in params) {
               v2 = params[k2];
-              if (components[k].prototype.hasOwnProperty(k2)) {
-                this.components[k][k2] = v2;
-              } else {
+              if (!components[k].prototype.hasOwnProperty(k2)) {
                 console.log('Warning Component Property "' + k2 + '" Not Found in ' + k + '| current value: ' + v2);
+              }
+              if (v2 instanceof Array) {
+                this.components[k][k2] = v2.slice(0);
+              } else {
+                this.components[k][k2] = v2;
               }
             }
           } else {

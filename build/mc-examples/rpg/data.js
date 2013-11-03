@@ -38,7 +38,7 @@
             }
           },
           Mobile: {
-            speed: 3
+            speed: [3, 3, 0]
           },
           Weaponized: {
             weapon: 'sword'
@@ -60,7 +60,7 @@
             }
           },
           Mobile: {
-            speed: 0
+            speed: [0, 0, 0]
           },
           Visible: {
             size: [32, 32]
@@ -113,7 +113,7 @@
             }
           },
           Mobile: {
-            speed: 4
+            speed: [4, 4, 0]
           }
         }
       },

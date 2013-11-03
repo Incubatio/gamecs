@@ -4,7 +4,7 @@ define (require) ->
       size: [1008, 576]
 
     map:
-      url: 'assets/data/rpg/example.json'
+      url: 'assets/data/platform/example.json'
       tilesheet: 'tilesheet.png'
 
     prefixs:
@@ -14,6 +14,7 @@ define (require) ->
     # TOTHINK: add params to system init
     systems: [
       #'Weapon'
+      'Jump'
       'Movement'
       'Rotation'
       'Collision'
@@ -34,12 +35,12 @@ define (require) ->
           size: [32, 32]
         Animated:
           size: [64, 64]
-          frameset: { "down": [56, 59], "left": [8, 11], "right": [8, 11], "up": [34, 39], "pause": [64, 65] }
+          frameset: { "left": [8, 11], "right": [8, 11], "pause": [64, 65] }
           imageset: "frameset/firefox.png"
           options:
             xflip: {"left" : true}
         Mobile:
-          speed: [3, 3, 0]
+          speed: [3, 1, 0]
         Weaponized:
           weapon: 'sword'
         Collidable:
@@ -48,6 +49,8 @@ define (require) ->
           # mask:
             #offset: [20, 10]
             #size: [24, 44]
+        Jumpable:
+          jumping: false
 
       Octocat:
         Animated:
@@ -100,7 +103,7 @@ define (require) ->
         ['Octocat', [380, 90]]
       ]
       decors: [
-        ['text', 'Hello World', [200, 250]]
+        ['text', 'Hello World', [200, 100]]
         ['image', 'stargate.png', [250, 1]]
         ['text', 'Da Big Boss', [1450, 280]]
       ]

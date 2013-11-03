@@ -42,9 +42,7 @@ define (require) ->
     ###
     constructor: () ->
       ###* List of all groups that contain this sprite.  ###
-      Objects.accessor(this, 'groups', () ->
-        return @_groups
-      )
+      Objects.accessor(this, 'groups', () -> return @_groups)
 
     ###*
     * Kill this sprite. This removes the sprite from all associated groups and

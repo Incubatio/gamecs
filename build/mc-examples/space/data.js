@@ -26,7 +26,7 @@
       sprites: {
         Player: {
           Mobile: {
-            speed: 4
+            speed: [4, 4, 0]
           },
           Visible: {
             image: 'player.png'
@@ -37,8 +37,8 @@
         },
         Meteor: {
           Mobile: {
-            speed: 4,
-            moveY: 1
+            speedY: 4,
+            move: [0, 1, 0]
           },
           Visible: {
             image: 'meteorBig.png'
@@ -50,8 +50,8 @@
         },
         Ennemy: {
           Mobile: {
-            speed: 4,
-            moveY: 1
+            speed: [4, 4, 0],
+            move: [0, 1, 0]
           },
           Visible: {
             image: 'enemyShip.png'
@@ -62,8 +62,8 @@
         },
         GLazer: {
           Mobile: {
-            speed: 16,
-            moveY: -1
+            speed: [16, 16, 0],
+            move: [0, -1, 0]
           },
           Visible: {
             image: 'laserGreen.png'
@@ -75,7 +75,7 @@
         },
         RLazer: {
           Mobile: {
-            speed: 16,
+            speed: [16, 16, 0],
             moveY: -1
           },
           Visible: {
@@ -88,8 +88,8 @@
         },
         Star: {
           Mobile: {
-            speed: 8,
-            moveY: 1
+            speedY: 8,
+            move: [0, 1, 0]
           },
           Visible: {
             shape: "circle",

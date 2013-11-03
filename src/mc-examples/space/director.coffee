@@ -37,7 +37,8 @@ define (require) ->
       v = @data.sprites[k]
       pos = @getRandPos(options.x, options.y)
       star = new Entity(pos, v, {name: k, rect: new gamecs.Rect(pos, v.Visible.size), dirty: true})
-      star.components.Mobile.speed = Math.round(v.Mobile.speed * Math.random()) + 1
+
+      star.components.Mobile.speedY = Math.round(v.Mobile.speedY * Math.random()) + 1
 
       v = @data.sprites['Star']
       #@starImage = new gamecs.Surface(v.Visible.size)
@@ -53,7 +54,7 @@ define (require) ->
       v = @data.sprites[k]
       pos = @getRandPos(options.x, - v.Visible.size[1])
       star = new Entity(pos, v, {name: k, rect: new gamecs.Rect(pos, v.Visible.size), dirty: true})
-      star.components.Mobile.speed = Math.round(v.Mobile.speed * Math.random()) + 1
+      star.components.Mobile.speedY = Math.round(v.Mobile.speedY * Math.random()) + 1
       star.on('collision', Collider.kill) #if star.components.Collidable
       star.image = v.Visible.image
       return star
