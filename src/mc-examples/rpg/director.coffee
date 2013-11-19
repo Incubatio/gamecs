@@ -23,6 +23,7 @@ define (require) ->
       @camera = @options.camera
 
       # Bind resource on Sprites data
+      # TODO: resource binding could be made in a Utility
       for k, v of @options.data.sprites
         if v.Visible && v.Visible.image
           v.Visible.image_urn = v.Visible.image
@@ -101,7 +102,6 @@ define (require) ->
         if @camera.isVisible { rect: rect}
           @display.bg.blit(image, rect.move(offset))
 
-      # TODO: entities or groups[] = sprites + stars
       # Init sprites
       @groups = { sprites: []}
       @groups.sprites.push @player if @player
@@ -115,8 +115,6 @@ define (require) ->
           if v.Animated && v.Animated.imageset
             entity.animation = new Animation(v.Animated.entitySheet, v.Animated.frameset, v.Animated.options)
             entity.animation.start v.Animated.options.start if v.Animated.options && v.Animated.options.start
-      #myDirector.groups.sprites[2].animation.start 'active'
-      #myDirector.groups.sprites[3].animation.start 'wave'
         
           @groups.sprites.push entity
           #console.log entity.name, @options.data.scene.actors, k, i

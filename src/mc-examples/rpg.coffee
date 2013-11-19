@@ -9,6 +9,7 @@ require ['gamecs'], (gamecs) ->
       mySystems = {}
 
       # Load images from Data
+      # TODO: block below is generic code, should be moved in utility class
       for k, v of data.sprites
         if v.Visible && v.Visible.image
           resources.push data.prefixs.image + v.Visible.image
@@ -17,19 +18,21 @@ require ['gamecs'], (gamecs) ->
       resources.push data.prefixs.image + data.map.tilesheet
 
       # Load sound from data
+      # TODO: sound should be managed by a system.
       gamecs.Mixer.sfxType = false
       for k in ['mp3', 'wav', 'ogg', 'm4a']
         if gamecs.Mixer.support[k]
           gamecs.Mixer.sfxType = k
           break
 
+      # Load sound from Data
       for k in data.sfx
         resources.push data.prefixs.sfx + k + '.' + gamecs.Mixer.sfxType
 
       # Load map TODO: preload other thing than image and sfx ?
       req = Http.get(data.map.url)
 
-      # Load resources
+      # Preload resources
       gamecs.preload(resources)
 
       gamecs.ready () ->
@@ -69,12 +72,14 @@ require ['gamecs'], (gamecs) ->
 
           # 1. Handle input and A.I.
           myDirector.handleInput(gamecs.Input.get())
+          # TODO: following should be a system
           myDirector.handleAI()
 
           # 2. Update
           for k, group of myDirector.groups then for entity in group
             for k2, system of mySystems then system.update(entity, 30)
           
+          # Director move camera if the character goes out
           myDirector.setOffset(mySystems.Rendering)
 
           # 3. Draw
