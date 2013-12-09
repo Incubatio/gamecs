@@ -3,7 +3,7 @@
 # gamecs.preload([])
 require.config({
     paths:
-      three: '/assets/js/three'
+      three: '../../assets/js/three'
     shim:
       three: { exports: "THREE"}
 })
