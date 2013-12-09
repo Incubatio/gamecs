@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GameCS Multi-Canvas Example</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/github.css">
+    <script src="assets/js/highlight.pack.js"></script>
+
+    <style type=text/css>
+        body {
+           background:#fff;
+           color:#222;
+        }
+        canvas, span {
+          display: inline-block;
+          vertical-align:top;
+        }
+        canvas {
+          image-rendering: optimizespeed;
+        }
+        #code {
+          min-width: 600px;
+          max-width: 750px;
+          margin-left: 20px;
+        }
+        #gcs-container { min-width: 400px; } 
+        #container { max-width: 1400px; margin:auto; }
+        footer { text-align: center }
+        #content { margin:auto; }
+        #message { margin:auto; width: 300px; }
+    </style>
+    <script src="assets/js/require.js"></script>
+    <!--<script src="build/js/config.js"></script>-->
+    <!--<script src="assets/js/gamecs.min.js"></script>-->
+</head>
+<body>
+     <div id="container">   
+        <span id='content'>
+        </span>
+    </div>
+    <div id='message'>
+        Please select an example on the top menu
+    </div>
+    
+    <script>
+      ajax = function(method, url, data, type) {
+        var response;
+        data = data || null;
+        XHR = new XMLHttpRequest();
+        XHR.open(method, url, true);
+        XHR.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        XHR.send(data);
+        return XHR;
+      };
+
+      get = function(url) {
+        return ajax('GET', url);
+      };
+
+    </script>
+    <script>
+        function clone(obj) {
+            if (null == obj || "object" != typeof obj) return obj;
+            var copy = obj.constructor();
+            for (var attr in obj) {
+                if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+            }
+            return copy;
+        }
+        requirejs2 = clone(requirejs);
+        require2 = clone(requirejs);
+        define2 = clone(define);
+ 
+        requirejs.config({baseUrl: 'build/lib/'});
+
+        var args, script, hash, out = '', examples, list, i;
+        examples = ['skeleton'];
+
+        // ################# Parse Hash ####################
+        getHash = function () { return window.location.href.split('#')[1]; } 
+        //getHash = function() { return window.location.href.match(/#(.*)$/);}
+        hash = getHash();
+
+
+        // ################## Refresh ######################
+        refresh = function () { 
+          interval = setInterval(function(){
+            if(getHash() !== hash) { window.location.reload(); }
+            window.clearInterval(interval);
+          }, 20);
+        }
+
+
+        // #################### View #######################
+
+        menu = []
+        for(i = 0; i < examples.length; i++) {
+           menu.push('<a onClick="refresh();" href="#' + examples[i] + '">' + examples[i] + '</a>'); 
+        }
+        out += '<div id="menu" class="btn-group"><ul><li class="btn">' + menu.join('</li><li class="btn">') + '</li></ul></div>';
+
+        if(hash !== undefined) {
+          document.getElementById('message').innerHTML = '';
+          script = document.createElement('script');
+          script.type = "text/javascript";
+          script.src = 'build/3d-examples/' + hash + '.js';
+          //script.src = './test.js';
+          document.head.appendChild(script);
+          out += '<div>'
+          out += '<span id="gcs-container">';
+          out += '<span id="gcs-loader"> Loading...  </span>';
+          //out += '<footer>Powered by <a href="https://github.com/Incubatio/gamecs">GameCs</a></footer>';
+          out += '</span>';
+          out += '<span id="code"><pre><code class="coffeescript"></code></pre></span>';
+          out += '</div>'
+          document.getElementById('content').innerHTML = out;
+
+          // code 
+          req = get('src/3d-examples/' + hash + '.coffee');
+          req.onreadystatechange = function() {
+          if (req.readyState == 4 && req.status == 200) {
+              e = document.getElementById('code').firstChild.firstChild;
+              e.innerHTML = req.response;
+              hljs.highlightBlock(e)
+            }
+          }
+        } else {
+          document.getElementById('content').innerHTML = out;
+        }
+
+    </script>
+</body>
+</html>
