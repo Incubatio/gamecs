@@ -22,7 +22,7 @@
             size: [32, 32]
           },
           Animated: {
-            size: [64, 64],
+            frameSize: [64, 64],
             frameset: {
               "down": [56, 59],
               "left": [8, 11],
@@ -38,7 +38,7 @@
             }
           },
           Mobile: {
-            speed: [3, 3, 0]
+            velocity: [3, 3, 0]
           },
           Weaponized: {
             weapon: 'sword'
@@ -49,7 +49,7 @@
         },
         Octocat: {
           Animated: {
-            size: [32, 32],
+            frameSize: [32, 32],
             frameset: {
               "wave": [0, 3],
               "pause": [0]
@@ -60,7 +60,7 @@
             }
           },
           Mobile: {
-            speed: [0, 0, 0]
+            velocity: [0, 0, 0]
           },
           Visible: {
             size: [32, 32]
@@ -76,7 +76,7 @@
         },
         Vortex: {
           Animated: {
-            size: [64, 64],
+            frameSize: [64, 64],
             frameset: {
               'active': [0, 14]
             },
@@ -97,7 +97,7 @@
             size: [64, 64]
           },
           Animated: {
-            size: [64, 64],
+            frameSize: [64, 64],
             frameset: {
               "down": [30, 34],
               "left": [0, 4],
@@ -113,7 +113,7 @@
             }
           },
           Mobile: {
-            speed: [4, 4, 0]
+            velocity: [4, 4, 0]
           }
         }
       },

@@ -31,7 +31,7 @@
           }
           if (v.Animated && v.Animated.imageset) {
             v.Animated.entitySheet = new SpriteSheet();
-            v.Animated.entitySheet.load(this.loadImage(v.Animated.imageset), v.Animated.size);
+            v.Animated.entitySheet.load(this.loadImage(v.Animated.imageset), v.Animated.frameSize);
           }
         }
         this.init();
@@ -44,8 +44,8 @@
           _results = [];
           for (_i = 0, _len = events.length; _i < _len; _i++) {
             event = events[_i];
-            x = component.move[0];
-            y = component.move[1];
+            x = component.direction[0];
+            y = component.direction[1];
             if (event.type === gamecs.Input.T_KEY_DOWN) {
               switch (event.key) {
                 case gamecs.Input.K_LEFT:
@@ -81,8 +81,8 @@
                   }
               }
             }
-            component.move[0] = x;
-            component.move[1] = y;
+            component.direction[0] = x;
+            component.direction[1] = y;
             animation = (function() {
               switch (false) {
                 case !(x < 0):

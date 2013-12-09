@@ -34,13 +34,13 @@ define (require) ->
         Visible:
           size: [32, 32]
         Animated:
-          size: [64, 64]
+          frameSize: [64, 64]
           frameset: { "left": [8, 11], "right": [8, 11], "pause": [64, 65] }
           imageset: "frameset/firefox.png"
           options:
             xflip: {"left" : true}
         Mobile:
-          speed: [3, 1, 0]
+          velocity: [3, 1, 0]
         Weaponized:
           weapon: 'sword'
         Collidable:
@@ -54,13 +54,13 @@ define (require) ->
 
       Octocat:
         Animated:
-          size: [32, 32]
+          frameSize: [32, 32]
           frameset: { "wave": [0, 3], "pause": [0] }
           imageset: "frameset/octocat.png"
           options:
             start: 'wave'
         Mobile:
-          speed: [0, 0, 0]
+          velocity: [0, 0, 0]
         Visible:
           size: [32, 32]
         Collidable:
@@ -73,7 +73,7 @@ define (require) ->
 
       Vortex:
         Animated:
-          size: [64, 64]
+          frameSize: [64, 64]
           frameset: { 'active': [0, 14] }
           imageset: "frameset/vortex.png"
           options:
@@ -87,13 +87,13 @@ define (require) ->
         Visible:
           size: [64, 64]
         Animated:
-          size: [64, 64]
+          frameSize: [64, 64]
           frameset: { "down": [30, 34], "left": [0, 4], "right": [0, 4], "up": [15, 20], "pause": [0] }
           imageset: "frameset/sword.png"
           options:
             xflip: {"left" : true}
         Mobile:
-          speed: [4, 4, 0]
+          velocity: [4, 4, 0]
 
     scene:
       actors: [

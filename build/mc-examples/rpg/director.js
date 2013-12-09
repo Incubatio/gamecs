@@ -31,7 +31,7 @@
           }
           if (v.Animated && v.Animated.imageset) {
             v.Animated.entitySheet = new SpriteSheet();
-            v.Animated.entitySheet.load(this.loadImage(v.Animated.imageset), v.Animated.size);
+            v.Animated.entitySheet.load(this.loadImage(v.Animated.imageset), v.Animated.frameSize);
           }
         }
         this.init();
@@ -44,8 +44,8 @@
           _results = [];
           for (_i = 0, _len = events.length; _i < _len; _i++) {
             event = events[_i];
-            x = component.moveX;
-            y = component.moveY;
+            x = component.directionX;
+            y = component.directionY;
             if (event.type === gamecs.Input.T_KEY_DOWN) {
               switch (event.key) {
                 case gamecs.Input.K_UP:
@@ -100,8 +100,8 @@
                   this.player.firing = false;
               }
             }
-            component.moveX = x;
-            component.moveY = y;
+            component.directionX = x;
+            component.directionY = y;
             animation = (function() {
               switch (false) {
                 case !(x < 0):

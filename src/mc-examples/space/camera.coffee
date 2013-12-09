@@ -39,10 +39,10 @@ define (require) ->
       x = @x
       y = @y
       switch
-        when (sprite.components.Mobile.moveY < 0 && rect.top < screenRect.top) then y--
-        when (sprite.components.Mobile.moveY > 0 && rect.top + rect.height > screenRect.top + screenRect.height) then y++
-        when (sprite.components.Mobile.moveX < 0 && rect.left < screenRect.left) then x--
-        when (sprite.components.Mobile.moveX > 0 && rect.left + rect.width > screenRect.left + screenRect.width) then x++
+        when (sprite.components.Mobile.directionY < 0 && rect.top < screenRect.top) then y--
+        when (sprite.components.Mobile.directionY > 0 && rect.top + rect.height > screenRect.top + screenRect.height) then y++
+        when (sprite.components.Mobile.directionX < 0 && rect.left < screenRect.left) then x--
+        when (sprite.components.Mobile.directionX > 0 && rect.left + rect.width > screenRect.left + screenRect.width) then x++
       if(x != @x || y != @y)
         @dirty = true
         @x = x

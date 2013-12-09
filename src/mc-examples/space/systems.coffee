@@ -81,28 +81,50 @@ define (require) ->
             if entity.rect.collideRect(entity2.rect)
               collisions.push entity2
         return collisions
-
         
 
       update: (entity, ms) ->
         # We assume that we need a mobile object to test for collision
         if entity.components.Collidable && entity.components.Mobile
           component = entity.components.Mobile
-          if component.moveX != 0 || component.moveY != 0
-            x = component.moveX * component.speedX
-            y = component.moveY * component.speedY
+          if component.directionX != 0 || component.directionY != 0
             
+            # Notes:
+            # Collision detection is one of the performance sensitive part of a game
+            # To reduce collision, Movement shall be calculated first
+            # then Collission system test for collision
+            # and we finally update the postion and render
+            # if there are collision, collision System will figure out which direction have collision
+            # trigger the collision event on the entity, and stop the entity
+
+            # TODO: add hasCollided to record on which axes collision happened
+            # TODO: Stoping entity on collision should happened only if the entity is blockable and meet a blocking element, nah ?
             collisions = @spriteCollide(entity, @entities)
             if(collisions.length > 0)
               for entity2 in collisions
                 entity.trigger('collision', {to: entity2})
 
-              # TOTHINK: (1) possible optimisation: if sprite has been killed during previous event triggering, skip following code
-              # TOTHINK: (2) Should following be placed in an event ? (First thought: I don't think so ...)
-              entity.rect = entity.oldRect.clone()
-              entity.rect.moveIp(x, 0)
+              multiplier = if(component.directionX != 0 && component.directionY != 0) then 1 else 1.41
+
+
+              ### Next generation of collision Replacement ?
+              # TODO: translation, collision, move and render entity's image
+              for i in [0,1]
+                move = [0, 0, 0]
+                move[i] = component.direction[i] * component.velocity[i] * multiplier
+                entity.rect.moveIp(move)
+                collisions = @spriteCollide(entity, @entities)
+                
+                component.hasNotCollided[i] = collisions.length > 0
+              ###
+
+              # TODO: add z later
+              x = component.directionX * component.velocityX * multiplier
+              y = component.directionX * component.velocityX * multiplier
 
               # TODO: manage collision post movement
+              entity.rect = entity.oldRect.clone()
+              entity.rect.moveIp(x, 0)
               collisions = @spriteCollide(entity, @entities)
               if(collisions.length > 0)
                  x = 0
@@ -120,20 +142,24 @@ define (require) ->
               if x != 0 || y != 0 then entity.rect.moveIp(x, y)
               else entity.dirty = false
 
+              # TODO: change the input event management, ???
+              # use a input states array instead of an inputEvent stack
+
+    # Add Z movement ?
     Movement: class extends System
       update: (entity, ms) ->
         if entity.components.Mobile
           component = entity.components.Mobile
-          if component.moveX != 0 || component.moveY != 0
+          if component.directionX != 0 || component.directionY != 0
 
             entity.oldRect = entity.rect.clone()
 
             # TODO: Maybe manage mobile object while pressing a key that will put the user in a pushing/pulling position
             # 1 straight move = ~1.41 diagonal move, possible optimization ratio:  3/~4.25 and 5/~7.07
-            multiplier = if(component.moveX != 0 && component.moveY != 0) then 1 else 1.41
+            multiplier = if(component.directionX != 0 && component.directionY != 0) then 1 else 1.41
 
-            x = Math.round(component.moveX * component.speedX * multiplier)
-            y = Math.round(component.moveY * component.speedY * multiplier)
+            x = Math.round(component.directionX * component.velocityX * multiplier)
+            y = Math.round(component.directionY * component.velocityY * multiplier)
 
             entity.dirty = true
             entity.rect.moveIp(x, y)
@@ -194,15 +220,15 @@ define (require) ->
           component2 = entity.components.Jumpable
           # TODO: replace jumping by the startedAt
           if component2.startedAt
-            component.moveY = -1
+            component.directionY = -1
             #console.log 1, @gravity * (new Date() - component2.startedAt) / 100
-            #console.log 2, @force * component.speedX
-            speed = (@force * component.speedX) -  (@gravity * (new Date() - component2.startedAt) / 100 )
+            #console.log 2, @force * component.velocityX
+            speed = (@force * component.velocityX) -  (@gravity * (new Date() - component2.startedAt) / 100 )
             #console.log 3, Math.round(speed)
-            component.speedY = Math.round(speed)
+            component.velocityY = Math.round(speed)
             if speed < 1 then component2.startedAt = false
           else
-            component.moveY = 1
-            component.speedY = 4
+            component.directionY = 1
+            component.velocityY = 4
             # Lol thx to the folowing, the hero can hang to the roof ^^ @IKeepThisForNow
             if entity.rect.top == entity.oldRect.top then component2.canJump = true

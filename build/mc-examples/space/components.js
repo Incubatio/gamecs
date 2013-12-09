@@ -46,14 +46,26 @@
       })(),
       Mobile: (function() {
 
-        _Class.prototype.speed = null;
+        _Class.prototype.velocity = null;
 
-        _Class.prototype.move = null;
+        _Class.prototype.direction = null;
+
+        _Class.prototype.hasNotCollided = null;
 
         function _Class() {
-          this.speed = [0, 0, 0];
-          this.move = [0, 0, 0];
+          this.velocity = [0, 0, 0];
+          this.direction = [0, 0, 0];
+          this.hasNotCollided = [true, true, true];
         }
+
+        return _Class;
+
+      })(),
+      Collidable: (function() {
+
+        function _Class() {}
+
+        _Class.prototype.shape = null;
 
         return _Class;
 
@@ -102,6 +114,8 @@
 
         _Class.prototype.frameset = null;
 
+        _Class.prototype.frameSize = null;
+
         _Class.prototype.animation = null;
 
         _Class.prototype.entitySheet = null;
@@ -146,15 +160,6 @@
         return _Class;
 
       })(),
-      Collidable: (function() {
-
-        function _Class() {}
-
-        _Class.prototype.shape = null;
-
-        return _Class;
-
-      })(),
       Jumpable: (function() {
 
         function _Class() {}
@@ -163,57 +168,83 @@
 
         _Class.prototype.canJump = true;
 
+        _Class.prototype.jumping = null;
+
         return _Class;
 
       })()
     };
     Objects.accessors(components.Mobile.prototype, {
-      moveX: {
+      directionX: {
         get: function() {
-          return this.move[0];
+          return this.direction[0];
         },
-        set: function(move) {
-          return this.move[0] = move;
+        set: function(direction) {
+          return this.direction[0] = direction;
         }
       },
-      moveY: {
+      directionY: {
         get: function() {
-          return this.move[1];
+          return this.direction[1];
         },
-        set: function(move) {
-          return this.move[1] = move;
+        set: function(direction) {
+          return this.direction[1] = direction;
         }
       },
-      moveZ: {
+      directionZ: {
         get: function() {
-          return this.move[2];
+          return this.direction[2];
         },
-        set: function(move) {
-          return this.move[2] = move;
+        set: function(direction) {
+          return this.direction[2] = direction;
         }
       },
-      speedX: {
+      velocityX: {
         get: function() {
-          return this.speed[0];
+          return this.velocity[0];
         },
-        set: function(speed) {
-          return this.speed[0] = speed;
+        set: function(velocity) {
+          return this.velocity[0] = velocity;
         }
       },
-      speedY: {
+      velocityY: {
         get: function() {
-          return this.speed[1];
+          return this.velocity[1];
         },
-        set: function(speed) {
-          return this.speed[1] = speed;
+        set: function(velocity) {
+          return this.velocity[1] = velocity;
         }
       },
-      speedZ: {
+      velocityZ: {
         get: function() {
-          return this.speed[2];
+          return this.velocity[2];
         },
-        set: function(speed) {
-          return this.speed[2] = speed;
+        set: function(velocity) {
+          return this.velocity[2] = velocity;
+        }
+      },
+      hasNotCollidedX: {
+        get: function() {
+          return this.hasNotCollided[0];
+        },
+        set: function(hasNotCollided) {
+          return this.hasNotCollided[0] = hasNotCollided;
+        }
+      },
+      hasNotCollidedY: {
+        get: function() {
+          return this.hasNotCollided[1];
+        },
+        set: function(hasNotCollided) {
+          return this.hasNotCollided[1] = hasNotCollided;
+        }
+      },
+      hasNotCollidedZ: {
+        get: function() {
+          return this.hasNotCollided[2];
+        },
+        set: function(hasNotCollided) {
+          return this.hasNotCollided[2] = hasNotCollided;
         }
       }
     });

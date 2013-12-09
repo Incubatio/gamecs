@@ -23,11 +23,17 @@ define (require) ->
       dialogs: null
 
     Mobile: class
-      speed: null
-      move: null
+      velocity: null
+      direction: null
+      hasNotCollided: null
       constructor: () ->
-        @speed = [0, 0, 0]
-        @move = [0, 0, 0]
+        @velocity = [0, 0, 0]
+        @direction = [0, 0, 0]
+        @hasNotCollided = [true, true, true]
+
+    # Maybe following should be part of mobile
+    Collidable: class
+      shape: null
 
 
 
@@ -50,6 +56,7 @@ define (require) ->
     Animated: class
       imageset: null
       frameset: null
+      frameSize: null
       animation: null
       entitySheet: null
       options: null
@@ -70,34 +77,44 @@ define (require) ->
     Triggerable: class
       triggered: null
 
-    Collidable: class
-      shape: null
 
     Jumpable: class
       startedAt: null
       canJump: true
+      jumping: null
 
     #Shieldable = exports.Shieldable
     #}
   Objects.accessors components.Mobile.prototype,
-    moveX:
-      get: () -> @move[0]
-      set: (move) -> @move[0] = move
-    moveY:
-      get: () -> @move[1]
-      set: (move) -> @move[1] = move
-    moveZ:
-      get: () -> @move[2]
-      set: (move) -> @move[2] = move
-    speedX:
-      get: () -> @speed[0]
-      set: (speed) -> @speed[0] = speed
-    speedY:
-      get: () -> @speed[1]
-      set: (speed) -> @speed[1] = speed
-    speedZ:
-      get: () -> @speed[2]
-      set: (speed) -> @speed[2] = speed
+    directionX:
+      get: () -> @direction[0]
+      set: (direction) -> @direction[0] = direction
+    directionY:
+      get: () -> @direction[1]
+      set: (direction) -> @direction[1] = direction
+    directionZ:
+      get: () -> @direction[2]
+      set: (direction) -> @direction[2] = direction
+
+    velocityX:
+      get: () -> @velocity[0]
+      set: (velocity) -> @velocity[0] = velocity
+    velocityY:
+      get: () -> @velocity[1]
+      set: (velocity) -> @velocity[1] = velocity
+    velocityZ:
+      get: () -> @velocity[2]
+      set: (velocity) -> @velocity[2] = velocity
+
+    hasNotCollidedX:
+      get: () -> @hasNotCollided[0]
+      set: (hasNotCollided) -> @hasNotCollided[0] = hasNotCollided
+    hasNotCollidedY:
+      get: () -> @hasNotCollided[1]
+      set: (hasNotCollided) -> @hasNotCollided[1] = hasNotCollided
+    hasNotCollidedZ:
+      get: () -> @hasNotCollided[2]
+      set: (hasNotCollided) -> @hasNotCollided[2] = hasNotCollided
 
   return components
 

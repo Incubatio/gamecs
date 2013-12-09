@@ -31,7 +31,7 @@ define (require) ->
           v.Visible.size = v.Visible.image.getSize()
         if v.Animated && v.Animated.imageset
           v.Animated.entitySheet = new SpriteSheet()
-          v.Animated.entitySheet.load(@loadImage(v.Animated.imageset), v.Animated.size)
+          v.Animated.entitySheet.load(@loadImage(v.Animated.imageset), v.Animated.frameSize)
 
       @init()
 
@@ -40,8 +40,8 @@ define (require) ->
       component = @player.components.Mobile
       if !@isGameOver
         for event in events
-          x = component.moveX
-          y = component.moveY
+          x = component.directionX
+          y = component.directionY
           if event.type == gamecs.Input.T_KEY_DOWN
             switch event.key
               when gamecs.Input.K_UP,    gamecs.Input.K_w then y = -1
@@ -57,8 +57,8 @@ define (require) ->
               when gamecs.Input.K_LEFT,  gamecs.Input.K_a then if x < 0 then x = 0
               when gamecs.Input.K_RIGHT, gamecs.Input.K_d then if x > 0 then x = 0
               when gamecs.Input.K_SPACE then @player.firing = false
-          component.moveX = x
-          component.moveY = y
+          component.directionX = x
+          component.directionY = y
 
           animation = switch
             when x < 0 then "left"

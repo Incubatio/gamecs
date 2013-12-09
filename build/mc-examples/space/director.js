@@ -153,8 +153,8 @@
           _results = [];
           for (_i = 0, _len = events.length; _i < _len; _i++) {
             event = events[_i];
-            x = component.moveX;
-            y = component.moveY;
+            x = component.directionX;
+            y = component.directionY;
             if (event.type === gamecs.Input.T_KEY_DOWN) {
               switch (event.key) {
                 case gamecs.Input.K_UP:
@@ -206,8 +206,8 @@
                   this.player.firing = false;
               }
             }
-            component.moveX = x;
-            _results.push(component.moveY = y);
+            component.directionX = x;
+            _results.push(component.directionY = y);
           }
           return _results;
         }

@@ -125,12 +125,10 @@
         };
 
         _Class.prototype.update = function(entity, ms) {
-          var collisions, component, entity2, x, y, _i, _len;
+          var collisions, component, entity2, multiplier, x, y, _i, _len;
           if (entity.components.Collidable && entity.components.Mobile) {
             component = entity.components.Mobile;
-            if (component.moveX !== 0 || component.moveY !== 0) {
-              x = component.moveX * component.speedX;
-              y = component.moveY * component.speedY;
+            if (component.directionX !== 0 || component.directionY !== 0) {
               collisions = this.spriteCollide(entity, this.entities);
               if (collisions.length > 0) {
                 for (_i = 0, _len = collisions.length; _i < _len; _i++) {
@@ -139,6 +137,20 @@
                     to: entity2
                   });
                 }
+                multiplier = component.directionX !== 0 && component.directionY !== 0 ? 1 : 1.41;
+                /* Next generation of collision Replacement ?
+                # TODO: translation, collision, move and render entity's image
+                for i in [0,1]
+                  move = [0, 0, 0]
+                  move[i] = component.direction[i] * component.velocity[i] * multiplier
+                  entity.rect.moveIp(move)
+                  collisions = @spriteCollide(entity, @entities)
+                  
+                  component.hasNotCollided[i] = collisions.length > 0
+                */
+
+                x = component.directionX * component.velocityX * multiplier;
+                y = component.directionX * component.velocityX * multiplier;
                 entity.rect = entity.oldRect.clone();
                 entity.rect.moveIp(x, 0);
                 collisions = this.spriteCollide(entity, this.entities);
@@ -178,11 +190,11 @@
           var component, multiplier, x, y;
           if (entity.components.Mobile) {
             component = entity.components.Mobile;
-            if (component.moveX !== 0 || component.moveY !== 0) {
+            if (component.directionX !== 0 || component.directionY !== 0) {
               entity.oldRect = entity.rect.clone();
-              multiplier = component.moveX !== 0 && component.moveY !== 0 ? 1 : 1.41;
-              x = Math.round(component.moveX * component.speedX * multiplier);
-              y = Math.round(component.moveY * component.speedY * multiplier);
+              multiplier = component.directionX !== 0 && component.directionY !== 0 ? 1 : 1.41;
+              x = Math.round(component.directionX * component.velocityX * multiplier);
+              y = Math.round(component.directionY * component.velocityY * multiplier);
               entity.dirty = true;
               return entity.rect.moveIp(x, y);
             }
@@ -252,15 +264,15 @@
             component = entity.components.Mobile;
             component2 = entity.components.Jumpable;
             if (component2.startedAt) {
-              component.moveY = -1;
-              speed = (this.force * component.speedX) - (this.gravity * (new Date() - component2.startedAt) / 100);
-              component.speedY = Math.round(speed);
+              component.directionY = -1;
+              speed = (this.force * component.velocityX) - (this.gravity * (new Date() - component2.startedAt) / 100);
+              component.velocityY = Math.round(speed);
               if (speed < 1) {
                 return component2.startedAt = false;
               }
             } else {
-              component.moveY = 1;
-              component.speedY = 4;
+              component.directionY = 1;
+              component.velocityY = 4;
               if (entity.rect.top === entity.oldRect.top) {
                 return component2.canJump = true;
               }

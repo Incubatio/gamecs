@@ -47,16 +47,16 @@
         x = this.x;
         y = this.y;
         switch (false) {
-          case !(sprite.components.Mobile.moveY < 0 && rect.top < screenRect.top):
+          case !(sprite.components.Mobile.directionY < 0 && rect.top < screenRect.top):
             y--;
             break;
-          case !(sprite.components.Mobile.moveY > 0 && rect.top + rect.height > screenRect.top + screenRect.height):
+          case !(sprite.components.Mobile.directionY > 0 && rect.top + rect.height > screenRect.top + screenRect.height):
             y++;
             break;
-          case !(sprite.components.Mobile.moveX < 0 && rect.left < screenRect.left):
+          case !(sprite.components.Mobile.directionX < 0 && rect.left < screenRect.left):
             x--;
             break;
-          case !(sprite.components.Mobile.moveX > 0 && rect.left + rect.width > screenRect.left + screenRect.width):
+          case !(sprite.components.Mobile.directionX > 0 && rect.left + rect.width > screenRect.left + screenRect.width):
             x++;
         }
         if (x !== this.x || y !== this.y) {
